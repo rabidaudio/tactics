@@ -8,7 +8,7 @@ import (
 
 var resourceCache = make(map[string]image.Image)
 
-func load(path string) (image.Image, error) {
+func Load(path string) (image.Image, error) {
 	if i, ok := resourceCache[path]; ok {
 		return i, nil
 	}

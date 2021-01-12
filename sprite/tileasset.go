@@ -14,7 +14,7 @@ type TileAsset struct {
 }
 
 func OpenTileAsset(path string, stepX, stepY int) TileAsset {
-	i, err := load(path)
+	i, err := Load(path)
 	if err != nil {
 		log.Fatalf("open asset: %v", err)
 	}

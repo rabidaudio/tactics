@@ -1,35 +1,32 @@
 package spearman
 
 import (
-	"image"
-
 	"github.com/hajimehoshi/ebiten"
 	"github.com/rabidaudio/tactics/assets"
 	"github.com/rabidaudio/tactics/sprite"
+	"github.com/rabidaudio/tactics/units"
 )
 
 const StepSize = 16
 
-type Direction int
-
-const (
-	North Direction = iota
-	South
-	East
-	West
-)
+const WalkSpeed = 0.25
 
 type Spearman struct {
-	Location       image.Point
+	Location       Point
 	remainingSteps int
-	direction      Direction
+	direction      units.Direction
 	reverseFacing  bool
 	anim           *sprite.Player
 }
 
+type Point struct {
+	X float32
+	Y float32
+}
+
 func New() Spearman {
 	return Spearman{
-		Location: image.Point{X: 10, Y: 10},
+		Location: Point{X: 50.0, Y: 50.0},
 		anim:     sprite.NewPlayer().AppendLoop(assets.BarbarianIdle()),
 	}
 }
@@ -41,14 +38,14 @@ func (s *Spearman) IsMoving() bool {
 func (s *Spearman) Step() {
 	if s.IsMoving() {
 		switch s.direction {
-		case North:
-			s.Location.Y -= 1
-		case South:
-			s.Location.Y += 1
-		case East:
-			s.Location.X += 1
-		case West:
-			s.Location.X -= 1
+		case units.North:
+			s.Location.Y -= WalkSpeed
+		case units.South:
+			s.Location.Y += WalkSpeed
+		case units.East:
+			s.Location.X += WalkSpeed
+		case units.West:
+			s.Location.X -= WalkSpeed
 		}
 		s.remainingSteps--
 		if s.remainingSteps == 0 {
@@ -59,7 +56,7 @@ func (s *Spearman) Step() {
 	}
 }
 
-func (s *Spearman) Draw(screen *ebiten.Image, tick uint64) {
+func (s *Spearman) Draw(screen *ebiten.Image, tick units.Tick) {
 	opts := ebiten.DrawImageOptions{}
 	if s.reverseFacing {
 		opts.GeoM.Scale(-1.0, 1.0)
@@ -72,15 +69,15 @@ func (s *Spearman) Draw(screen *ebiten.Image, tick uint64) {
 	screen.DrawImage(s.anim.Frame(), &opts)
 }
 
-func (s *Spearman) Go(direction Direction) {
+func (s *Spearman) Go(direction units.Direction, tiles int) {
 	if s.IsMoving() {
 		return
 	}
-	s.remainingSteps = StepSize
+	s.remainingSteps = int(float32(tiles*StepSize) / WalkSpeed)
 	s.direction = direction
-	if s.direction == East {
+	if s.direction == units.East {
 		s.reverseFacing = false
-	} else if s.direction == West {
+	} else if s.direction == units.West {
 		s.reverseFacing = true
 	}
 	s.anim.
