@@ -5,6 +5,7 @@ import (
 
 	"github.com/hajimehoshi/ebiten"
 	"github.com/rabidaudio/tactics/assets"
+	"github.com/rabidaudio/tactics/sprite"
 )
 
 const StepSize = 16
@@ -23,14 +24,13 @@ type Spearman struct {
 	remainingSteps int
 	direction      Direction
 	reverseFacing  bool
-	anim           assets.CharacterAnimation
+	anim           *sprite.Player
 }
 
 func New() Spearman {
 	return Spearman{
 		Location: image.Point{X: 10, Y: 10},
-		// anim:     assets.Spearman(),
-		anim: assets.Barbarian(),
+		anim:     sprite.NewPlayer().AppendLoop(assets.BarbarianIdle()),
 	}
 }
 
@@ -52,20 +52,24 @@ func (s *Spearman) Step() {
 		}
 		s.remainingSteps--
 		if s.remainingSteps == 0 {
-			s.anim.SetState(assets.StateIdle)
+			s.anim.
+				ReplaceOnce(assets.BarbarianSholder()).
+				AppendLoop(assets.BarbarianIdle())
 		}
 	}
-	s.anim.Sprite().Tick()
 }
 
-func (s *Spearman) Draw(screen *ebiten.Image) {
+func (s *Spearman) Draw(screen *ebiten.Image, tick uint64) {
 	opts := ebiten.DrawImageOptions{}
 	if s.reverseFacing {
 		opts.GeoM.Scale(-1.0, 1.0)
 		opts.GeoM.Translate(16.0, 0)
 	}
 	opts.GeoM.Translate(float64(s.Location.X), float64(s.Location.Y))
-	screen.DrawImage(s.anim.Sprite().Frame(), &opts)
+	if tick%15 == 0 {
+		s.anim.Tick()
+	}
+	screen.DrawImage(s.anim.Frame(), &opts)
 }
 
 func (s *Spearman) Go(direction Direction) {
@@ -79,5 +83,7 @@ func (s *Spearman) Go(direction Direction) {
 	} else if s.direction == West {
 		s.reverseFacing = true
 	}
-	s.anim.SetState(assets.StateWalk)
+	s.anim.
+		ReplaceOnce(assets.BarbarianSholder()).
+		AppendLoop(assets.BarbarianWalk())
 }
