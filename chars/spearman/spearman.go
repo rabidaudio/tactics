@@ -3,87 +3,29 @@ package spearman
 import (
 	"github.com/rabidaudio/tactics/assets"
 	"github.com/rabidaudio/tactics/chars"
+	"github.com/rabidaudio/tactics/core/units"
 	"github.com/rabidaudio/tactics/sprite"
 )
 
-const StepSize = 16
-
-const WalkSpeed = 0.25
-
 type Spearman struct {
 	chars.Character
-	// Location       Point
-	// remainingSteps int
-	// direction      units.Direction
-	// reverseFacing  bool
-	// anim           *sprite.Player
-}
-
-type Point struct {
-	X float32
-	Y float32
 }
 
 func New() Spearman {
 	return Spearman{
-		Character: chars.Character{
-			Anim:      sprite.NewPlayer().AppendLoop(assets.BarbarianIdle()),
-			MoveSpeed: 5.0,
-		},
-		// Location: Point{X: 50.0, Y: 50.0},
-		// anim:     sprite.NewPlayer().AppendLoop(assets.BarbarianIdle()),
+		Character: chars.New(chars.CharacterOptions{
+			Location:  units.TP(5, 5).IP(),
+			MoveSpeed: 0.1,
+			AnimationHooks: chars.AnimationHooks{
+				Idle: func(p *sprite.Player) *sprite.Player {
+					return p.ReplaceOnce(assets.BarbarianSholder().Reversed()).
+						AppendLoop(assets.BarbarianIdle())
+				},
+				Walking: func(p *sprite.Player) *sprite.Player {
+					return p.ReplaceOnce(assets.BarbarianSholder()).
+						AppendLoop(assets.BarbarianWalk())
+				},
+			},
+		}),
 	}
 }
-
-// func (s *Spearman) IsMoving() bool {
-// 	return s.remainingSteps > 0
-// }
-// func (s *Spearman) Step() {
-// 	if s.IsMoving() {
-// 		switch s.direction {
-// 		case units.North:
-// 			s.Location.Y -= WalkSpeed
-// 		case units.South:
-// 			s.Location.Y += WalkSpeed
-// 		case units.East:
-// 			s.Location.X += WalkSpeed
-// 		case units.West:
-// 			s.Location.X -= WalkSpeed
-// 		}
-// 		s.remainingSteps--
-// 		if s.remainingSteps == 0 {
-// 			s.anim.
-// 				ReplaceOnce(assets.BarbarianSholder()).
-// 				AppendLoop(assets.BarbarianIdle())
-// 		}
-// 	}
-// }
-
-// func (s *Spearman) Draw(screen *ebiten.Image, tick units.Tick) {
-// 	opts := ebiten.DrawImageOptions{}
-// 	if s.reverseFacing {
-// 		opts.GeoM.Scale(-1.0, 1.0)
-// 		opts.GeoM.Translate(16.0, 0)
-// 	}
-// 	opts.GeoM.Translate(float64(s.Location.X), float64(s.Location.Y))
-// 	if tick%15 == 0 {
-// 		s.anim.Tick()
-// 	}
-// 	screen.DrawImage(s.anim.Frame(), &opts)
-// }
-
-// func (s *Spearman) Go(direction units.Direction, tiles int) {
-// 	if s.IsMoving() {
-// 		return
-// 	}
-// 	s.remainingSteps = int(float32(tiles*StepSize) / WalkSpeed)
-// 	s.direction = direction
-// 	if s.direction == units.East {
-// 		s.reverseFacing = false
-// 	} else if s.direction == units.West {
-// 		s.reverseFacing = true
-// 	}
-// 	s.anim.
-// 		ReplaceOnce(assets.BarbarianSholder()).
-// 		AppendLoop(assets.BarbarianWalk())
-// }
