@@ -1,14 +1,19 @@
 package bg
 
 import (
+	"image"
+
 	"github.com/hajimehoshi/ebiten"
+	"github.com/rabidaudio/tactics/core/units"
 	"github.com/rabidaudio/tactics/sprite"
-	"github.com/rabidaudio/tactics/units"
 )
+
+const CameraSpeed = 1.0 * float64(units.TileSize) / float64(units.TickRate)
 
 type Background struct {
 	img    *ebiten.Image
-	camera units.APoint
+	camera image.Point
+	pan    units.Anim2D
 }
 
 func New() Background {
@@ -16,27 +21,30 @@ func New() Background {
 	img, _ := ebiten.NewImageFromImage(s, ebiten.FilterDefault)
 	return Background{
 		img:    img,
-		camera: units.AP(0, 0),
+		camera: image.Pt(0, 0),
 	}
 }
 
 func (b *Background) StepCamera(dir units.Direction) {
-	b.camera.AnimatePlus(dir.TP().IP(), units.Second(0.2).Ticks())
+	b.pan = units.Animate2D(b.camera, b.camera.Add(dir.TP().IP()), CameraSpeed)
+	// b.camera.AnimatePlus(dir.TP().IP(), units.Second(0.2).Ticks())
 	// b.Camera = b.Camera.Add(dir.TP())
 }
 
 func (b *Background) Go(point units.TPoint) {
+	b.pan = units.Animate2D(b.camera, point.IP(), CameraSpeed)
 	// TODO: speed as property of animation
-	b.camera.AnimateTo(point.IP(), 12)
+	// b.camera.AnimateTo(point.IP(), 12)
+
 }
 
 func (b *Background) Draw(screen *ebiten.Image) {
 	opts := ebiten.DrawImageOptions{}
-	t := b.camera.Point.Mul(-1)
+	t := b.camera.Mul(-1)
 	opts.GeoM.Translate(float64(t.X), float64(t.Y))
 	screen.DrawImage(b.img, &opts)
 }
 
-func (b *Background) Tick(tick units.Tick) {
-	b.camera.Tick()
+func (b *Background) Tick() {
+	b.pan.Tick()
 }

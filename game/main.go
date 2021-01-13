@@ -7,7 +7,7 @@ import (
 	"github.com/hajimehoshi/ebiten"
 	"github.com/rabidaudio/tactics/bg"
 	"github.com/rabidaudio/tactics/chars/spearman"
-	"github.com/rabidaudio/tactics/units"
+	"github.com/rabidaudio/tactics/core/units"
 )
 
 var WindowSize = image.Point{X: 230, Y: 240}
@@ -16,26 +16,41 @@ type Game struct {
 	background bg.Background
 	spearman   spearman.Spearman
 	tick       units.Tick
+	pressed    bool
 }
 
 // Update proceeds the game state.
 // Update is called every tick (1/60 [s] by default).
 func (g *Game) Update(screen *ebiten.Image) error {
 	g.tick++
-	g.spearman.Step()
-	g.background.Tick(g.tick)
+	g.spearman.Tick()
+	g.background.Tick()
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		g.background.Go(units.TPFromPoint(image.Pt(ebiten.CursorPosition())))
 	}
-	// if ebiten.IsKeyPressed(ebiten.KeyA) {
-	// 	g.background.StepCamera(units.West)
-	// } else if ebiten.IsKeyPressed(ebiten.KeyS) {
-	// 	g.background.StepCamera(units.South)
-	// } else if ebiten.IsKeyPressed(ebiten.KeyD) {
-	// 	g.background.StepCamera(units.East)
-	// } else if ebiten.IsKeyPressed(ebiten.KeyW) {
-	// 	g.background.StepCamera(units.North)
-	// }
+	if ebiten.IsKeyPressed(ebiten.KeyA) {
+		if !g.pressed {
+			g.spearman.Go(units.West)
+			g.pressed = true
+		}
+	} else if ebiten.IsKeyPressed(ebiten.KeyS) {
+		if !g.pressed {
+			g.spearman.Go(units.South)
+			g.pressed = true
+		}
+	} else if ebiten.IsKeyPressed(ebiten.KeyD) {
+		if !g.pressed {
+			g.spearman.Go(units.East)
+			g.pressed = true
+		}
+	} else if ebiten.IsKeyPressed(ebiten.KeyW) {
+		if !g.pressed {
+			g.spearman.Go(units.North)
+			g.pressed = true
+		}
+	} else {
+		g.pressed = false
+	}
 	return nil
 }
 
