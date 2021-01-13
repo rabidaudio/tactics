@@ -51,12 +51,11 @@ func (c *Character) Go(dir units.Direction) {
 	} else if dir == units.West {
 		c.reverseFacing = true
 	}
-	speed := c.MoveSpeed * units.TileSize / float64(units.TickRate)
-	c.walk = units.Animate2D(c.Location, c.Location.Add(dir.TP().IP()), speed)
 	c.player = c.AnimationHooks.Walking(c.player)
-	// c.walk.Callback = func() {
-	// 	c.player = c.AnimationHooks.Idle(c.player)
-	// }
+	speed := c.MoveSpeed * units.TileSize / float64(units.TickRate)
+	c.walk = units.Animate2D(c.Location, c.Location.Add(dir.TP().IP()), speed, func() {
+		c.player = c.AnimationHooks.Idle(c.player)
+	})
 }
 
 func (c *Character) Tick() {

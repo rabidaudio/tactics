@@ -26,13 +26,13 @@ func New() Background {
 }
 
 func (b *Background) StepCamera(dir units.Direction) {
-	b.pan = units.Animate2D(b.camera, b.camera.Add(dir.TP().IP()), CameraSpeed)
+	b.pan = units.Animate2D(b.camera, b.camera.Add(dir.TP().IP()), CameraSpeed, nil)
 	// b.camera.AnimatePlus(dir.TP().IP(), units.Second(0.2).Ticks())
 	// b.Camera = b.Camera.Add(dir.TP())
 }
 
 func (b *Background) Go(point units.TPoint) {
-	b.pan = units.Animate2D(b.camera, point.IP(), CameraSpeed)
+	b.pan = units.Animate2D(b.camera, point.IP(), CameraSpeed, nil)
 	// TODO: speed as property of animation
 	// b.camera.AnimateTo(point.IP(), 12)
 
