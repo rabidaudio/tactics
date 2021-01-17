@@ -5,9 +5,6 @@ import (
 	"strconv"
 )
 
-// TileSize is the number of pixels to one tile
-const TileSize = 16
-
 // A TPoint is in units of tiles, which is a standard unit
 // of the game.
 type TPoint image.Point
@@ -24,6 +21,31 @@ func TPFromPoint(pt image.Point) TPoint {
 // IP converts tile units to image units
 func (tp TPoint) IP() image.Point {
 	return image.Point(tp).Mul(TileSize)
+}
+
+func (p TPoint) XY() (int, int) {
+	return p.X, p.Y
+}
+
+func (p TPoint) Bound(x0, y0, x1, y1 int) TPoint {
+	return TPoint{X: bound(p.X, x0, x1), Y: bound(p.Y, y0, y1)}
+}
+
+func bound(val, min, max int) int {
+	if val < min {
+		return min
+	} else if val > max {
+		return max
+	} else {
+		return val
+	}
+}
+
+func Bound(pt image.Point, to image.Rectangle) image.Point {
+	return image.Point{
+		X: bound(pt.X, to.Min.X, to.Max.X),
+		Y: bound(pt.Y, to.Min.Y, to.Max.Y),
+	}
 }
 
 // The following methods are copied directly from image.Point

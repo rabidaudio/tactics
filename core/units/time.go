@@ -5,9 +5,6 @@ package units
 // is typically the frame rate, e.g. 60 seconds.
 type Tick uint64
 
-// TickRate is the ticks per second
-const TickRate = 60
-
 // Second is a unit of time which allows us to do math
 // in seconds and convert it to ticks.
 type Second float32

@@ -11,11 +11,11 @@ type Spearman struct {
 	chars.Character
 }
 
-func New() Spearman {
+func New(loc units.TPoint) Spearman {
 	return Spearman{
 		Character: chars.New(chars.CharacterOptions{
-			Location:  units.TP(5, 5).IP(),
-			MoveSpeed: 0.1,
+			Location:  loc.IP(),
+			MoveSpeed: 16,
 			AnimationHooks: chars.AnimationHooks{
 				Idle: func(p *sprite.Player) *sprite.Player {
 					return p.ReplaceOnce(assets.BarbarianSholder().Reversed()).
