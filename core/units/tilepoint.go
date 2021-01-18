@@ -31,6 +31,17 @@ func (p TPoint) Bound(x0, y0, x1, y1 int) TPoint {
 	return TPoint{X: bound(p.X, x0, x1), Y: bound(p.Y, y0, y1)}
 }
 
+// IsAdjacent checks if other is 1 non-diagnonal tile away from p.
+// If it is, returns the direction from p to other and ok.
+func (p TPoint) IsAdjacent(other TPoint) (d Direction, ok bool) {
+	for _, d := range []Direction{North, South, East, West} {
+		if p.Add(d.TP()) == other {
+			return d, true
+		}
+	}
+	return -1, false
+}
+
 func bound(val, min, max int) int {
 	if val < min {
 		return min
@@ -76,10 +87,10 @@ func (p TPoint) Div(k int) TPoint {
 }
 
 // In reports whether p is in r.
-func (p TPoint) In(r image.Rectangle) bool {
-	return r.Min.X <= p.X && p.X < r.Max.X &&
-		r.Min.Y <= p.Y && p.Y < r.Max.Y
-}
+// func (p TPoint) In(r image.Rectangle) bool {
+// 	return r.Min.X <= p.X && p.X < r.Max.X &&
+// 		r.Min.Y <= p.Y && p.Y < r.Max.Y
+// }
 
 // Mod returns the point q in r such that p.X-q.X is a multiple of r's width
 // and p.Y-q.Y is a multiple of r's height.

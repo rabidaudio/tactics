@@ -58,7 +58,7 @@ func (w *World) IsBoundary(pt units.TPoint) bool {
 	if !pt.IP().In(w.rect()) {
 		return false
 	}
-	return w.tileAt("boundary", pt).Nil
+	return !w.tileAt("boundaries", pt).Nil
 }
 
 func startPoint(m *tiled.Map) (tp units.TPoint, err error) {

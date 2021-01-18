@@ -6,6 +6,7 @@ import (
 
 	"github.com/hajimehoshi/ebiten"
 	"github.com/rabidaudio/tactics/chars/spearman"
+	"github.com/rabidaudio/tactics/core"
 	"github.com/rabidaudio/tactics/core/units"
 	"github.com/rabidaudio/tactics/window"
 	"github.com/rabidaudio/tactics/world"
@@ -16,7 +17,11 @@ type Game struct {
 	world    world.World
 	spearman spearman.Spearman
 	tick     units.Tick
-	pressed  bool
+	ready    bool
+}
+
+type CharacterMoveAction struct {
+	Direction units.Direction
 }
 
 // Update proceeds the game state.
@@ -25,35 +30,32 @@ func (g *Game) Update(screen *ebiten.Image) error {
 	g.tick++
 	g.window.Tick()
 	g.spearman.Tick()
-	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
-		if !g.pressed {
-			p := image.Pt(ebiten.CursorPosition()).Add(g.window.CameraOrigin())
-			g.window.AnimateCamera(units.TPFromPoint(p))
-			g.pressed = true
-		}
-	} else if ebiten.IsKeyPressed(ebiten.KeyA) {
-		if !g.pressed {
-			g.spearman.Go(units.West)
-			g.pressed = true
-		}
-	} else if ebiten.IsKeyPressed(ebiten.KeyS) {
-		if !g.pressed {
-			g.spearman.Go(units.South)
-			g.pressed = true
-		}
-	} else if ebiten.IsKeyPressed(ebiten.KeyD) {
-		if !g.pressed {
-			g.spearman.Go(units.East)
-			g.pressed = true
-		}
-	} else if ebiten.IsKeyPressed(ebiten.KeyW) {
-		if !g.pressed {
-			g.spearman.Go(units.North)
-			g.pressed = true
-		}
-	} else {
-		g.pressed = false
+	g.ready = !(g.window.IsCameraMoving() || g.spearman.IsMoving())
+	if !g.ready {
+		return nil
 	}
+	core.ActionHandler().
+		OnKey(map[ebiten.Key]core.Action{
+			ebiten.KeyA: CharacterMoveAction{Direction: units.West},
+			ebiten.KeyS: CharacterMoveAction{Direction: units.South},
+			ebiten.KeyD: CharacterMoveAction{Direction: units.East},
+			ebiten.KeyW: CharacterMoveAction{Direction: units.North},
+		}).
+		OnLeftMouseClick(func(screenPoint image.Point) core.Action {
+			p := units.TPFromPoint(screenPoint.Add(g.window.CameraOrigin()))
+			if d, ok := units.TPFromPoint(g.spearman.Location).IsAdjacent(p); ok {
+				return CharacterMoveAction{Direction: d}
+			}
+			return nil
+		}).
+		Execute(func(action core.Action) {
+			dir := action.(CharacterMoveAction).Direction
+			t := units.TPFromPoint(g.spearman.Location).Add(dir.TP())
+			if !g.world.IsBoundary(t) {
+				g.spearman.Go(dir)
+				g.window.AnimateCamera(t)
+			}
+		})
 	return nil
 }
 

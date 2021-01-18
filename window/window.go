@@ -40,6 +40,10 @@ func (w *Window) AnimateCamera(point units.TPoint) {
 	w.cameraAnim = units.Animate2D(w.camera, dest, CameraSpeed, nil)
 }
 
+func (w *Window) IsCameraMoving() bool {
+	return w.cameraAnim.IsMoving()
+}
+
 func (w *Window) cameraCenterToOrigin(center image.Point) image.Point {
 	return center.Sub(w.Size.Div(2))
 }

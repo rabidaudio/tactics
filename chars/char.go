@@ -71,6 +71,10 @@ func (c *Character) Tick() {
 	c.player.Tick()
 }
 
+func (c *Character) IsMoving() bool {
+	return c.walk.IsMoving()
+}
+
 func (c *Character) Draw(screen *ebiten.Image) {
 	opts := ebiten.DrawImageOptions{}
 	if c.reverseFacing {
