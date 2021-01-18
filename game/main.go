@@ -60,8 +60,10 @@ func (g *Game) Update(screen *ebiten.Image) error {
 // Draw draws the game screen.
 // Draw is called every frame (typically 1/60[s] for 60Hz display).
 func (g *Game) Draw(screen *ebiten.Image) {
-	g.world.Draw(screen, g.window.DrawOpts())
-	g.spearman.Draw(screen, g.window.DrawOpts())
+	g.world.Draw(g.world.Canvas)
+	g.spearman.Draw(g.world.Canvas)
+	screen.DrawImage(g.world.Canvas.SubImage(g.window.Rect()).(*ebiten.Image), nil)
+	g.world.Canvas.Clear()
 }
 
 // Layout takes the outside size (e.g., the window size) and returns the (logical) screen size.

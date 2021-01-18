@@ -7,6 +7,14 @@ import "github.com/rabidaudio/tactics/sprite"
 var castle = sprite.OpenTileAsset("raw/HAS CreaturePack/HAS Creature Pack 1.2/Castle/CastleSpriteSheet.png", 16, 16)
 var tower = sprite.OpenTileAsset("raw/HAS CreaturePack/HAS Creature Pack 1.2/Tower/TowerSpriteSheet.png", 16, 16)
 
+func SpearmanIdle() sprite.Sprite {
+	return castle.SpriteFromRow(0, 1, 4)
+}
+
+func SpearmanWalk() sprite.Sprite {
+	return castle.SpriteFromRow(4, 1, 4)
+}
+
 func BarbarianIdle() sprite.Sprite {
 	return tower.SpriteFromRow(0, 1, 4).Rate(15)
 }

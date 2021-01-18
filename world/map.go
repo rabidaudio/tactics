@@ -19,6 +19,7 @@ type World struct {
 	camera     image.Point
 	cameraAnim units.Anim2D
 	StartPoint units.TPoint
+	Canvas     *ebiten.Image
 }
 
 func New() (World, error) {
@@ -37,7 +38,10 @@ func New() (World, error) {
 	if err != nil {
 		return World{}, err
 	}
-
+	canvas, err := ebiten.NewImage(img.Bounds().Dx(), img.Bounds().Dy(), ebiten.FilterDefault)
+	if err != nil {
+		return World{}, err
+	}
 	start, err := startPoint(gameMap)
 	if err != nil {
 		return World{}, err
@@ -45,6 +49,7 @@ func New() (World, error) {
 	return World{
 		gameMap:    gameMap,
 		img:        img,
+		Canvas:     canvas,
 		StartPoint: start,
 	}, nil
 }
@@ -97,6 +102,6 @@ func (w *World) Size() units.TPoint {
 	return units.TPoint{X: w.gameMap.Width, Y: w.gameMap.Height}
 }
 
-func (w *World) Draw(screen *ebiten.Image, opts *ebiten.DrawImageOptions) {
-	screen.DrawImage(w.img, opts)
+func (w *World) Draw(screen *ebiten.Image) {
+	screen.DrawImage(w.img, nil)
 }

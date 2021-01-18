@@ -74,3 +74,7 @@ func (w *Window) DrawOpts() *ebiten.DrawImageOptions {
 func (w *Window) WindowPoint(worldPoint image.Point) image.Point {
 	return worldPoint.Sub(w.camera)
 }
+
+func (w *Window) Rect() image.Rectangle {
+	return image.Rectangle{Min: w.camera, Max: w.camera.Add(w.Size)}
+}

@@ -42,6 +42,12 @@ type AnimationHooks struct {
 	Walking AnimationHook
 }
 
+func LoopOf(s sprite.Sprite) AnimationHook {
+	return func(p *sprite.Player) *sprite.Player {
+		return p.ReplaceLoop(s)
+	}
+}
+
 func (c *Character) Go(dir units.Direction) {
 	if c.walk.IsMoving() {
 		return
@@ -65,11 +71,13 @@ func (c *Character) Tick() {
 	c.player.Tick()
 }
 
-func (c *Character) Draw(screen *ebiten.Image, opts *ebiten.DrawImageOptions) {
+func (c *Character) Draw(screen *ebiten.Image) {
+	opts := ebiten.DrawImageOptions{}
 	if c.reverseFacing {
 		opts.GeoM.Scale(-1.0, 1.0)
 		opts.GeoM.Translate(float64(units.TileSize), 0)
 	}
 	opts.GeoM.Translate(float64(c.Location.X), float64(c.Location.Y))
-	screen.DrawImage(c.player.Frame(), opts)
+	opts.GeoM.Translate(0, -6.0) // offset by a quarter-tile so feet are on the ground
+	screen.DrawImage(c.player.Frame(), &opts)
 }
