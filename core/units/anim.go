@@ -12,13 +12,16 @@ type Anim struct {
 }
 
 func (a *Anim) Tick() int {
-	if !a.IsMoving() {
+	defer func() {
+		if a.t == 0 && a.callback != nil {
+			a.callback()
+			a.callback = nil
+		}
+	}()
+	if a.t == 0 {
 		return a.b
 	}
 	a.t--
-	if a.t == 0 && a.callback != nil {
-		defer a.callback()
-	}
 	return int(float64(a.b) - (float64(a.t) * a.m))
 }
 
@@ -35,7 +38,6 @@ func Animate(start, end int, rate float64, callback func()) Anim {
 	}
 	t := int(float64(end-start) / rate)
 	if t == 0 {
-		defer callback()
 		return Anim{b: end}
 	}
 	return Anim{
@@ -65,6 +67,7 @@ func (a Anim2D) childCallback() {
 		return
 	}
 	a.callback()
+	a.callback = nil
 }
 
 func Animate2D(start, end image.Point, rate float64, callback func()) Anim2D {
