@@ -3,7 +3,7 @@
 
 package assets
 
-import "github.com/rabidaudio/tactics/sprite"
+import "github.com/rabidaudio/tactics/core/sprite"
 
 var Castle = sprite.OpenTileAsset("raw/HAS CreaturePack/HAS Creature Pack 1.2/Castle/CastleSpriteSheet.png", 16, 16)
 
@@ -520,7 +520,7 @@ var Mercenary = struct {
 
 var Tower = sprite.OpenTileAsset("raw/HAS CreaturePack/HAS Creature Pack 1.2/Tower/TowerSpriteSheet.png", 16, 16)
 
-var Barbarian = struct {
+var Shotgun = struct {
 	Attack func() sprite.Sprite
 	Death func() sprite.Sprite
 	Hit func() sprite.Sprite
@@ -544,7 +544,7 @@ var Barbarian = struct {
 	},
 }
 
-var Barbarian2 = struct {
+var Shotgun2 = struct {
 	Attack func() sprite.Sprite
 	Death func() sprite.Sprite
 	Hit func() sprite.Sprite

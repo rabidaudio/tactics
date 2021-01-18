@@ -8,9 +8,9 @@ import (
 	"github.com/rabidaudio/tactics/assets"
 	"github.com/rabidaudio/tactics/chars/spearman"
 	"github.com/rabidaudio/tactics/core"
+	"github.com/rabidaudio/tactics/core/sprite"
 	"github.com/rabidaudio/tactics/core/units"
-	"github.com/rabidaudio/tactics/sprite"
-	"github.com/rabidaudio/tactics/window"
+	"github.com/rabidaudio/tactics/core/window"
 	"github.com/rabidaudio/tactics/world"
 )
 
@@ -70,8 +70,6 @@ var animations = []CharAnimation{
 	assets.Rider2,
 	assets.Knight,
 	assets.Knight2,
-	assets.Barbarian,
-	assets.Barbarian2,
 	assets.Mercenary,
 	assets.Brute,
 	assets.Brute2,

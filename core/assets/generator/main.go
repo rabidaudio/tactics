@@ -15,7 +15,7 @@ var assetTemplate = template.Must(template.New("assets").Parse(`
 
 package {{ if eq $.Package "" }}assets{{ else }}{{ $.Package }}{{ end }}
 
-import "github.com/rabidaudio/tactics/sprite"
+import "github.com/rabidaudio/tactics/core/sprite"
 {{ range $ssname, $ss := $.Spritesheets }}
 var {{ $ssname }} = sprite.OpenTileAsset("{{ $ss.Path }}", {{ index $ss.TileSize 0 }}, {{ index $ss.TileSize 1 }})
 {{ range $gname, $map := $ss.Sprites }}

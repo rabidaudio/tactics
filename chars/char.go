@@ -4,8 +4,8 @@ import (
 	"image"
 
 	"github.com/hajimehoshi/ebiten"
+	"github.com/rabidaudio/tactics/core/sprite"
 	"github.com/rabidaudio/tactics/core/units"
-	"github.com/rabidaudio/tactics/sprite"
 )
 
 type Character struct {
