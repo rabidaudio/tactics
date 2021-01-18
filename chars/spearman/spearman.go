@@ -16,8 +16,8 @@ func New(loc units.TPoint) Spearman {
 			Location:  loc.IP(),
 			MoveSpeed: 2.0,
 			AnimationHooks: chars.AnimationHooks{
-				Idle:    chars.LoopOf(assets.SpearmanIdle().Rate(15)),
-				Walking: chars.LoopOf(assets.SpearmanWalk().Rate(5)),
+				Idle:    chars.LoopOf(assets.Spearman.Idle().Rate(15)),
+				Walking: chars.LoopOf(assets.Spearman.Walk().Rate(5)),
 			},
 		}),
 	}

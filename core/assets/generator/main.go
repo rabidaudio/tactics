@@ -18,9 +18,17 @@ package {{ if eq $.Package "" }}assets{{ else }}{{ $.Package }}{{ end }}
 import "github.com/rabidaudio/tactics/sprite"
 {{ range $ssname, $ss := $.Spritesheets }}
 var {{ $ssname }} = sprite.OpenTileAsset("{{ $ss.Path }}", {{ index $ss.TileSize 0 }}, {{ index $ss.TileSize 1 }})
-{{ range $sname, $s := $ss.Sprites }}
-func {{ $sname }}() sprite.Sprite {
-	return {{ $ssname }}.{{ if eq $ss.Direction "column" }}SpriteFromColumn{{ else }}SpriteFromRow{{ end }}({{ $s.X }}, {{ $s.Y }}, {{ $s.Size }}){{ if ne $s.Rate 0 }}.Rate({{ $s.Rate }}){{ end }}{{ if $s.Reverse }}.Reversed(){{ end }}
+{{ range $gname, $map := $ss.Sprites }}
+var {{ $gname }} = struct {
+	{{- range $sname, $s := $map }}
+	{{ $sname }} func() sprite.Sprite
+	{{- end }}
+}{
+	{{- range $sname, $s := $map }}
+	{{ $sname }}: func() sprite.Sprite {
+		return {{ $ssname }}.{{ if eq $ss.Direction "column" }}SpriteFromColumn{{ else }}SpriteFromRow{{ end }}({{ $s.X }}, {{ $s.Y }}, {{ $s.Size }}){{ if ne $s.Rate 0 }}.Rate({{ $s.Rate }}){{ end }}{{ if $s.Reverse }}.Reversed(){{ end }}
+	},
+	{{- end }}
 }
 {{ end }}
 {{ end }}`))
@@ -40,17 +48,6 @@ func main() {
 	if err = yaml.NewDecoder(inf).Decode(&conf); err != nil {
 		log.Fatalf("read config: %v", err)
 	}
-	for i, ss := range conf.Spritesheets {
-		if len(ss.TileSize) != 2 {
-			log.Fatalf("invalid tile size for %v: %v", i, ss.TileSize)
-		}
-		for j, s := range ss.Sprites {
-			if s.Size == 0 {
-				log.Fatalf("expected at least one frame for %v", j)
-			}
-		}
-	}
-
 	outpath := strings.Replace(*cpath, ".yml", ".go", 1)
 	of, err := os.Create(outpath)
 	if err != nil {
@@ -70,10 +67,10 @@ const Row Direction = "row"
 const Column Direction = "column"
 
 type SpriteSheet struct {
-	Path      string            `yaml:"Path"`
-	TileSize  []int             `yaml:"TileSize"`
-	Direction Direction         `yaml:"Direction"`
-	Sprites   map[string]Sprite `yaml:"Sprites"`
+	Path      string                       `yaml:"Path"`
+	TileSize  []int                        `yaml:"TileSize"`
+	Direction Direction                    `yaml:"Direction"`
+	Sprites   map[string]map[string]Sprite `yaml:"Sprites"`
 }
 
 type Sprite struct {

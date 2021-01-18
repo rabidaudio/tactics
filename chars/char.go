@@ -14,13 +14,29 @@ type Character struct {
 	player        *sprite.Player
 	reverseFacing bool
 	walk          units.Anim2D
+	opts          ebiten.DrawImageOptions
 }
 
 type CharacterOptions struct {
 	AnimationHooks AnimationHooks
 	Location       image.Point
 	// Walk speed in units of pixels/second
-	MoveSpeed float64
+	MoveSpeed   float64
+	MaxHP       int
+	AttackSpeed int
+}
+
+type WeaponType int
+
+const (
+	Sword WeaponType = iota
+	Spear
+	Axe
+	Bow
+)
+
+type Weapon struct {
+	Name string
 }
 
 func New(opts CharacterOptions) Character {
@@ -76,12 +92,12 @@ func (c *Character) IsMoving() bool {
 }
 
 func (c *Character) Draw(screen *ebiten.Image) {
-	opts := ebiten.DrawImageOptions{}
+	c.opts.GeoM.Reset()
 	if c.reverseFacing {
-		opts.GeoM.Scale(-1.0, 1.0)
-		opts.GeoM.Translate(float64(units.TileSize), 0)
+		c.opts.GeoM.Scale(-1.0, 1.0)
+		c.opts.GeoM.Translate(float64(units.TileSize), 0)
 	}
-	opts.GeoM.Translate(float64(c.Location.X), float64(c.Location.Y))
-	opts.GeoM.Translate(0, -6.0) // offset by a quarter-tile so feet are on the ground
-	screen.DrawImage(c.player.Frame(), &opts)
+	c.opts.GeoM.Translate(float64(c.Location.X), float64(c.Location.Y))
+	c.opts.GeoM.Translate(0, -6.0) // offset by a quarter-tile so feet are on the ground
+	screen.DrawImage(c.player.Frame(), &c.opts)
 }

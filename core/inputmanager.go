@@ -34,8 +34,7 @@ func (i *actionHandler) OnInput(h func() []Action) *actionHandler {
 // OnKey causes the matching action to fire when a given keyboard button is pressed
 func (i *actionHandler) OnKey(keys map[ebiten.Key]Action) *actionHandler {
 	for key, action := range keys {
-		// inpututil.IsKeyJustPressed(key)
-		if !ebiten.IsKeyPressed(key) {
+		if !inpututil.IsKeyJustPressed(key) {
 			continue
 		}
 		if action != nil {

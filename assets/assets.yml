@@ -4,159 +4,182 @@ Spritesheets:
     TileSize: [16, 16]
     Direction: row
     Sprites:
-      SpearmanIdle: { X: 0, Y: 1, Size: 4 }
-      SpearmanWalk: { X: 4, Y: 1, Size: 4 }
-      SpearmanAttack: { X: 8, Y: 1, Size: 4 }
-      SpearmanHit: { X: 12, Y: 1, Size: 4 }
-      SpearmanDeath: { X: 16, Y: 1, Size: 4 }
+      Spearman:
+        Idle: { X: 0, Y: 1, Size: 4 }
+        Walk: { X: 4, Y: 1, Size: 4 }
+        Attack: { X: 8, Y: 1, Size: 4 }
+        Hit: { X: 12, Y: 1, Size: 4 }
+        Death: { X: 16, Y: 1, Size: 4 }
 
-      CrossbowIdle: { X: 0, Y: 2, Size: 4 }
-      CrossbowWalk: { X: 4, Y: 2, Size: 4 }
-      CrossbowAttack: { X: 8, Y: 2, Size: 4 }
-      CrossbowHit: { X: 12, Y: 2, Size: 4 }
-      CrossbowDeath: { X: 16, Y: 2, Size: 4 }
+      Crossbowman:
+        Idle: { X: 0, Y: 2, Size: 4 }
+        Walk: { X: 4, Y: 2, Size: 4 }
+        Attack: { X: 8, Y: 2, Size: 4 }
+        Hit: { X: 12, Y: 2, Size: 4 }
+        Death: { X: 16, Y: 2, Size: 4 }
 
-      SwordsmanIdle: { X: 0, Y: 4, Size: 4 }
-      SwordsmanWalk: { X: 4, Y: 4, Size: 4 }
-      SwordsmanAttack: { X: 8, Y: 4, Size: 4 }
-      SwordsmanHit: { X: 12, Y: 4, Size: 4 }
-      SwordsmanDeath: { X: 16, Y: 4, Size: 4 }
+      Swordsman:
+        Idle: { X: 0, Y: 4, Size: 4 }
+        Walk: { X: 4, Y: 4, Size: 4 }
+        Attack: { X: 8, Y: 4, Size: 4 }
+        Hit: { X: 12, Y: 4, Size: 4 }
+        Death: { X: 16, Y: 4, Size: 4 }
 
-      MonkIdle: { X: 0, Y: 5, Size: 4 }
-      MonkWalk: { X: 4, Y: 5, Size: 4 }
-      MonkAttack: { X: 8, Y: 5, Size: 4 }
-      MonkHit: { X: 12, Y: 5, Size: 4 }
-      MonkDeath: { X: 16, Y: 5, Size: 4 }
+      Monk:
+        Idle: { X: 0, Y: 5, Size: 4 }
+        Walk: { X: 4, Y: 5, Size: 4 }
+        Attack: { X: 8, Y: 5, Size: 4 }
+        Hit: { X: 12, Y: 5, Size: 4 }
+        Death: { X: 16, Y: 5, Size: 4 }
 
-      RiderIdle: { X: 0, Y: 6, Size: 4 }
-      RiderWalk: { X: 4, Y: 6, Size: 4 }
-      RiderAttack: { X: 8, Y: 6, Size: 4 }
-      RiderHit: { X: 12, Y: 6, Size: 4 }
-      RiderDeath: { X: 16, Y: 6, Size: 4 }
+      Rider:
+        Idle: { X: 0, Y: 6, Size: 4 }
+        Walk: { X: 4, Y: 6, Size: 4 }
+        Attack: { X: 8, Y: 6, Size: 4 }
+        Hit: { X: 12, Y: 6, Size: 4 }
+        Death: { X: 16, Y: 6, Size: 4 }
 
-      KnightIdle: { X: 0, Y: 7, Size: 4 }
-      KnightWalk: { X: 4, Y: 7, Size: 4 }
-      KnightAttack: { X: 8, Y: 7, Size: 4 }
-      KnightHit: { X: 12, Y: 7, Size: 4 }
-      KnightDeath: { X: 16, Y: 7, Size: 4 }
+      Knight:
+        Idle: { X: 0, Y: 7, Size: 4 }
+        Walk: { X: 4, Y: 7, Size: 4 }
+        Attack: { X: 8, Y: 7, Size: 4 }
+        Hit: { X: 12, Y: 7, Size: 4 }
+        Death: { X: 16, Y: 7, Size: 4 }
 
-      HalberdIdle: { X: 0, Y: 9, Size: 4 }
-      HalberdWalk: { X: 4, Y: 9, Size: 4 }
-      HalberdAttack: { X: 8, Y: 9, Size: 4 }
-      HalberdHit: { X: 12, Y: 9, Size: 4 }
-      HalberdDeath: { X: 16, Y: 9, Size: 4 }
+      Halberd:
+        Idle: { X: 0, Y: 9, Size: 4 }
+        Walk: { X: 4, Y: 9, Size: 4 }
+        Attack: { X: 8, Y: 9, Size: 4 }
+        Hit: { X: 12, Y: 9, Size: 4 }
+        Death: { X: 16, Y: 9, Size: 4 }
 
-      Crossbow2Idle: { X: 0, Y: 10, Size: 4 }
-      Crossbow2Walk: { X: 4, Y: 10, Size: 4 }
-      Crossbow2Attack: { X: 8, Y: 10, Size: 4 }
-      Crossbow2Hit: { X: 12, Y: 10, Size: 4 }
-      Crossbow2Death: { X: 16, Y: 10, Size: 4 }
+      Crossbowman2:
+        Idle: { X: 0, Y: 10, Size: 4 }
+        Walk: { X: 4, Y: 10, Size: 4 }
+        Attack: { X: 8, Y: 10, Size: 4 }
+        Hit: { X: 12, Y: 10, Size: 4 }
+        Death: { X: 16, Y: 10, Size: 4 }
 
-      Swordsman2Idle: { X: 0, Y: 11, Size: 4 }
-      Swordsman2Walk: { X: 4, Y: 11, Size: 4 }
-      Swordsman2Attack: { X: 8, Y: 11, Size: 4 }
-      Swordsman2Hit: { X: 12, Y: 11, Size: 4 }
-      Swordsman2Death: { X: 16, Y: 11, Size: 4 }
+      Swordsman2:
+        Idle: { X: 0, Y: 12, Size: 4 }
+        Walk: { X: 4, Y: 12, Size: 4 }
+        Attack: { X: 8, Y: 12, Size: 4 }
+        Hit: { X: 12, Y: 12, Size: 4 }
+        Death: { X: 16, Y: 12, Size: 4 }
 
-      BishopIdle: { X: 0, Y: 12, Size: 4 }
-      BishopWalk: { X: 4, Y: 12, Size: 4 }
-      BishopAttack: { X: 8, Y: 12, Size: 4 }
-      BishopHit: { X: 12, Y: 12, Size: 4 }
-      BishopDeath: { X: 16, Y: 12, Size: 4 }
+      Bishop:
+        Idle: { X: 0, Y: 13, Size: 4 }
+        Walk: { X: 4, Y: 13, Size: 4 }
+        Attack: { X: 8, Y: 13, Size: 4 }
+        Hit: { X: 12, Y: 13, Size: 4 }
+        Death: { X: 16, Y: 13, Size: 4 }
 
-      Rider2Idle: { X: 0, Y: 13, Size: 4 }
-      Rider2Walk: { X: 4, Y: 13, Size: 4 }
-      Rider2Attack: { X: 8, Y: 13, Size: 4 }
-      Rider2Hit: { X: 12, Y: 13, Size: 4 }
-      Rider2Death: { X: 16, Y: 13, Size: 4 }
+      Rider2:
+        Idle: { X: 0, Y: 14, Size: 4 }
+        Walk: { X: 4, Y: 14, Size: 4 }
+        Attack: { X: 8, Y: 14, Size: 4 }
+        Hit: { X: 12, Y: 14, Size: 4 }
+        Death: { X: 16, Y: 14, Size: 4 }
 
-      Knight2Idle: { X: 0, Y: 14, Size: 4 }
-      Knight2Walk: { X: 4, Y: 14, Size: 4 }
-      Knight2Attack: { X: 8, Y: 14, Size: 4 }
-      Knight2Hit: { X: 12, Y: 14, Size: 4 }
-      Knight2Death: { X: 16, Y: 14, Size: 4 }
+      Knight2:
+        Idle: { X: 0, Y: 15, Size: 4 }
+        Walk: { X: 4, Y: 15, Size: 4 }
+        Attack: { X: 8, Y: 15, Size: 4 }
+        Hit: { X: 12, Y: 15, Size: 4 }
+        Death: { X: 16, Y: 15, Size: 4 }
 
   Tower:
     Path: raw/HAS CreaturePack/HAS Creature Pack 1.2/Tower/TowerSpriteSheet.png
     TileSize: [16, 16]
     Direction: row
     Sprites:
-      BarbarianIdle: { X: 0, Y: 1, Size: 4 }
-      BarbarianWalk: { X: 4, Y: 1, Size: 4 }
-      BarbarianAttack: { X: 8, Y: 1, Size: 4 }
-      BarbarianHit: { X: 12, Y: 1, Size: 4 }
-      BarbarianDeath: { X: 16, Y: 1, Size: 4 }
-      BarbarianUnsholder: { X: 20, Y: 1, Size: 4 }
-      BarbarianSholder: { X: 20, Y: 1, Size: 4, Reverse: true }
+      Shotgun:
+        Idle: { X: 0, Y: 1, Size: 4 }
+        Walk: { X: 4, Y: 1, Size: 4 }
+        Attack: { X: 8, Y: 1, Size: 4 }
+        Hit: { X: 12, Y: 1, Size: 4 }
+        Death: { X: 16, Y: 1, Size: 4 }
+        # Unsholder: { X: 20, Y: 1, Size: 4 }
+        # Sholder: { X: 20, Y: 1, Size: 4, Reverse: true }
 
-      Barbarian2Idle: { X: 0, Y: 9, Size: 4 }
-      Barbarian2Walk: { X: 4, Y: 9, Size: 4 }
-      Barbarian2Attack: { X: 8, Y: 9, Size: 4 }
-      Barbarian2Hit: { X: 12, Y: 9, Size: 4 }
-      Barbarian2Death: { X: 16, Y: 9, Size: 4 }
-      Barbarian2Unsholder: { X: 20, Y: 9, Size: 4 }
-      Barbarian2Sholder: { X: 20, Y: 9, Size: 4, Reverse: true }
+      Shotgun2:
+        Idle: { X: 0, Y: 9, Size: 4 }
+        Walk: { X: 4, Y: 9, Size: 4 }
+        Attack: { X: 8, Y: 9, Size: 4 }
+        Hit: { X: 12, Y: 9, Size: 4 }
+        Death: { X: 16, Y: 9, Size: 4 }
+        # Unsholder: { X: 20, Y: 9, Size: 4 }
+        # Sholder: { X: 20, Y: 9, Size: 4, Reverse: true }
 
   Stronghold:
     Path: raw/HAS CreaturePack/HAS Creature Pack 1.2/Stronghold/StrongholdSpriteSheet.png
     TileSize: [16, 16]
     Direction: row
     Sprites:
-      MercenaryIdle: { X: 0, Y: 1, Size: 4 }
-      MercenaryWalk: { X: 4, Y: 1, Size: 4 }
-      MercenaryAttack: { X: 8, Y: 1, Size: 4 }
-      MercenaryHit: { X: 12, Y: 1, Size: 4 }
-      MercenaryDeath: { X: 16, Y: 1, Size: 4 }
+      Mercenary:
+        Idle: { X: 0, Y: 1, Size: 4 }
+        Walk: { X: 4, Y: 1, Size: 4 }
+        Attack: { X: 8, Y: 1, Size: 4 }
+        Hit: { X: 12, Y: 1, Size: 4 }
+        Death: { X: 16, Y: 1, Size: 4 }
 
-      BruteIdle: { X: 0, Y: 7, Size: 4 }
-      BruteWalk: { X: 4, Y: 7, Size: 4 }
-      BruteAttack: { X: 8, Y: 7, Size: 4 }
-      BruteHit: { X: 12, Y: 7, Size: 4 }
-      BruteDeath: { X: 16, Y: 7, Size: 4 }
+      Brute:
+        Idle: { X: 0, Y: 7, Size: 4 }
+        Walk: { X: 4, Y: 7, Size: 4 }
+        Attack: { X: 8, Y: 7, Size: 4 }
+        Hit: { X: 12, Y: 7, Size: 4 }
+        Death: { X: 16, Y: 7, Size: 4 }
 
-      GoblinRiderIdle: { X: 0, Y: 3, Size: 4 }
-      GoblinRiderWalk: { X: 4, Y: 3, Size: 4 }
-      GoblinRiderAttack: { X: 8, Y: 3, Size: 4 }
-      GoblinRiderHit: { X: 12, Y: 3, Size: 4 }
-      GoblinRiderDeath: { X: 16, Y: 3, Size: 4 }
+      GoblinRider:
+        Idle: { X: 0, Y: 3, Size: 4 }
+        Walk: { X: 4, Y: 3, Size: 4 }
+        Attack: { X: 8, Y: 3, Size: 4 }
+        Hit: { X: 12, Y: 3, Size: 4 }
+        Death: { X: 16, Y: 3, Size: 4 }
 
-      GoblinRider2Idle: { X: 0, Y: 11, Size: 4 }
-      GoblinRider2Walk: { X: 4, Y: 11, Size: 4 }
-      GoblinRider2Attack: { X: 8, Y: 11, Size: 4 }
-      GoblinRider2Hit: { X: 12, Y: 11, Size: 4 }
-      GoblinRider2Death: { X: 16, Y: 11, Size: 4 }
+      GoblinRider2:
+        Idle: { X: 0, Y: 11, Size: 4 }
+        Walk: { X: 4, Y: 11, Size: 4 }
+        Attack: { X: 8, Y: 11, Size: 4 }
+        Hit: { X: 12, Y: 11, Size: 4 }
+        Death: { X: 16, Y: 11, Size: 4 }
 
-      Brute2Idle: { X: 0, Y: 15, Size: 4 }
-      Brute2Walk: { X: 4, Y: 15, Size: 4 }
-      Brute2Attack: { X: 8, Y: 15, Size: 4 }
-      Brute2Hit: { X: 12, Y: 15, Size: 4 }
-      Brute2Death: { X: 16, Y: 15, Size: 4 }
+      Brute2:
+        Idle: { X: 0, Y: 15, Size: 4 }
+        Walk: { X: 4, Y: 15, Size: 4 }
+        Attack: { X: 8, Y: 15, Size: 4 }
+        Hit: { X: 12, Y: 15, Size: 4 }
+        Death: { X: 16, Y: 15, Size: 4 }
 
   Rampart:
     Path: raw/HAS CreaturePack/HAS Creature Pack 1.2/Rampart/RampartSpriteSheet.png
     TileSize: [16, 16]
     Direction: row
     Sprites:
-      AxemanIdle: { X: 0, Y: 2, Size: 4 }
-      AxemanWalk: { X: 4, Y: 2, Size: 4 }
-      AxemanAttack: { X: 8, Y: 2, Size: 4 }
-      AxemanHit: { X: 12, Y: 2, Size: 4 }
-      AxemanDeath: { X: 16, Y: 2, Size: 4 }
+      Axeman:
+        Idle: { X: 0, Y: 2, Size: 4 }
+        Walk: { X: 4, Y: 2, Size: 4 }
+        Attack: { X: 8, Y: 2, Size: 4 }
+        Hit: { X: 12, Y: 2, Size: 4 }
+        Death: { X: 16, Y: 2, Size: 4 }
 
-      HunterIdle: { X: 0, Y: 4, Size: 4 }
-      HunterWalk: { X: 4, Y: 4, Size: 4 }
-      HunterAttack: { X: 8, Y: 4, Size: 4 }
-      HunterHit: { X: 12, Y: 4, Size: 4 }
-      HunterDeath: { X: 16, Y: 4, Size: 4 }
+      Hunter:
+        Idle: { X: 0, Y: 4, Size: 4 }
+        Walk: { X: 4, Y: 4, Size: 4 }
+        Attack: { X: 8, Y: 4, Size: 4 }
+        Hit: { X: 12, Y: 4, Size: 4 }
+        Death: { X: 16, Y: 4, Size: 4 }
 
-      HammermanIdle: { X: 0, Y: 10, Size: 4 }
-      HammermanWalk: { X: 4, Y: 10, Size: 4 }
-      HammermanAttack: { X: 8, Y: 10, Size: 4 }
-      HammermanHit: { X: 12, Y: 10, Size: 4 }
-      HammermanDeath: { X: 16, Y: 10, Size: 4 }
+      Hammerman:
+        Idle: { X: 0, Y: 10, Size: 4 }
+        Walk: { X: 4, Y: 10, Size: 4 }
+        Attack: { X: 8, Y: 10, Size: 4 }
+        Hit: { X: 12, Y: 10, Size: 4 }
+        Death: { X: 16, Y: 10, Size: 4 }
 
-      Hunter2Idle: { X: 0, Y: 12, Size: 4 }
-      Hunter2Walk: { X: 4, Y: 12, Size: 4 }
-      Hunter2Attack: { X: 8, Y: 12, Size: 4 }
-      Hunter2Hit: { X: 12, Y: 12, Size: 4 }
-      Hunter2Death: { X: 16, Y: 12, Size: 4 }
+      Hunter2:
+        Idle: { X: 0, Y: 12, Size: 4 }
+        Walk: { X: 4, Y: 12, Size: 4 }
+        Attack: { X: 8, Y: 12, Size: 4 }
+        Hit: { X: 12, Y: 12, Size: 4 }
+        Death: { X: 16, Y: 12, Size: 4 }

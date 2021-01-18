@@ -5,9 +5,11 @@ import (
 	"log"
 
 	"github.com/hajimehoshi/ebiten"
+	"github.com/rabidaudio/tactics/assets"
 	"github.com/rabidaudio/tactics/chars/spearman"
 	"github.com/rabidaudio/tactics/core"
 	"github.com/rabidaudio/tactics/core/units"
+	"github.com/rabidaudio/tactics/sprite"
 	"github.com/rabidaudio/tactics/window"
 	"github.com/rabidaudio/tactics/world"
 )
@@ -16,6 +18,10 @@ type Game struct {
 	window   *window.Window
 	world    world.World
 	spearman spearman.Spearman
+	i        int
+	sprite   func(ca *CharAnimation) sprite.Sprite
+	loop     bool
+	player   *sprite.Player
 	tick     units.Tick
 	ready    bool
 }
@@ -24,38 +30,117 @@ type CharacterMoveAction struct {
 	Direction units.Direction
 }
 
+type ChangeSpriteSet struct {
+	Backwards bool
+}
+
+// type Animation int
+
+// const (
+// 	Idle Animation = iota
+// 	Walk
+// 	Attack
+// 	Hit
+// 	Death
+// )
+
+type PlayAnimation struct {
+	Sprite func(ca *CharAnimation) sprite.Sprite
+	Loop   bool
+}
+
+type CharAnimation struct {
+	Attack, Death, Hit, Idle, Walk func() sprite.Sprite
+}
+
+var animations = []CharAnimation{
+	assets.Spearman,
+	assets.Halberd,
+	assets.Swordsman,
+	assets.Swordsman2,
+	assets.Axeman,
+	assets.Hammerman,
+	assets.Crossbowman,
+	assets.Crossbowman2,
+	assets.Hunter,
+	assets.Hunter2,
+	assets.Monk,
+	assets.Bishop,
+	assets.Rider,
+	assets.Rider2,
+	assets.Knight,
+	assets.Knight2,
+	assets.Barbarian,
+	assets.Barbarian2,
+	assets.Mercenary,
+	assets.Brute,
+	assets.Brute2,
+	assets.GoblinRider,
+	assets.GoblinRider2,
+}
+
 // Update proceeds the game state.
 // Update is called every tick (1/60 [s] by default).
 func (g *Game) Update(screen *ebiten.Image) error {
 	g.tick++
 	g.window.Tick()
-	g.spearman.Tick()
-	g.ready = !(g.window.IsCameraMoving() || g.spearman.IsMoving())
-	if !g.ready {
-		return nil
-	}
-	core.ActionHandler().
-		OnKey(map[ebiten.Key]core.Action{
-			ebiten.KeyA: CharacterMoveAction{Direction: units.West},
-			ebiten.KeyS: CharacterMoveAction{Direction: units.South},
-			ebiten.KeyD: CharacterMoveAction{Direction: units.East},
-			ebiten.KeyW: CharacterMoveAction{Direction: units.North},
-		}).
-		OnLeftMouseClick(func(screenPoint image.Point) core.Action {
-			p := units.TPFromPoint(screenPoint.Add(g.window.CameraOrigin()))
-			if d, ok := units.TPFromPoint(g.spearman.Location).IsAdjacent(p); ok {
-				return CharacterMoveAction{Direction: d}
+	// g.character.Tick()
+
+	g.player.Tick()
+
+	core.ActionHandler().OnKey(map[ebiten.Key]core.Action{
+		ebiten.Key1:   PlayAnimation{func(ca *CharAnimation) sprite.Sprite { return ca.Idle() }, true},
+		ebiten.Key2:   PlayAnimation{func(ca *CharAnimation) sprite.Sprite { return ca.Walk() }, true},
+		ebiten.Key3:   PlayAnimation{func(ca *CharAnimation) sprite.Sprite { return ca.Attack() }, true},
+		ebiten.Key4:   PlayAnimation{func(ca *CharAnimation) sprite.Sprite { return ca.Hit() }, false},
+		ebiten.Key5:   PlayAnimation{func(ca *CharAnimation) sprite.Sprite { return ca.Death() }, false},
+		ebiten.KeyTab: ChangeSpriteSet{Backwards: false},
+		ebiten.KeyZ:   ChangeSpriteSet{Backwards: true},
+	}).Execute(func(a core.Action) {
+		if aa, ok := a.(PlayAnimation); ok {
+			g.loop = aa.Loop
+			g.sprite = aa.Sprite
+		} else if aa, ok := a.(ChangeSpriteSet); ok {
+			if aa.Backwards {
+				g.i--
+			} else {
+				g.i++
 			}
-			return nil
-		}).
-		Execute(func(action core.Action) {
-			dir := action.(CharacterMoveAction).Direction
-			t := units.TPFromPoint(g.spearman.Location).Add(dir.TP())
-			if !g.world.IsBoundary(t) {
-				g.spearman.Go(dir)
-				g.window.AnimateCamera(t)
-			}
-		})
+			g.i = g.i % len(animations)
+		}
+		if g.loop {
+			g.player.ReplaceLoop(g.sprite(&animations[g.i]).Rate(15))
+		} else {
+			g.player.ReplaceOnce(g.sprite(&animations[g.i]).Rate(15))
+		}
+	})
+	// g.spearman.Tick()
+	// g.ready = !(g.window.IsCameraMoving() || g.spearman.IsMoving())
+	// if !g.ready {
+	// 	return nil
+	// }
+	// core.ActionHandler().
+	// 	OnKey(map[ebiten.Key]core.Action{
+	// 		ebiten.KeyA: CharacterMoveAction{Direction: units.West},
+	// 		ebiten.KeyS: CharacterMoveAction{Direction: units.South},
+	// 		ebiten.KeyD: CharacterMoveAction{Direction: units.East},
+	// 		ebiten.KeyW: CharacterMoveAction{Direction: units.North},
+	// 	}).
+	// 	OnLeftMouseClick(func(screenPoint image.Point) core.Action {
+	// 		p := units.TPFromPoint(screenPoint.Add(g.window.CameraOrigin()))
+	// 		if d, ok := units.TPFromPoint(g.spearman.Location).IsAdjacent(p); ok {
+	// 			return CharacterMoveAction{Direction: d}
+	// 		}
+	// 		return nil
+	// 	}).
+	// 	Execute(func(action core.Action) {
+	// 		dir := action.(CharacterMoveAction).Direction
+	// 		t := units.TPFromPoint(g.spearman.Location).Add(dir.TP())
+	// 		if !g.world.IsBoundary(t) {
+	// 			g.spearman.Go(dir)
+	// 			g.window.AnimateCamera(t)
+	// 		}
+	// 	})
 	return nil
 }
 
@@ -63,7 +148,10 @@ func (g *Game) Update(screen *ebiten.Image) error {
 // Draw is called every frame (typically 1/60[s] for 60Hz display).
 func (g *Game) Draw(screen *ebiten.Image) {
 	g.world.Draw(g.world.Canvas)
-	g.spearman.Draw(g.world.Canvas)
+	// g.spearman.Draw(g.world.Canvas)
+	opts := ebiten.DrawImageOptions{}
+	opts.GeoM.Translate(float64(g.world.StartPoint.IP().X), float64(g.world.StartPoint.IP().Y))
+	g.world.Canvas.DrawImage(g.player.Frame(), &opts)
 	screen.DrawImage(g.world.Canvas.SubImage(g.window.Rect()).(*ebiten.Image), nil)
 	g.world.Canvas.Clear()
 }
@@ -83,11 +171,15 @@ func main() {
 		window:   &window.Window{Size: image.Point{X: 230, Y: 240}},
 		world:    world,
 		spearman: spearman.New(world.StartPoint),
+
+		sprite: func(ca *CharAnimation) sprite.Sprite { return ca.Idle() },
+		loop:   true,
+		player: sprite.NewPlayer().AppendLoop(animations[0].Idle().Rate(15)),
 	}
 	game.window.WorldSize(game.world.Size())
 	game.window.JumpCamera(game.world.StartPoint)
 	ebiten.SetWindowSize(640, 480)
-	ebiten.SetWindowTitle("Tactics")
+	ebiten.SetWindowTitle("Untitled")
 	if err := ebiten.RunGame(game); err != nil {
 		log.Fatal(err)
 	}
