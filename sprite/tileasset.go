@@ -25,10 +25,12 @@ func OpenTileAsset(path string, stepX, stepY int) TileAsset {
 	}
 }
 
+type subImage interface {
+	SubImage(r image.Rectangle) image.Image
+}
+
 func (ta *TileAsset) Get(x, y int) *ebiten.Image {
-	si := ta.img.(interface {
-		SubImage(r image.Rectangle) image.Image
-	}).SubImage(image.Rect(x*ta.stepX, y*ta.stepY, (x+1)*ta.stepX, (y+1)*ta.stepY))
+	si := ta.img.(subImage).SubImage(image.Rect(x*ta.stepX, y*ta.stepY, (x+1)*ta.stepX, (y+1)*ta.stepY))
 	i, err := ebiten.NewImageFromImage(si, ebiten.FilterDefault)
 	if err != nil {
 		log.Fatalf("load asset: %v", err)

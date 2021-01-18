@@ -65,12 +65,11 @@ func (c *Character) Tick() {
 	c.player.Tick()
 }
 
-func (c *Character) Draw(screen *ebiten.Image) {
-	opts := ebiten.DrawImageOptions{}
+func (c *Character) Draw(screen *ebiten.Image, opts *ebiten.DrawImageOptions) {
 	if c.reverseFacing {
 		opts.GeoM.Scale(-1.0, 1.0)
 		opts.GeoM.Translate(float64(units.TileSize), 0)
 	}
 	opts.GeoM.Translate(float64(c.Location.X), float64(c.Location.Y))
-	screen.DrawImage(c.player.Frame(), &opts)
+	screen.DrawImage(c.player.Frame(), opts)
 }

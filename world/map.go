@@ -12,10 +12,6 @@ import (
 	"github.com/rabidaudio/tactics/core/units"
 )
 
-const CameraSpeed = 0.25 * units.TilesPerSecond
-
-var WindowSize = image.Point{X: 230, Y: 240}
-
 type World struct {
 	gameMap *tiled.Map
 	img     *ebiten.Image
@@ -49,7 +45,6 @@ func New() (World, error) {
 	return World{
 		gameMap:    gameMap,
 		img:        img,
-		camera:     cameraCenterToOrigin(start.IP()),
 		StartPoint: start,
 	}, nil
 }
@@ -98,49 +93,10 @@ func (w *World) layerByName(name string) *tiled.Layer {
 	return nil
 }
 
-func (w *World) StepCamera(dir units.Direction) {
-	w.Go(units.TPFromPoint(w.camera).Add(dir.TP()))
-}
-
-func (w *World) Go(point units.TPoint) {
-	if w.cameraAnim.IsMoving() {
-		return
-	}
-	dest := w.boundedCamera(cameraCenterToOrigin(point.IP()))
-	w.cameraAnim = units.Animate2D(w.camera, dest, CameraSpeed, nil)
-}
-
-func cameraCenterToOrigin(center image.Point) image.Point {
-	return center.Sub(WindowSize.Div(2))
-}
-
-// boundedCamera doesn't let the camera show content beyond the
-// edge of the world
-func (w *World) boundedCamera(origin image.Point) image.Point {
-	return units.Bound(origin, image.Rectangle{Max: w.size().IP().Sub(WindowSize)})
-}
-
-func (w *World) size() units.TPoint {
+func (w *World) Size() units.TPoint {
 	return units.TPoint{X: w.gameMap.Width, Y: w.gameMap.Height}
 }
 
-func (w *World) CameraOrigin() image.Point {
-	return w.camera
-}
-
-func (w *World) CameraCenter() image.Point {
-	return w.camera.Add(WindowSize.Div(2))
-}
-
-func (w *World) Draw(screen *ebiten.Image) {
-	opts := ebiten.DrawImageOptions{}
-	t := w.camera.Mul(-1)
-	opts.GeoM.Translate(float64(t.X), float64(t.Y))
-	screen.DrawImage(w.img, &opts)
-}
-
-func (w *World) Tick() {
-	if w.cameraAnim.IsMoving() {
-		w.camera = w.cameraAnim.Tick()
-	}
+func (w *World) Draw(screen *ebiten.Image, opts *ebiten.DrawImageOptions) {
+	screen.DrawImage(w.img, opts)
 }
