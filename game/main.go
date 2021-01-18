@@ -31,7 +31,7 @@ type CharacterMoveAction struct {
 }
 
 type ChangeSpriteSet struct {
-	Backwards bool
+	Step int
 }
 
 // type Animation int
@@ -89,27 +89,25 @@ func (g *Game) Update(screen *ebiten.Image) error {
 	core.ActionHandler().OnKey(map[ebiten.Key]core.Action{
 		ebiten.Key1:   PlayAnimation{func(ca *CharAnimation) sprite.Sprite { return ca.Idle() }, true},
 		ebiten.Key2:   PlayAnimation{func(ca *CharAnimation) sprite.Sprite { return ca.Walk() }, true},
-		ebiten.Key3:   PlayAnimation{func(ca *CharAnimation) sprite.Sprite { return ca.Attack() }, true},
+		ebiten.Key3:   PlayAnimation{func(ca *CharAnimation) sprite.Sprite { return ca.Attack() }, false},
 		ebiten.Key4:   PlayAnimation{func(ca *CharAnimation) sprite.Sprite { return ca.Hit() }, false},
 		ebiten.Key5:   PlayAnimation{func(ca *CharAnimation) sprite.Sprite { return ca.Death() }, false},
-		ebiten.KeyTab: ChangeSpriteSet{Backwards: false},
-		ebiten.KeyZ:   ChangeSpriteSet{Backwards: true},
+		ebiten.KeyTab: ChangeSpriteSet{Step: 1},
+		ebiten.KeyZ:   ChangeSpriteSet{Step: -1},
 	}).Execute(func(a core.Action) {
 		if aa, ok := a.(PlayAnimation); ok {
 			g.loop = aa.Loop
 			g.sprite = aa.Sprite
 		} else if aa, ok := a.(ChangeSpriteSet); ok {
-			if aa.Backwards {
-				g.i--
-			} else {
-				g.i++
+			g.i = (g.i + aa.Step) % len(animations)
+			if g.i < 0 {
+				g.i = len(animations) - 1
 			}
-			g.i = g.i % len(animations)
 		}
 		if g.loop {
-			g.player.ReplaceLoop(g.sprite(&animations[g.i]).Rate(15))
+			g.player.ReplaceLoop(g.sprite(&animations[g.i]))
 		} else {
-			g.player.ReplaceOnce(g.sprite(&animations[g.i]).Rate(15))
+			g.player.ReplaceOnce(g.sprite(&animations[g.i]))
 		}
 	})
 	// g.spearman.Tick()
@@ -172,7 +170,7 @@ func main() {
 
 		sprite: func(ca *CharAnimation) sprite.Sprite { return ca.Idle() },
 		loop:   true,
-		player: sprite.NewPlayer().AppendLoop(animations[0].Idle().Rate(15)),
+		player: sprite.NewPlayer().AppendLoop(animations[0].Idle()),
 	}
 	game.window.WorldSize(game.world.Size())
 	game.window.JumpCamera(game.world.StartPoint)

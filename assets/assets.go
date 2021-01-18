@@ -15,19 +15,19 @@ var Bishop = struct {
 	Walk func() sprite.Sprite
 }{
 	Attack: func() sprite.Sprite {
-		return Castle.SpriteFromRow(8, 13, 4)
+		return Castle.SpriteFromRow(8, 13, 4).Rate(5)
 	},
 	Death: func() sprite.Sprite {
-		return Castle.SpriteFromRow(16, 13, 4)
+		return Castle.SpriteFromRow(16, 13, 4).Rate(10)
 	},
 	Hit: func() sprite.Sprite {
-		return Castle.SpriteFromRow(12, 13, 4)
+		return Castle.SpriteFromRow(12, 13, 4).Rate(5)
 	},
 	Idle: func() sprite.Sprite {
-		return Castle.SpriteFromRow(0, 13, 4)
+		return Castle.SpriteFromRow(0, 13, 4).Rate(15)
 	},
 	Walk: func() sprite.Sprite {
-		return Castle.SpriteFromRow(4, 13, 4)
+		return Castle.SpriteFromRow(4, 13, 4).Rate(15)
 	},
 }
 
@@ -39,19 +39,19 @@ var Crossbowman = struct {
 	Walk func() sprite.Sprite
 }{
 	Attack: func() sprite.Sprite {
-		return Castle.SpriteFromRow(8, 2, 4)
+		return Castle.SpriteFromRow(8, 2, 4).Rate(5)
 	},
 	Death: func() sprite.Sprite {
-		return Castle.SpriteFromRow(16, 2, 4)
+		return Castle.SpriteFromRow(16, 2, 4).Rate(10)
 	},
 	Hit: func() sprite.Sprite {
-		return Castle.SpriteFromRow(12, 2, 4)
+		return Castle.SpriteFromRow(12, 2, 4).Rate(5)
 	},
 	Idle: func() sprite.Sprite {
-		return Castle.SpriteFromRow(0, 2, 4)
+		return Castle.SpriteFromRow(0, 2, 4).Rate(15)
 	},
 	Walk: func() sprite.Sprite {
-		return Castle.SpriteFromRow(4, 2, 4)
+		return Castle.SpriteFromRow(4, 2, 4).Rate(10)
 	},
 }
 
@@ -63,19 +63,19 @@ var Crossbowman2 = struct {
 	Walk func() sprite.Sprite
 }{
 	Attack: func() sprite.Sprite {
-		return Castle.SpriteFromRow(8, 10, 4)
+		return Castle.SpriteFromRow(8, 10, 4).Rate(5)
 	},
 	Death: func() sprite.Sprite {
-		return Castle.SpriteFromRow(16, 10, 4)
+		return Castle.SpriteFromRow(16, 10, 4).Rate(10)
 	},
 	Hit: func() sprite.Sprite {
-		return Castle.SpriteFromRow(12, 10, 4)
+		return Castle.SpriteFromRow(12, 10, 4).Rate(5)
 	},
 	Idle: func() sprite.Sprite {
-		return Castle.SpriteFromRow(0, 10, 4)
+		return Castle.SpriteFromRow(0, 10, 4).Rate(15)
 	},
 	Walk: func() sprite.Sprite {
-		return Castle.SpriteFromRow(4, 10, 4)
+		return Castle.SpriteFromRow(4, 10, 4).Rate(10)
 	},
 }
 
@@ -87,19 +87,19 @@ var Halberd = struct {
 	Walk func() sprite.Sprite
 }{
 	Attack: func() sprite.Sprite {
-		return Castle.SpriteFromRow(8, 9, 4)
+		return Castle.SpriteFromRow(8, 9, 4).Rate(5)
 	},
 	Death: func() sprite.Sprite {
-		return Castle.SpriteFromRow(16, 9, 4)
+		return Castle.SpriteFromRow(16, 9, 4).Rate(10)
 	},
 	Hit: func() sprite.Sprite {
-		return Castle.SpriteFromRow(12, 9, 4)
+		return Castle.SpriteFromRow(12, 9, 4).Rate(5)
 	},
 	Idle: func() sprite.Sprite {
-		return Castle.SpriteFromRow(0, 9, 4)
+		return Castle.SpriteFromRow(0, 9, 4).Rate(15)
 	},
 	Walk: func() sprite.Sprite {
-		return Castle.SpriteFromRow(4, 9, 4)
+		return Castle.SpriteFromRow(4, 9, 4).Rate(10)
 	},
 }
 
@@ -111,19 +111,19 @@ var Knight = struct {
 	Walk func() sprite.Sprite
 }{
 	Attack: func() sprite.Sprite {
-		return Castle.SpriteFromRow(8, 7, 4)
+		return Castle.SpriteFromRow(8, 7, 4).Rate(5)
 	},
 	Death: func() sprite.Sprite {
-		return Castle.SpriteFromRow(16, 7, 4)
+		return Castle.SpriteFromRow(16, 7, 4).Rate(10)
 	},
 	Hit: func() sprite.Sprite {
-		return Castle.SpriteFromRow(12, 7, 4)
+		return Castle.SpriteFromRow(12, 7, 4).Rate(5)
 	},
 	Idle: func() sprite.Sprite {
-		return Castle.SpriteFromRow(0, 7, 4)
+		return Castle.SpriteFromRow(0, 7, 4).Rate(15)
 	},
 	Walk: func() sprite.Sprite {
-		return Castle.SpriteFromRow(4, 7, 4)
+		return Castle.SpriteFromRow(4, 7, 4).Rate(10)
 	},
 }
 
@@ -135,19 +135,19 @@ var Knight2 = struct {
 	Walk func() sprite.Sprite
 }{
 	Attack: func() sprite.Sprite {
-		return Castle.SpriteFromRow(8, 15, 4)
+		return Castle.SpriteFromRow(8, 15, 4).Rate(5)
 	},
 	Death: func() sprite.Sprite {
-		return Castle.SpriteFromRow(16, 15, 4)
+		return Castle.SpriteFromRow(16, 15, 4).Rate(10)
 	},
 	Hit: func() sprite.Sprite {
-		return Castle.SpriteFromRow(12, 15, 4)
+		return Castle.SpriteFromRow(12, 15, 4).Rate(5)
 	},
 	Idle: func() sprite.Sprite {
-		return Castle.SpriteFromRow(0, 15, 4)
+		return Castle.SpriteFromRow(0, 15, 4).Rate(15)
 	},
 	Walk: func() sprite.Sprite {
-		return Castle.SpriteFromRow(4, 15, 4)
+		return Castle.SpriteFromRow(4, 15, 4).Rate(10)
 	},
 }
 
@@ -159,19 +159,19 @@ var Monk = struct {
 	Walk func() sprite.Sprite
 }{
 	Attack: func() sprite.Sprite {
-		return Castle.SpriteFromRow(8, 5, 4)
+		return Castle.SpriteFromRow(8, 5, 4).Rate(5)
 	},
 	Death: func() sprite.Sprite {
-		return Castle.SpriteFromRow(16, 5, 4)
+		return Castle.SpriteFromRow(16, 5, 4).Rate(10)
 	},
 	Hit: func() sprite.Sprite {
-		return Castle.SpriteFromRow(12, 5, 4)
+		return Castle.SpriteFromRow(12, 5, 4).Rate(5)
 	},
 	Idle: func() sprite.Sprite {
-		return Castle.SpriteFromRow(0, 5, 4)
+		return Castle.SpriteFromRow(0, 5, 4).Rate(15)
 	},
 	Walk: func() sprite.Sprite {
-		return Castle.SpriteFromRow(4, 5, 4)
+		return Castle.SpriteFromRow(4, 5, 4).Rate(15)
 	},
 }
 
@@ -183,19 +183,19 @@ var Rider = struct {
 	Walk func() sprite.Sprite
 }{
 	Attack: func() sprite.Sprite {
-		return Castle.SpriteFromRow(8, 6, 4)
+		return Castle.SpriteFromRow(8, 6, 4).Rate(5)
 	},
 	Death: func() sprite.Sprite {
-		return Castle.SpriteFromRow(16, 6, 4)
+		return Castle.SpriteFromRow(16, 6, 4).Rate(10)
 	},
 	Hit: func() sprite.Sprite {
-		return Castle.SpriteFromRow(12, 6, 4)
+		return Castle.SpriteFromRow(12, 6, 4).Rate(5)
 	},
 	Idle: func() sprite.Sprite {
-		return Castle.SpriteFromRow(0, 6, 4)
+		return Castle.SpriteFromRow(0, 6, 4).Rate(15)
 	},
 	Walk: func() sprite.Sprite {
-		return Castle.SpriteFromRow(4, 6, 4)
+		return Castle.SpriteFromRow(4, 6, 4).Rate(10)
 	},
 }
 
@@ -207,19 +207,19 @@ var Rider2 = struct {
 	Walk func() sprite.Sprite
 }{
 	Attack: func() sprite.Sprite {
-		return Castle.SpriteFromRow(8, 14, 4)
+		return Castle.SpriteFromRow(8, 14, 4).Rate(5)
 	},
 	Death: func() sprite.Sprite {
-		return Castle.SpriteFromRow(16, 14, 4)
+		return Castle.SpriteFromRow(16, 14, 4).Rate(10)
 	},
 	Hit: func() sprite.Sprite {
-		return Castle.SpriteFromRow(12, 14, 4)
+		return Castle.SpriteFromRow(12, 14, 4).Rate(5)
 	},
 	Idle: func() sprite.Sprite {
-		return Castle.SpriteFromRow(0, 14, 4)
+		return Castle.SpriteFromRow(0, 14, 4).Rate(15)
 	},
 	Walk: func() sprite.Sprite {
-		return Castle.SpriteFromRow(4, 14, 4)
+		return Castle.SpriteFromRow(4, 14, 4).Rate(10)
 	},
 }
 
@@ -231,19 +231,19 @@ var Spearman = struct {
 	Walk func() sprite.Sprite
 }{
 	Attack: func() sprite.Sprite {
-		return Castle.SpriteFromRow(8, 1, 4)
+		return Castle.SpriteFromRow(8, 1, 4).Rate(5)
 	},
 	Death: func() sprite.Sprite {
-		return Castle.SpriteFromRow(16, 1, 4)
+		return Castle.SpriteFromRow(16, 1, 4).Rate(10)
 	},
 	Hit: func() sprite.Sprite {
-		return Castle.SpriteFromRow(12, 1, 4)
+		return Castle.SpriteFromRow(12, 1, 4).Rate(5)
 	},
 	Idle: func() sprite.Sprite {
-		return Castle.SpriteFromRow(0, 1, 4)
+		return Castle.SpriteFromRow(0, 1, 4).Rate(15)
 	},
 	Walk: func() sprite.Sprite {
-		return Castle.SpriteFromRow(4, 1, 4)
+		return Castle.SpriteFromRow(4, 1, 4).Rate(10)
 	},
 }
 
@@ -255,19 +255,19 @@ var Swordsman = struct {
 	Walk func() sprite.Sprite
 }{
 	Attack: func() sprite.Sprite {
-		return Castle.SpriteFromRow(8, 4, 4)
+		return Castle.SpriteFromRow(8, 4, 4).Rate(5)
 	},
 	Death: func() sprite.Sprite {
-		return Castle.SpriteFromRow(16, 4, 4)
+		return Castle.SpriteFromRow(16, 4, 4).Rate(10)
 	},
 	Hit: func() sprite.Sprite {
-		return Castle.SpriteFromRow(12, 4, 4)
+		return Castle.SpriteFromRow(12, 4, 4).Rate(5)
 	},
 	Idle: func() sprite.Sprite {
-		return Castle.SpriteFromRow(0, 4, 4)
+		return Castle.SpriteFromRow(0, 4, 4).Rate(15)
 	},
 	Walk: func() sprite.Sprite {
-		return Castle.SpriteFromRow(4, 4, 4)
+		return Castle.SpriteFromRow(4, 4, 4).Rate(10)
 	},
 }
 
@@ -279,19 +279,19 @@ var Swordsman2 = struct {
 	Walk func() sprite.Sprite
 }{
 	Attack: func() sprite.Sprite {
-		return Castle.SpriteFromRow(8, 12, 4)
+		return Castle.SpriteFromRow(8, 12, 4).Rate(5)
 	},
 	Death: func() sprite.Sprite {
-		return Castle.SpriteFromRow(16, 12, 4)
+		return Castle.SpriteFromRow(16, 12, 4).Rate(10)
 	},
 	Hit: func() sprite.Sprite {
-		return Castle.SpriteFromRow(12, 12, 4)
+		return Castle.SpriteFromRow(12, 12, 4).Rate(5)
 	},
 	Idle: func() sprite.Sprite {
-		return Castle.SpriteFromRow(0, 12, 4)
+		return Castle.SpriteFromRow(0, 12, 4).Rate(15)
 	},
 	Walk: func() sprite.Sprite {
-		return Castle.SpriteFromRow(4, 12, 4)
+		return Castle.SpriteFromRow(4, 12, 4).Rate(10)
 	},
 }
 
@@ -306,19 +306,19 @@ var Axeman = struct {
 	Walk func() sprite.Sprite
 }{
 	Attack: func() sprite.Sprite {
-		return Rampart.SpriteFromRow(8, 2, 4)
+		return Rampart.SpriteFromRow(8, 2, 4).Rate(5)
 	},
 	Death: func() sprite.Sprite {
-		return Rampart.SpriteFromRow(16, 2, 4)
+		return Rampart.SpriteFromRow(16, 2, 4).Rate(10)
 	},
 	Hit: func() sprite.Sprite {
-		return Rampart.SpriteFromRow(12, 2, 4)
+		return Rampart.SpriteFromRow(12, 2, 4).Rate(5)
 	},
 	Idle: func() sprite.Sprite {
-		return Rampart.SpriteFromRow(0, 2, 4)
+		return Rampart.SpriteFromRow(0, 2, 4).Rate(15)
 	},
 	Walk: func() sprite.Sprite {
-		return Rampart.SpriteFromRow(4, 2, 4)
+		return Rampart.SpriteFromRow(4, 2, 4).Rate(10)
 	},
 }
 
@@ -330,19 +330,19 @@ var Hammerman = struct {
 	Walk func() sprite.Sprite
 }{
 	Attack: func() sprite.Sprite {
-		return Rampart.SpriteFromRow(8, 10, 4)
+		return Rampart.SpriteFromRow(8, 10, 4).Rate(5)
 	},
 	Death: func() sprite.Sprite {
-		return Rampart.SpriteFromRow(16, 10, 4)
+		return Rampart.SpriteFromRow(16, 10, 4).Rate(10)
 	},
 	Hit: func() sprite.Sprite {
-		return Rampart.SpriteFromRow(12, 10, 4)
+		return Rampart.SpriteFromRow(12, 10, 4).Rate(5)
 	},
 	Idle: func() sprite.Sprite {
-		return Rampart.SpriteFromRow(0, 10, 4)
+		return Rampart.SpriteFromRow(0, 10, 4).Rate(15)
 	},
 	Walk: func() sprite.Sprite {
-		return Rampart.SpriteFromRow(4, 10, 4)
+		return Rampart.SpriteFromRow(4, 10, 4).Rate(10)
 	},
 }
 
@@ -354,19 +354,19 @@ var Hunter = struct {
 	Walk func() sprite.Sprite
 }{
 	Attack: func() sprite.Sprite {
-		return Rampart.SpriteFromRow(8, 4, 4)
+		return Rampart.SpriteFromRow(8, 4, 4).Rate(5)
 	},
 	Death: func() sprite.Sprite {
-		return Rampart.SpriteFromRow(16, 4, 4)
+		return Rampart.SpriteFromRow(16, 4, 4).Rate(10)
 	},
 	Hit: func() sprite.Sprite {
-		return Rampart.SpriteFromRow(12, 4, 4)
+		return Rampart.SpriteFromRow(12, 4, 4).Rate(5)
 	},
 	Idle: func() sprite.Sprite {
-		return Rampart.SpriteFromRow(0, 4, 4)
+		return Rampart.SpriteFromRow(0, 4, 4).Rate(15)
 	},
 	Walk: func() sprite.Sprite {
-		return Rampart.SpriteFromRow(4, 4, 4)
+		return Rampart.SpriteFromRow(4, 4, 4).Rate(10)
 	},
 }
 
@@ -378,19 +378,19 @@ var Hunter2 = struct {
 	Walk func() sprite.Sprite
 }{
 	Attack: func() sprite.Sprite {
-		return Rampart.SpriteFromRow(8, 12, 4)
+		return Rampart.SpriteFromRow(8, 12, 4).Rate(5)
 	},
 	Death: func() sprite.Sprite {
-		return Rampart.SpriteFromRow(16, 12, 4)
+		return Rampart.SpriteFromRow(16, 12, 4).Rate(10)
 	},
 	Hit: func() sprite.Sprite {
-		return Rampart.SpriteFromRow(12, 12, 4)
+		return Rampart.SpriteFromRow(12, 12, 4).Rate(5)
 	},
 	Idle: func() sprite.Sprite {
-		return Rampart.SpriteFromRow(0, 12, 4)
+		return Rampart.SpriteFromRow(0, 12, 4).Rate(15)
 	},
 	Walk: func() sprite.Sprite {
-		return Rampart.SpriteFromRow(4, 12, 4)
+		return Rampart.SpriteFromRow(4, 12, 4).Rate(10)
 	},
 }
 
@@ -405,19 +405,19 @@ var Brute = struct {
 	Walk func() sprite.Sprite
 }{
 	Attack: func() sprite.Sprite {
-		return Stronghold.SpriteFromRow(8, 7, 4)
+		return Stronghold.SpriteFromRow(8, 7, 4).Rate(5)
 	},
 	Death: func() sprite.Sprite {
-		return Stronghold.SpriteFromRow(16, 7, 4)
+		return Stronghold.SpriteFromRow(16, 7, 4).Rate(10)
 	},
 	Hit: func() sprite.Sprite {
-		return Stronghold.SpriteFromRow(12, 7, 4)
+		return Stronghold.SpriteFromRow(12, 7, 4).Rate(5)
 	},
 	Idle: func() sprite.Sprite {
-		return Stronghold.SpriteFromRow(0, 7, 4)
+		return Stronghold.SpriteFromRow(0, 7, 4).Rate(15)
 	},
 	Walk: func() sprite.Sprite {
-		return Stronghold.SpriteFromRow(4, 7, 4)
+		return Stronghold.SpriteFromRow(4, 7, 4).Rate(12)
 	},
 }
 
@@ -429,19 +429,19 @@ var Brute2 = struct {
 	Walk func() sprite.Sprite
 }{
 	Attack: func() sprite.Sprite {
-		return Stronghold.SpriteFromRow(8, 15, 4)
+		return Stronghold.SpriteFromRow(8, 15, 4).Rate(5)
 	},
 	Death: func() sprite.Sprite {
-		return Stronghold.SpriteFromRow(16, 15, 4)
+		return Stronghold.SpriteFromRow(16, 15, 4).Rate(10)
 	},
 	Hit: func() sprite.Sprite {
-		return Stronghold.SpriteFromRow(12, 15, 4)
+		return Stronghold.SpriteFromRow(12, 15, 4).Rate(5)
 	},
 	Idle: func() sprite.Sprite {
-		return Stronghold.SpriteFromRow(0, 15, 4)
+		return Stronghold.SpriteFromRow(0, 15, 4).Rate(15)
 	},
 	Walk: func() sprite.Sprite {
-		return Stronghold.SpriteFromRow(4, 15, 4)
+		return Stronghold.SpriteFromRow(4, 15, 4).Rate(15)
 	},
 }
 
@@ -453,19 +453,19 @@ var GoblinRider = struct {
 	Walk func() sprite.Sprite
 }{
 	Attack: func() sprite.Sprite {
-		return Stronghold.SpriteFromRow(8, 3, 4)
+		return Stronghold.SpriteFromRow(8, 3, 4).Rate(5)
 	},
 	Death: func() sprite.Sprite {
-		return Stronghold.SpriteFromRow(16, 3, 4)
+		return Stronghold.SpriteFromRow(16, 3, 4).Rate(10)
 	},
 	Hit: func() sprite.Sprite {
-		return Stronghold.SpriteFromRow(12, 3, 4)
+		return Stronghold.SpriteFromRow(12, 3, 4).Rate(5)
 	},
 	Idle: func() sprite.Sprite {
-		return Stronghold.SpriteFromRow(0, 3, 4)
+		return Stronghold.SpriteFromRow(0, 3, 4).Rate(15)
 	},
 	Walk: func() sprite.Sprite {
-		return Stronghold.SpriteFromRow(4, 3, 4)
+		return Stronghold.SpriteFromRow(4, 3, 4).Rate(6)
 	},
 }
 
@@ -477,19 +477,19 @@ var GoblinRider2 = struct {
 	Walk func() sprite.Sprite
 }{
 	Attack: func() sprite.Sprite {
-		return Stronghold.SpriteFromRow(8, 11, 4)
+		return Stronghold.SpriteFromRow(8, 11, 4).Rate(5)
 	},
 	Death: func() sprite.Sprite {
-		return Stronghold.SpriteFromRow(16, 11, 4)
+		return Stronghold.SpriteFromRow(16, 11, 4).Rate(10)
 	},
 	Hit: func() sprite.Sprite {
-		return Stronghold.SpriteFromRow(12, 11, 4)
+		return Stronghold.SpriteFromRow(12, 11, 4).Rate(5)
 	},
 	Idle: func() sprite.Sprite {
-		return Stronghold.SpriteFromRow(0, 11, 4)
+		return Stronghold.SpriteFromRow(0, 11, 4).Rate(15)
 	},
 	Walk: func() sprite.Sprite {
-		return Stronghold.SpriteFromRow(4, 11, 4)
+		return Stronghold.SpriteFromRow(4, 11, 4).Rate(6)
 	},
 }
 
@@ -501,19 +501,19 @@ var Mercenary = struct {
 	Walk func() sprite.Sprite
 }{
 	Attack: func() sprite.Sprite {
-		return Stronghold.SpriteFromRow(8, 1, 4)
+		return Stronghold.SpriteFromRow(8, 1, 4).Rate(5)
 	},
 	Death: func() sprite.Sprite {
-		return Stronghold.SpriteFromRow(16, 1, 4)
+		return Stronghold.SpriteFromRow(16, 1, 4).Rate(10)
 	},
 	Hit: func() sprite.Sprite {
-		return Stronghold.SpriteFromRow(12, 1, 4)
+		return Stronghold.SpriteFromRow(12, 1, 4).Rate(5)
 	},
 	Idle: func() sprite.Sprite {
-		return Stronghold.SpriteFromRow(0, 1, 4)
+		return Stronghold.SpriteFromRow(0, 1, 4).Rate(15)
 	},
 	Walk: func() sprite.Sprite {
-		return Stronghold.SpriteFromRow(4, 1, 4)
+		return Stronghold.SpriteFromRow(4, 1, 4).Rate(6)
 	},
 }
 
@@ -528,19 +528,19 @@ var Shotgun = struct {
 	Walk func() sprite.Sprite
 }{
 	Attack: func() sprite.Sprite {
-		return Tower.SpriteFromRow(8, 1, 4)
+		return Tower.SpriteFromRow(8, 1, 4).Rate(5)
 	},
 	Death: func() sprite.Sprite {
-		return Tower.SpriteFromRow(16, 1, 4)
+		return Tower.SpriteFromRow(16, 1, 4).Rate(10)
 	},
 	Hit: func() sprite.Sprite {
-		return Tower.SpriteFromRow(12, 1, 4)
+		return Tower.SpriteFromRow(12, 1, 4).Rate(5)
 	},
 	Idle: func() sprite.Sprite {
-		return Tower.SpriteFromRow(0, 1, 4)
+		return Tower.SpriteFromRow(0, 1, 4).Rate(15)
 	},
 	Walk: func() sprite.Sprite {
-		return Tower.SpriteFromRow(4, 1, 4)
+		return Tower.SpriteFromRow(4, 1, 4).Rate(10)
 	},
 }
 
@@ -552,19 +552,19 @@ var Shotgun2 = struct {
 	Walk func() sprite.Sprite
 }{
 	Attack: func() sprite.Sprite {
-		return Tower.SpriteFromRow(8, 9, 4)
+		return Tower.SpriteFromRow(8, 9, 4).Rate(5)
 	},
 	Death: func() sprite.Sprite {
-		return Tower.SpriteFromRow(16, 9, 4)
+		return Tower.SpriteFromRow(16, 9, 4).Rate(10)
 	},
 	Hit: func() sprite.Sprite {
-		return Tower.SpriteFromRow(12, 9, 4)
+		return Tower.SpriteFromRow(12, 9, 4).Rate(5)
 	},
 	Idle: func() sprite.Sprite {
-		return Tower.SpriteFromRow(0, 9, 4)
+		return Tower.SpriteFromRow(0, 9, 4).Rate(15)
 	},
 	Walk: func() sprite.Sprite {
-		return Tower.SpriteFromRow(4, 9, 4)
+		return Tower.SpriteFromRow(4, 9, 4).Rate(10)
 	},
 }
 
