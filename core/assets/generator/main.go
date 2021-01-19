@@ -21,11 +21,11 @@ var {{ $ssname }} = sprite.OpenTileAsset("{{ $ss.Path }}", {{ index $ss.TileSize
 {{ range $gname, $map := $ss.Sprites }}
 var {{ $gname }} = struct {
 	{{- range $sname, $s := $map }}
-	{{ $sname }} func() sprite.Sprite
+	{{ $sname }} func() *sprite.Sprite
 	{{- end }}
 }{
 	{{- range $sname, $s := $map }}
-	{{ $sname }}: func() sprite.Sprite {
+	{{ $sname }}: func() *sprite.Sprite {
 		return {{ $ssname }}.{{ if eq $ss.Direction "column" }}SpriteFromColumn{{ else }}SpriteFromRow{{ end }}({{ $s.X }}, {{ $s.Y }}, {{ $s.Size }}){{ if ne $s.Rate 0 }}.Rate({{ $s.Rate }}){{ end }}{{ if $s.Reverse }}.Reversed(){{ end }}
 	},
 	{{- end }}

@@ -54,6 +54,14 @@ func New() (World, error) {
 	}, nil
 }
 
+func MustNew() World {
+	w, err := New()
+	if err != nil {
+		panic(err)
+	}
+	return w
+}
+
 func (w *World) IsBoundary(pt units.TPoint) bool {
 	if !pt.IP().In(w.rect()) {
 		return false

@@ -15,22 +15,30 @@ type Sprite struct {
 	index   int
 	playing bool
 	rate    int
+	loop    bool
 }
 
-func New(frames ...*ebiten.Image) Sprite {
-	return Sprite{frames: frames, playing: true, rate: 1}
+func New(frames ...*ebiten.Image) *Sprite {
+	return &Sprite{frames: frames, playing: true, rate: 1}
 }
 
-func (s Sprite) Rate(rate int) Sprite {
-	return Sprite{frames: s.frames, playing: true, rate: rate}
+func (s *Sprite) Rate(rate int) *Sprite {
+	s.rate = rate
+	return s
 }
 
-func (s Sprite) Reversed() Sprite {
+func (s *Sprite) Reversed() *Sprite {
 	reversed := make([]*ebiten.Image, len(s.frames))
 	for i, f := range s.frames {
 		reversed[len(s.frames)-i-1] = f
 	}
-	return Sprite{frames: reversed, playing: true, rate: s.rate}
+	s.frames = reversed
+	return s
+}
+
+func (s *Sprite) Loop(loop bool) *Sprite {
+	s.loop = loop
+	return s
 }
 
 func (s *Sprite) Frame() *ebiten.Image {
@@ -42,7 +50,11 @@ func (s *Sprite) Tick() {
 		return
 	}
 	if s.index == (s.rate*len(s.frames))-1 {
-		s.playing = false
+		if s.loop {
+			s.Reset()
+		} else {
+			s.Stop()
+		}
 	} else {
 		s.index++
 	}

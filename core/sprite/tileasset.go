@@ -38,10 +38,18 @@ func (ta *TileAsset) Get(x, y int) *ebiten.Image {
 	return i
 }
 
-func (ta *TileAsset) SpriteFromRow(x, y, frames int) Sprite {
+func (ta *TileAsset) SpriteFromRow(x, y, frames int) *Sprite {
 	ff := make([]*ebiten.Image, frames)
 	for i := 0; i < frames; i++ {
 		ff[i] = ta.Get(x+i, y)
+	}
+	return New(ff...)
+}
+
+func (ta *TileAsset) SpriteFromColumn(x, y, frames int) *Sprite {
+	ff := make([]*ebiten.Image, frames)
+	for i := 0; i < frames; i++ {
+		ff[i] = ta.Get(x, y+i)
 	}
 	return New(ff...)
 }
