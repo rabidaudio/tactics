@@ -2,6 +2,8 @@ package units
 
 type Direction int
 
+//go:generate stringer -type=Direction
+
 const (
 	North Direction = iota
 	South
@@ -24,7 +26,17 @@ func (d Direction) TP() TPoint {
 	}
 }
 
-func (d Direction) IsOpposite(other Direction) bool {
-	x, y := d.TP().Sub(other.TP()).XY()
-	return x == 0 && y == 0
+func (d Direction) Opposite() Direction {
+	switch d {
+	case North:
+		return South
+	case South:
+		return North
+	case East:
+		return West
+	case West:
+		return East
+	default:
+		panic("invalid direction")
+	}
 }
