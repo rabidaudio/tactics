@@ -212,6 +212,52 @@ func TestPathfinder(t *testing.T) {
 	}
 }
 
+// 278143 ns/op (.28ms)
+// 315026 B/op (307KB)
+// 14070 allocs/op
+func BenchmarkFindPathOpen(b *testing.B) {
+	b.RunParallel(func(pb *testing.PB) {
+		canMove := bounds([]rune{
+			' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+			' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+			' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+			' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+			' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+			' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+			' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+			' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+			' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+		}, 9)
+		start, end := units.TP(0, 0), units.TP(8, 8)
+		for pb.Next() {
+			core.FindPath(start, end, canMove)
+		}
+	})
+}
+
+// 74630 ns/op (.07ms)
+// 74640 ns/op (73KB)
+// 4395 allocs/op
+func BenchmarkFindPathMaze(b *testing.B) {
+	b.RunParallel(func(pb *testing.PB) {
+		canMove := bounds([]rune{
+			'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X',
+			'X', ' ', 'X', ' ', 'X', ' ', ' ', ' ', 'X',
+			'X', ' ', 'X', ' ', ' ', ' ', 'X', ' ', 'X',
+			'X', ' ', 'X', 'X', 'X', 'X', 'X', ' ', 'X',
+			'X', ' ', ' ', ' ', 'X', ' ', 'X', ' ', 'X',
+			'X', ' ', 'X', 'X', 'X', ' ', 'X', ' ', 'X',
+			'X', ' ', 'X', ' ', ' ', ' ', 'X', ' ', 'X',
+			'X', ' ', ' ', ' ', 'X', ' ', ' ', ' ', 'X',
+			'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X',
+		}, 9)
+		start, end := units.TP(1, 1), units.TP(3, 1)
+		for pb.Next() {
+			core.FindPath(start, end, canMove)
+		}
+	})
+}
+
 func TestEstimateSearch(t *testing.T) {
 	assert.Equal(t, core.EstimateSearch(0), 1)
 	assert.Equal(t, core.EstimateSearch(1), 5)
