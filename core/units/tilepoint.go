@@ -2,6 +2,7 @@ package units
 
 import (
 	"image"
+	"math"
 	"strconv"
 )
 
@@ -57,6 +58,10 @@ func Bound(pt image.Point, to image.Rectangle) image.Point {
 		X: bound(pt.X, to.Min.X, to.Max.X),
 		Y: bound(pt.Y, to.Min.Y, to.Max.Y),
 	}
+}
+
+func (p TPoint) Mag() float64 {
+	return math.Sqrt(float64(p.X*p.X + p.Y*p.Y))
 }
 
 // The following methods are copied directly from image.Point

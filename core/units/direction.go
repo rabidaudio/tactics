@@ -23,3 +23,8 @@ func (d Direction) TP() TPoint {
 		panic("invalid direction")
 	}
 }
+
+func (d Direction) IsOpposite(other Direction) bool {
+	x, y := d.TP().Sub(other.TP()).XY()
+	return x == 0 && y == 0
+}
