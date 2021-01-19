@@ -50,7 +50,7 @@ func TestPathfinder(t *testing.T) {
 			Start:     units.TP(0, 0),
 			End:       units.TP(1, 1),
 			CanMove:   func(pt units.TPoint) bool { return true },
-			expected:  []units.Direction{units.East, units.South},
+			expected:  steps("ES"),
 			available: true,
 		},
 		{
@@ -58,7 +58,7 @@ func TestPathfinder(t *testing.T) {
 			Start:     units.TP(0, 0),
 			End:       units.TP(-1, -1),
 			CanMove:   func(pt units.TPoint) bool { return true },
-			expected:  []units.Direction{units.West, units.North},
+			expected:  steps("WN"),
 			available: true,
 		},
 		{
@@ -74,7 +74,7 @@ func TestPathfinder(t *testing.T) {
 			Start:     units.TP(0, 0),
 			End:       units.TP(0, -3),
 			CanMove:   func(pt units.TPoint) bool { return true },
-			expected:  []units.Direction{units.North, units.North, units.North},
+			expected:  steps("NNN"),
 			available: true,
 		},
 		{
@@ -82,7 +82,7 @@ func TestPathfinder(t *testing.T) {
 			Start:     units.TP(0, 0),
 			End:       units.TP(2, 1),
 			CanMove:   func(pt units.TPoint) bool { return pt != units.TP(1, 0) },
-			expected:  []units.Direction{units.South, units.East, units.East},
+			expected:  steps("SEE"),
 			available: true,
 		},
 		{
@@ -90,7 +90,7 @@ func TestPathfinder(t *testing.T) {
 			Start:     units.TP(0, 0),
 			End:       units.TP(2, 1),
 			CanMove:   func(pt units.TPoint) bool { return pt != units.TP(0, 1) },
-			expected:  []units.Direction{units.East, units.East, units.South},
+			expected:  steps("EES"),
 			available: true,
 		},
 		{
@@ -212,22 +212,17 @@ func TestPathfinder(t *testing.T) {
 	}
 }
 
-func guessSteps(possibleSteps int) int {
-	if possibleSteps == 0 {
-		return 0
-	}
-	s := possibleSteps - 1
-	i := 0
-	for ; s >= 0; i++ {
-		s -= i * 4
-	}
-	return i - 1
+func TestEstimateSearch(t *testing.T) {
+	assert.Equal(t, core.EstimateSearch(0), 1)
+	assert.Equal(t, core.EstimateSearch(1), 5)
+	assert.Equal(t, core.EstimateSearch(2), 13)
+	assert.Equal(t, core.EstimateSearch(3), 25)
 }
 
-func TestGuess(t *testing.T) {
-	assert.Equal(t, guessSteps(22), 3)
-	assert.Equal(t, guessSteps(25), 4)
-	assert.Equal(t, guessSteps(3), 1)
-	assert.Equal(t, guessSteps(1), 1)
-	assert.Equal(t, guessSteps(0), 0)
+func TestEstimateSteps(t *testing.T) {
+	assert.Equal(t, core.EstimateSteps(22), 3)
+	assert.Equal(t, core.EstimateSteps(25), 4)
+	assert.Equal(t, core.EstimateSteps(3), 1)
+	assert.Equal(t, core.EstimateSteps(1), 1)
+	assert.Equal(t, core.EstimateSteps(0), 0)
 }
