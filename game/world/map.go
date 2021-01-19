@@ -69,6 +69,10 @@ func (w *World) IsBoundary(pt units.TPoint) bool {
 	return !w.tileAt("boundaries", pt).Nil
 }
 
+// func (w *World) FindShortestPath(from, to image.Point) (steps []units.Direction, ok bool) {
+
+// }
+
 func startPoint(m *tiled.Map) (tp units.TPoint, err error) {
 	s := m.Properties.Get("start")
 	if len(s) == 0 {

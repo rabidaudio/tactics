@@ -1,84 +1,73 @@
 package core
 
 import (
+	"log"
 	"sort"
 
 	mapset "github.com/deckarep/golang-set"
 	"github.com/rabidaudio/tactics/core/units"
 )
 
+type step struct {
+	prev  *step
+	point units.TPoint
+	dir   units.Direction
+}
+
 // FindPath returns a set of steps to get from start to end,
 // if such a path is possible.
 func FindPath(start, end units.TPoint, canMove func(pt units.TPoint) bool) ([]units.Direction, bool) {
-	p := pathfinder{
-		start:   start,
-		current: end,
-		canMove: canMove,
-		steps:   make([]units.Direction, 0, int(end.Sub(start).Mag())),
-		visited: mapset.NewSet(),
+	if start == end {
+		return []units.Direction{}, true
 	}
 	if canMove == nil {
-		p.canMove = canAlwaysMove
+		canMove = canAlwaysMove
 	}
-	ok := p.find()
-	return p.steps, ok
+	if !canMove(end) {
+		return nil, false
+	}
+	// TODO heuristic for capacity
+	vset := mapset.NewSet()
+	steps := make([]step, 1, 25)
+	steps[0] = step{point: end}
+FOUND:
+	for {
+		added := 0
+		for i, current := range steps {
+			for _, d := range testDirections(current.point, start) {
+				target := current.point.Add(d.TP())
+				if vset.Contains(target) {
+					continue
+				}
+				log.Printf("check %v -> %v go %v to %v", current.point, start, d, target)
+				if !canMove(target) {
+					continue
+				}
+				added++
+				vset.Add(target)
+				steps = append(steps, step{prev: &steps[i], point: target, dir: d.Opposite()})
+				if target == start {
+					break FOUND
+				}
+			}
+		}
+		if added == 0 {
+			// exausted all possible paths
+			return nil, false
+		}
+	}
+	// TODO: heuristic for capacity
+	results := make([]units.Direction, 0, 5)
+	s := &steps[len(steps)-1]
+	for s.prev != nil {
+		results = append(results, s.dir)
+		s = s.prev
+	}
+	return results, true
 }
 
 func canAlwaysMove(pt units.TPoint) bool {
 	return true
-}
-
-type pathfinder struct {
-	start   units.TPoint
-	current units.TPoint
-	canMove func(pt units.TPoint) bool
-	visited mapset.Set
-	steps   []units.Direction
-}
-
-func (p *pathfinder) find() bool {
-	// so that we don't have to reverse the steps when we get a match,
-	// we actually search from end to start
-	if p.current == p.start {
-		return true
-	}
-	p.visited.Add(p.current)
-	for _, d := range p.testDirections() {
-		target := p.current.Add(d.TP())
-		if !p.canMove(target) {
-			continue
-		}
-		if p.visited.Contains(target) {
-			continue
-		}
-		p.current = target
-		if p.find() {
-			// since we're going backwards, we need to track the reverse
-			p.steps = append(p.steps, d.Opposite())
-			return true
-		}
-	}
-	return false
-}
-
-func (p *pathfinder) testDirections() []units.Direction {
-	// try all legal directions, but try the most direct routes first
-	directions := []units.Direction{
-		units.North, units.South, units.East, units.West,
-	}
-	sort.Slice(directions, func(i, j int) bool {
-		return p.distWith(directions[i]) < p.distWith(directions[j])
-	})
-	return directions
-}
-
-func (p *pathfinder) distWith(d units.Direction) int {
-	return int(p.start.Sub(p.current.Add(d.TP())).Mag())
-	// q := p.current.Add(d.TP())
-	// dx := p.start.X - q.X
-	// dy := p.start.Y - q.Y
-	// // log.Printf("dir: %v int: %v -- float: %v", d, abs(dx)+abs(dy), int(p.start.Sub(p.current.Add(d.TP())).Mag()))
-	// return abs(dx) + abs(dy)
 }
 
 func abs(i int) int {
@@ -86,4 +75,19 @@ func abs(i int) int {
 		return -i
 	}
 	return i
+}
+
+func testDirections(start, end units.TPoint) []units.Direction {
+	// try all legal directions, but try the most direct routes first
+	directions := []units.Direction{
+		units.North, units.South, units.East, units.West,
+	}
+	sort.Slice(directions, func(i, j int) bool {
+		return delta(start.Add(directions[i].TP()), end) < delta(start.Add(directions[j].TP()), end)
+	})
+	return directions
+}
+
+func delta(start, end units.TPoint) int {
+	return int(end.Sub(start).Mag())
 }
