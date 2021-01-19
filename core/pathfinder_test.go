@@ -90,7 +90,7 @@ func TestPathfinder(t *testing.T) {
 			Start:     units.TP(0, 0),
 			End:       units.TP(2, 1),
 			CanMove:   func(pt units.TPoint) bool { return pt != units.TP(0, 1) },
-			expected:  []units.Direction{units.East, units.South, units.East},
+			expected:  []units.Direction{units.East, units.East, units.South},
 			available: true,
 		},
 		{
@@ -210,4 +210,24 @@ func TestPathfinder(t *testing.T) {
 			}
 		})
 	}
+}
+
+func guessSteps(possibleSteps int) int {
+	if possibleSteps == 0 {
+		return 0
+	}
+	s := possibleSteps - 1
+	i := 0
+	for ; s >= 0; i++ {
+		s -= i * 4
+	}
+	return i - 1
+}
+
+func TestGuess(t *testing.T) {
+	assert.Equal(t, guessSteps(22), 3)
+	assert.Equal(t, guessSteps(25), 4)
+	assert.Equal(t, guessSteps(3), 1)
+	assert.Equal(t, guessSteps(1), 1)
+	assert.Equal(t, guessSteps(0), 0)
 }

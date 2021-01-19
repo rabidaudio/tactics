@@ -1,7 +1,6 @@
 package core
 
 import (
-	"log"
 	"sort"
 
 	mapset "github.com/deckarep/golang-set"
@@ -21,25 +20,28 @@ func FindPath(start, end units.TPoint, canMove func(pt units.TPoint) bool) ([]un
 		return []units.Direction{}, true
 	}
 	if canMove == nil {
+		// TODO can we detect when a solution is impossible, even if there
+		// are no outer bounds?
 		canMove = canAlwaysMove
 	}
 	if !canMove(end) {
 		return nil, false
 	}
-	// TODO heuristic for capacity
-	vset := mapset.NewSet()
-	steps := make([]step, 1, 25)
+	vset := mapset.NewThreadUnsafeSet()
+	steps := make([]step, 1, guessPossibleSteps(start, end))
 	steps[0] = step{point: end}
 FOUND:
 	for {
 		added := 0
+		// TODO can optimize by keeping track of where we can skip to
+		// TODO could potentially remove the set by knowing that we expand
+		// outwards in a diamond, so only check outwards
 		for i, current := range steps {
 			for _, d := range testDirections(current.point, start) {
 				target := current.point.Add(d.TP())
 				if vset.Contains(target) {
 					continue
 				}
-				log.Printf("check %v -> %v go %v to %v", current.point, start, d, target)
 				if !canMove(target) {
 					continue
 				}
@@ -56,8 +58,7 @@ FOUND:
 			return nil, false
 		}
 	}
-	// TODO: heuristic for capacity
-	results := make([]units.Direction, 0, 5)
+	results := make([]units.Direction, 0, guessSteps(len(steps)))
 	s := &steps[len(steps)-1]
 	for s.prev != nil {
 		results = append(results, s.dir)
@@ -70,11 +71,31 @@ func canAlwaysMove(pt units.TPoint) bool {
 	return true
 }
 
-func abs(i int) int {
-	if i < 0 {
-		return -i
+func guessPossibleSteps(start, end units.TPoint) int {
+	// search is in a diamond pattern from the start.
+	// each round we add another layer to the diamond.
+	// each layer ads 4*n steps.
+	d := delta(start, end)
+	s := 1
+	for i := 0; i < d; i++ {
+		s += i * 4
 	}
-	return i
+	return s
+}
+
+func guessSteps(possibleSteps int) int {
+	// this is essentially a revverse of guessPossibleSteps.
+	// we take the number of possible steps we visited, and
+	// determine how far away the point must be
+	if possibleSteps == 0 {
+		return 0
+	}
+	s := possibleSteps - 1
+	i := 0
+	for ; s >= 0; i++ {
+		s -= i * 4
+	}
+	return i - 1
 }
 
 func testDirections(start, end units.TPoint) []units.Direction {
@@ -89,5 +110,13 @@ func testDirections(start, end units.TPoint) []units.Direction {
 }
 
 func delta(start, end units.TPoint) int {
-	return int(end.Sub(start).Mag())
+	x, y := start.Sub(end).XY()
+	return abs(x) + abs(y)
+}
+
+func abs(i int) int {
+	if i < 0 {
+		return -i
+	}
+	return i
 }
