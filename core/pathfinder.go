@@ -28,7 +28,7 @@ func FindPath(start, end units.TPoint, canMove func(pt units.TPoint) bool) ([]un
 		return nil, false
 	}
 	vset := mapset.NewThreadUnsafeSet()
-	steps := make([]step, 1, estimateSearch(delta(start, end)))
+	steps := make([]step, 1)
 	steps[0] = step{point: end}
 FOUND:
 	for {
@@ -58,7 +58,7 @@ FOUND:
 			return nil, false
 		}
 	}
-	results := make([]units.Direction, 0, estimateSteps(len(steps)))
+	results := make([]units.Direction, 0)
 	s := &steps[len(steps)-1]
 	for s.prev != nil {
 		results = append(results, s.dir)
@@ -69,38 +69,6 @@ FOUND:
 
 func canAlwaysMove(pt units.TPoint) bool {
 	return true
-}
-
-// estimateSearch returns a guess for the number of tiles that
-// will need to be searched in order to find a path to a tile distance
-// away. The search radiates out in a diamond pattern, and each round
-// each round we add another layer to the diamond, granting us access
-// to a tile one more step away. Each layer ads 4*n tiles to be searched.
-// This heuristic is useful for guessing the capacity of slices to avoid
-// extra allocations.
-func estimateSearch(d int) int {
-	s := 1
-	for i := 0; i < d; i++ {
-		s += (i + 1) * 4
-	}
-	return s
-}
-
-// estimateSteps is effectively the inverse of estimateSearch.
-// Based the number of tiles searched, it estimates how many steps it
-// actually took to get there.
-// This heuristic is useful for guessing the capacity of slices to avoid
-// extra allocations.
-func estimateSteps(searched int) int {
-	if searched == 0 {
-		return 0
-	}
-	s := searched - 1
-	i := 0
-	for ; s >= 0; i++ {
-		s -= i * 4
-	}
-	return i - 1
 }
 
 func testDirections(start, end units.TPoint) []units.Direction {

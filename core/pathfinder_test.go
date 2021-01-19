@@ -235,8 +235,8 @@ func BenchmarkFindPathOpen(b *testing.B) {
 	})
 }
 
-// 74630 ns/op (.07ms)
-// 74640 ns/op (73KB)
+// 74640 ns/op (.07ms)
+// 95058 ns/op (93KB)
 // 4395 allocs/op
 func BenchmarkFindPathMaze(b *testing.B) {
 	b.RunParallel(func(pb *testing.PB) {
@@ -256,19 +256,4 @@ func BenchmarkFindPathMaze(b *testing.B) {
 			core.FindPath(start, end, canMove)
 		}
 	})
-}
-
-func TestEstimateSearch(t *testing.T) {
-	assert.Equal(t, core.EstimateSearch(0), 1)
-	assert.Equal(t, core.EstimateSearch(1), 5)
-	assert.Equal(t, core.EstimateSearch(2), 13)
-	assert.Equal(t, core.EstimateSearch(3), 25)
-}
-
-func TestEstimateSteps(t *testing.T) {
-	assert.Equal(t, core.EstimateSteps(22), 3)
-	assert.Equal(t, core.EstimateSteps(25), 4)
-	assert.Equal(t, core.EstimateSteps(3), 1)
-	assert.Equal(t, core.EstimateSteps(1), 1)
-	assert.Equal(t, core.EstimateSteps(0), 0)
 }
