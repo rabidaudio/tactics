@@ -5,8 +5,8 @@ import (
 	"github.com/rabidaudio/tactics/core/units"
 )
 
-type step struct {
-	prev  *step
+type tile struct {
+	prev  *tile
 	point units.TPoint
 	dir   units.Direction
 }
@@ -28,15 +28,15 @@ func FindPath(start, end units.TPoint, canMove func(pt units.TPoint) bool) ([]un
 		return nil, false
 	}
 	vset := mapset.NewThreadUnsafeSet()
-	steps := make([]step, 1)
-	steps[0] = step{point: end}
+	tiles := make(map[units.TPoint]*tile, 1)
+	tiles[end] = &tile{point: end}
 FOUND:
 	for {
 		added := 0
 		// TODO can optimize by keeping track of where we can skip to
 		// TODO could potentially remove the set by knowing that we expand
 		// outwards in a diamond, so only check outwards
-		for i, current := range steps {
+		for _, current := range tiles {
 			for _, d := range directions {
 				target := current.point.Add(d.TP())
 				if vset.Contains(target) {
@@ -47,7 +47,7 @@ FOUND:
 				}
 				added++
 				vset.Add(target)
-				steps = append(steps, step{prev: &steps[i], point: target, dir: d.Opposite()})
+				tiles[target] = &tile{prev: current, point: target, dir: d.Opposite()}
 				if target == start {
 					break FOUND
 				}
@@ -59,8 +59,8 @@ FOUND:
 		}
 	}
 	results := make([]units.Direction, 0)
-	s := &steps[len(steps)-1]
-	for s.prev != nil {
+	s := tiles[start]
+	for s.point != end {
 		results = append(results, s.dir)
 		s = s.prev
 	}

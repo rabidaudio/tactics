@@ -28,7 +28,7 @@ func steps(s string) []units.Direction {
 func bounds(m []rune, width int) func(units.TPoint) bool {
 	return func(t units.TPoint) bool {
 		i := t.Y*width + t.X
-		if i < 0 || i >= len(m) {
+		if t.Y < 0 || t.X < 0 || i < 0 || i >= len(m) {
 			return false
 		}
 		return m[t.Y*width+t.X] == ' '
@@ -79,9 +79,9 @@ func TestPathfinder(t *testing.T) {
 		},
 		{
 			name:      "must go south first",
-			Start:     units.TP(0, 0),
-			End:       units.TP(2, 1),
-			CanMove:   func(pt units.TPoint) bool { return pt != units.TP(1, 0) },
+			Start:     units.TP(-2, -1),
+			End:       units.TP(0, 0),
+			CanMove:   func(pt units.TPoint) bool { return pt != units.TP(-1, -1) },
 			expected:  steps("SEE"),
 			available: true,
 		},
