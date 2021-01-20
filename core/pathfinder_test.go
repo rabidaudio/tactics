@@ -110,7 +110,7 @@ func TestPathfinder(t *testing.T) {
 				' ', ' ', 'X', ' ', ' ',
 				'X', 'X', 'X', 'X', 'X',
 			}, 5),
-			expected:  steps("ENEESE"),
+			expected:  steps("ENEEES"),
 			available: true,
 		},
 		{
@@ -212,9 +212,9 @@ func TestPathfinder(t *testing.T) {
 	}
 }
 
-// 278143 ns/op (.28ms)
-// 315026 B/op (307KB)
-// 14070 allocs/op
+// 278143 ns/op (.19ms)
+// 315026 B/op (187KB)
+// 10326 allocs/op
 func BenchmarkFindPathOpen(b *testing.B) {
 	b.RunParallel(func(pb *testing.PB) {
 		canMove := bounds([]rune{
@@ -235,9 +235,9 @@ func BenchmarkFindPathOpen(b *testing.B) {
 	})
 }
 
-// 74640 ns/op (.07ms)
-// 95058 ns/op (93KB)
-// 4395 allocs/op
+// 52628 ns/op (.05ms)
+// 55980 ns/op (55KB)
+// 3212 allocs/op
 func BenchmarkFindPathMaze(b *testing.B) {
 	b.RunParallel(func(pb *testing.PB) {
 		canMove := bounds([]rune{

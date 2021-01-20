@@ -1,8 +1,6 @@
 package core
 
 import (
-	"sort"
-
 	mapset "github.com/deckarep/golang-set"
 	"github.com/rabidaudio/tactics/core/units"
 )
@@ -12,6 +10,8 @@ type step struct {
 	point units.TPoint
 	dir   units.Direction
 }
+
+var directions = []units.Direction{units.North, units.South, units.East, units.West}
 
 // FindPath returns a set of steps to get from start to end,
 // if such a path is possible.
@@ -37,7 +37,7 @@ FOUND:
 		// TODO could potentially remove the set by knowing that we expand
 		// outwards in a diamond, so only check outwards
 		for i, current := range steps {
-			for _, d := range testDirections(current.point, start) {
+			for _, d := range directions {
 				target := current.point.Add(d.TP())
 				if vset.Contains(target) {
 					continue
@@ -69,17 +69,6 @@ FOUND:
 
 func canAlwaysMove(pt units.TPoint) bool {
 	return true
-}
-
-func testDirections(start, end units.TPoint) []units.Direction {
-	// try all legal directions, but try the most direct routes first
-	directions := []units.Direction{
-		units.North, units.South, units.East, units.West,
-	}
-	sort.Slice(directions, func(i, j int) bool {
-		return delta(start.Add(directions[i].TP()), end) < delta(start.Add(directions[j].TP()), end)
-	})
-	return directions
 }
 
 func delta(start, end units.TPoint) int {
