@@ -212,9 +212,9 @@ func TestPathfinder(t *testing.T) {
 	}
 }
 
-// 21696 ns/op (.02ms)
-// 31616 B/op (31KB)
-// 239 allocs/op
+// 18393 ns/op (.018ms)
+// 24254 B/op (23.6KB)
+// 194 allocs/op
 func BenchmarkFindPathOpen(b *testing.B) {
 	b.RunParallel(func(pb *testing.PB) {
 		canMove := bounds([]rune{
@@ -235,9 +235,9 @@ func BenchmarkFindPathOpen(b *testing.B) {
 	})
 }
 
-// 6733 ns/op (.006ms)
-// 13676 ns/op (13KB)
-// 129 allocs/op
+// 3736 ns/op (.0037ms)
+// 5560 ns/op (5.4KB)
+// 70 allocs/op
 func BenchmarkFindPathMaze(b *testing.B) {
 	b.RunParallel(func(pb *testing.PB) {
 		canMove := bounds([]rune{
