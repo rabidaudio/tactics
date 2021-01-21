@@ -40,6 +40,7 @@ func FindPath(start, end units.TPoint, canMove func(pt units.TPoint) bool) ([]un
 	}
 	queue := []units.TPoint{end}
 	steps := 0
+	blocked := false
 
 FOUND:
 	for {
@@ -47,9 +48,19 @@ FOUND:
 			return nil, false
 		}
 		current := queue[0]
-		for _, dir := range _directions {
+		directions := _directions
+		if !blocked {
+			// as an optimization, we try the most direct route
+			// until we hit a barrier. From there we breadth-first search
+			directions = []units.Direction{direction(current, start)}
+		}
+		for _, dir := range directions {
 			target := current.Add(dir.TP())
 			if !canMove(target) {
+				if !blocked {
+					blocked = true
+					continue FOUND
+				}
 				continue
 			}
 			if _, ok := tiles[target]; ok {
@@ -81,6 +92,21 @@ FOUND:
 
 func canAlwaysMove(_ units.TPoint) bool {
 	return true
+}
+
+func direction(from, to units.TPoint) units.Direction {
+	dx := abs(to.X - from.X)
+	dy := abs(to.Y - from.Y)
+	if dx >= dy {
+		if to.X > from.X {
+			return units.East
+		}
+		return units.West
+	}
+	if to.Y > from.Y {
+		return units.South
+	}
+	return units.North
 }
 
 func abs(i int) int {
