@@ -40,7 +40,7 @@ func (p TPoint) IsAdjacent(other TPoint) (d Direction, ok bool) {
 			return d, true
 		}
 	}
-	return -1, false
+	return 0, false
 }
 
 func bound(val, min, max int) int {

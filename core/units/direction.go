@@ -1,6 +1,6 @@
 package units
 
-type Direction int
+type Direction uint8
 
 //go:generate stringer -type=Direction
 
