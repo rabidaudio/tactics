@@ -9,58 +9,11 @@ type tile struct {
 	dir  units.Direction
 }
 
-const maxsteps = 1024
-const maxsearch = (((2*(maxsteps) - 1) * (2*(maxsteps) - 1)) - 1) / 2
+//https://en.wikipedia.org/wiki/Centered_square_number
+const _maxsteps = 1024
+const _maxsearch = (((2*(_maxsteps) - 1) * (2*(_maxsteps) - 1)) - 1) / 2
 
-var directions = []units.Direction{units.North, units.East, units.South, units.West}
-
-type pathfinder struct {
-	start, end units.TPoint
-	canMove    func(units.TPoint) bool
-	queue      []units.TPoint
-	tiles      map[units.TPoint]*tile
-}
-
-func (pf *pathfinder) check(t units.TPoint) bool {
-	current := pf.tiles[t]
-	for _, d := range directions {
-		target := t.Add(d.TP())
-		if !pf.canMove(target) {
-			continue
-		}
-		if _, ok := pf.tiles[target]; ok {
-			// already a shorter path there
-			continue
-		}
-		pf.tiles[target] = &tile{prev: current, dir: d.Opposite()}
-		if target == pf.start {
-			return true
-		}
-		pf.queue = append(pf.queue, target)
-	}
-	pf.queue = pf.queue[1:]
-	return false
-}
-
-func (pf *pathfinder) find() ([]units.Direction, bool) {
-	for {
-		if len(pf.queue) == 0 {
-			return nil, false
-		}
-		if pf.check(pf.queue[0]) {
-			results := make([]units.Direction, 0)
-			tt := pf.tiles[pf.start]
-			for tt.prev != nil {
-				results = append(results, tt.dir)
-				tt = tt.prev
-			}
-			return results, true
-		}
-		if len(pf.tiles) >= maxsearch {
-			panic("search exceeded the max number of steps")
-		}
-	}
-}
+var _directions = []units.Direction{units.North, units.East, units.South, units.West}
 
 // FindPath returns a set of steps to get from start to end,
 // if such a path is possible.
@@ -79,16 +32,44 @@ func FindPath(start, end units.TPoint, canMove func(pt units.TPoint) bool) ([]un
 		return nil, false
 	}
 
-	pf := pathfinder{
-		start: start,
-		end:   end,
-		tiles: map[units.TPoint]*tile{
-			end: {prev: nil},
-		},
-		canMove: canMove,
-		queue:   []units.TPoint{end},
+	tiles := map[units.TPoint]*tile{
+		end: {prev: nil},
 	}
-	return pf.find()
+	queue := []units.TPoint{end}
+FOUND:
+	for {
+		if len(queue) == 0 {
+			return nil, false
+		}
+		t := queue[0]
+		current := tiles[t]
+		for _, d := range _directions {
+			target := t.Add(d.TP())
+			if !canMove(target) {
+				continue
+			}
+			if _, ok := tiles[target]; ok {
+				// already a shorter path there
+				continue
+			}
+			tiles[target] = &tile{prev: current, dir: d.Opposite()}
+			if target == start {
+				break FOUND
+			}
+			queue = append(queue, target)
+		}
+		queue = queue[1:]
+		if len(tiles) >= _maxsearch {
+			panic("search exceeded the max number of steps")
+		}
+	}
+	results := make([]units.Direction, 0)
+	tt := tiles[start]
+	for tt.prev != nil {
+		results = append(results, tt.dir)
+		tt = tt.prev
+	}
+	return results, true
 }
 
 func canAlwaysMove(pt units.TPoint) bool {
