@@ -32,19 +32,23 @@ func FindPath(start, end units.TPoint, canMove func(pt units.TPoint) bool) ([]un
 		return nil, false
 	}
 
+	// note: we search backwards from end to start here, so
+	// that we can walk the `prev` pointers backwards to find
+	// the path
 	tiles := map[units.TPoint]*tile{
 		end: {prev: nil},
 	}
 	queue := []units.TPoint{end}
+	steps := 0
+
 FOUND:
 	for {
 		if len(queue) == 0 {
 			return nil, false
 		}
-		t := queue[0]
-		current := tiles[t]
-		for _, d := range _directions {
-			target := t.Add(d.TP())
+		current := queue[0]
+		for _, dir := range _directions {
+			target := current.Add(dir.TP())
 			if !canMove(target) {
 				continue
 			}
@@ -52,26 +56,36 @@ FOUND:
 				// already a shorter path there
 				continue
 			}
-			tiles[target] = &tile{prev: current, dir: d.Opposite()}
+			tiles[target] = &tile{prev: tiles[current], dir: dir}
 			if target == start {
 				break FOUND
 			}
 			queue = append(queue, target)
 		}
-		queue = queue[1:]
 		if len(tiles) >= _maxsearch {
 			panic("search exceeded the max number of steps")
 		}
+		queue = queue[1:]
+		steps++
 	}
-	results := make([]units.Direction, 0)
-	tt := tiles[start]
-	for tt.prev != nil {
-		results = append(results, tt.dir)
-		tt = tt.prev
+	results := make([]units.Direction, 0, steps)
+	t := tiles[start]
+	for t.prev != nil {
+		// because we went from end to start, we need to reverse
+		// the directions to do the opposite
+		results = append(results, t.dir.Opposite())
+		t = t.prev
 	}
 	return results, true
 }
 
-func canAlwaysMove(pt units.TPoint) bool {
+func canAlwaysMove(_ units.TPoint) bool {
 	return true
+}
+
+func abs(i int) int {
+	if i < 0 {
+		return -i
+	}
+	return i
 }
