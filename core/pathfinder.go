@@ -7,6 +7,7 @@ import (
 type tile struct {
 	prev *tile
 	dir  units.Direction
+	pf   *pathfinder
 }
 
 type pathfinder struct {
@@ -39,19 +40,24 @@ func (pf *pathfinder) cycle() ([]units.Direction, bool) {
 			}
 			continue
 		}
-		if _, ok := (*pf.tiles)[target]; ok {
+		if t, ok := (*pf.tiles)[target]; ok && t.prev != nil {
+			if t.pf != pf {
+				// we met up with the other path!
+				left := pf.resultsFrom(current)
+				left = append(left, dir)
+				right := t.pf.resultsFrom(target)
+				left = append(left, right...)
+				for i, r := range right {
+					left[len(left)-i-1] = r.Opposite()
+				}
+				return left, true
+			}
 			// already a shorter path there
 			continue
 		}
-		(*pf.tiles)[target] = &tile{prev: (*pf.tiles)[current], dir: dir}
+		(*pf.tiles)[target] = &tile{prev: (*pf.tiles)[current], dir: dir, pf: pf}
 		if target == pf.end {
-			results := make([]units.Direction, 0)
-			t := (*pf.tiles)[pf.end]
-			for t.prev != nil {
-				results = append(results, t.dir)
-				t = t.prev
-			}
-			return results, true
+			return pf.resultsFrom(pf.end), true
 		}
 		pf.queue = append(pf.queue, target)
 	}
@@ -60,6 +66,20 @@ func (pf *pathfinder) cycle() ([]units.Direction, bool) {
 	}
 	pf.queue = pf.queue[1:]
 	return nil, false
+}
+
+func (pf *pathfinder) resultsFrom(end units.TPoint) []units.Direction {
+	results := make([]units.Direction, 0)
+	t := (*pf.tiles)[end]
+	for t.prev != nil {
+		results = append(results, t.dir)
+		t = t.prev
+	}
+	reversed := make([]units.Direction, len(results))
+	for i, r := range results {
+		reversed[len(results)-i-1] = r
+	}
+	return reversed
 }
 
 //https://en.wikipedia.org/wiki/Centered_square_number
@@ -89,9 +109,18 @@ func FindPath(start, end units.TPoint, canMove func(pt units.TPoint) bool) ([]un
 	// that we can walk the `prev` pointers backwards to find
 	// the path
 	tiles := map[units.TPoint]*tile{
-		end: {prev: nil},
+		start: {prev: nil},
+		end:   {prev: nil},
 	}
-	pf := pathfinder{
+	forward := pathfinder{
+		start:   start,
+		end:     end,
+		queue:   []units.TPoint{start},
+		tiles:   &tiles,
+		blocked: false,
+		canMove: canMove,
+	}
+	reverse := pathfinder{
 		end:     start,
 		start:   end,
 		queue:   []units.TPoint{end},
@@ -100,17 +129,23 @@ func FindPath(start, end units.TPoint, canMove func(pt units.TPoint) bool) ([]un
 		canMove: canMove,
 	}
 	for {
-		if results, ok := pf.cycle(); ok {
-			for i, d := range results {
-				// because we went from end to start, we need to reverse
-				// the directions to do the opposite
-				results[i] = d.Opposite()
+		for _, pf := range []*pathfinder{&reverse, &forward} {
+			if results, ok := pf.cycle(); ok {
+				if pf == &reverse {
+					reversed := make([]units.Direction, len(results))
+					for i, d := range results {
+						// because we went from end to start, we need to reverse
+						// the directions to do the opposite
+						reversed[len(results)-i-1] = d.Opposite()
+					}
+					return reversed, true
+				}
+				return results, true
 			}
-			return results, true
-		}
-		if len(pf.queue) == 0 {
-			// exausted all available paths
-			return nil, false
+			if len(pf.queue) == 0 {
+				// exausted all available paths
+				return nil, false
+			}
 		}
 	}
 }
