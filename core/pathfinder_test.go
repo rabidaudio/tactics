@@ -174,6 +174,27 @@ func TestPathfinder(t *testing.T) {
 			}, 9),
 			available: false,
 		},
+		// {
+		// 	name:  "blocked unbounded",
+		// 	Start: units.TP(3, 4),
+		// 	End:   units.TP(6, 4),
+		// 	CanMove: func(pt units.TPoint) bool {
+		// 		switch pt {
+		// 		case units.TP(2, 3),
+		// 			units.TP(3, 3),
+		// 			units.TP(4, 3),
+		// 			units.TP(4, 4),
+		// 			units.TP(4, 5),
+		// 			units.TP(3, 5),
+		// 			units.TP(2, 5),
+		// 			units.TP(2, 4):
+		// 			return false
+		// 		default:
+		// 			return true
+		// 		}
+		// 	},
+		// 	available: false,
+		// },
 		{
 			name:  "maze",
 			Start: units.TP(1, 1),
