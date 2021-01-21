@@ -257,3 +257,16 @@ func BenchmarkFindPathMaze(b *testing.B) {
 		}
 	})
 }
+
+// 111891900 ns/op (112ms)
+// 99263068 ns/op (94.6MB)
+// 543871 allocs/op
+func BenchmarkFindPathFar(b *testing.B) {
+	b.RunParallel(func(pb *testing.PB) {
+		canMove := func(_ units.TPoint) bool { return true }
+		start, end := units.TP(0, 0), units.TP(256, 256)
+		for pb.Next() {
+			core.FindPath(start, end, canMove)
+		}
+	})
+}
