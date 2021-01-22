@@ -49,7 +49,7 @@ func TestPathfinder(t *testing.T) {
 			Start:     units.TP(0, 0),
 			End:       units.TP(1, 1),
 			CanMove:   func(pt units.TPoint) bool { return true },
-			expected:  steps("ES"),
+			expected:  steps("SE"),
 			available: true,
 		},
 		{
@@ -57,7 +57,7 @@ func TestPathfinder(t *testing.T) {
 			Start:     units.TP(0, 0),
 			End:       units.TP(-1, -1),
 			CanMove:   func(pt units.TPoint) bool { return true },
-			expected:  steps("WN"),
+			expected:  steps("NW"),
 			available: true,
 		},
 		{
@@ -318,9 +318,9 @@ func BenchmarkFindPathFar(b *testing.B) {
 	})
 }
 
-// 25090692 ns/op
-// 25670978 B/op
-// 135175 allocs/op
+// 101001 ns/op
+// 144881 B/op
+// 1129 allocs/op
 func BenchmarkFindPathFarBlocked(b *testing.B) {
 	b.RunParallel(func(pb *testing.PB) {
 		canMove := func(p units.TPoint) bool {

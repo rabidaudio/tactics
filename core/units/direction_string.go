@@ -19,7 +19,7 @@ const _Direction_name = "NorthSouthEastWest"
 var _Direction_index = [...]uint8{0, 5, 10, 14, 18}
 
 func (i Direction) String() string {
-	if i < 0 || i >= Direction(len(_Direction_index)-1) {
+	if i >= Direction(len(_Direction_index)-1) {
 		return "Direction(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
 	return _Direction_name[_Direction_index[i]:_Direction_index[i+1]]
