@@ -49,7 +49,7 @@ func TestPathfinder(t *testing.T) {
 			Start:     units.TP(0, 0),
 			End:       units.TP(1, 1),
 			CanMove:   func(pt units.TPoint) bool { return true },
-			expected:  steps("SE"),
+			expected:  steps("ES"),
 			available: true,
 		},
 		{
@@ -57,7 +57,7 @@ func TestPathfinder(t *testing.T) {
 			Start:     units.TP(0, 0),
 			End:       units.TP(-1, -1),
 			CanMove:   func(pt units.TPoint) bool { return true },
-			expected:  steps("NW"),
+			expected:  steps("WN"),
 			available: true,
 		},
 		{
@@ -99,6 +99,32 @@ func TestPathfinder(t *testing.T) {
 			CanMove:   func(pt units.TPoint) bool { return false },
 			expected:  []units.Direction{},
 			available: false,
+		},
+		{
+			name:      "one step",
+			Start:     units.TP(0, 0),
+			End:       units.TP(1, 0),
+			CanMove:   func(pt units.TPoint) bool { return true },
+			expected:  steps("E"),
+			available: true,
+		},
+		{
+			name:  "from the start",
+			Start: units.TP(0, 0),
+			End:   units.TP(2, 0),
+			// ' ', ' ', ' ',
+			CanMove:   func(pt units.TPoint) bool { return true },
+			expected:  steps("EE"),
+			available: true,
+		},
+		{
+			name:  "from the end",
+			Start: units.TP(0, 0),
+			End:   units.TP(3, 0),
+			// ' ', ' ', ' ', ' ',
+			CanMove:   func(pt units.TPoint) bool { return true },
+			expected:  steps("EEE"),
+			available: true,
 		},
 		{
 			name:  "backtracking",
@@ -286,6 +312,21 @@ func BenchmarkFindPathFar(b *testing.B) {
 	b.RunParallel(func(pb *testing.PB) {
 		canMove := func(_ units.TPoint) bool { return true }
 		start, end := units.TP(0, 0), units.TP(256, 256)
+		for pb.Next() {
+			core.FindPath(start, end, canMove)
+		}
+	})
+}
+
+// 25090692 ns/op
+// 25670978 B/op
+// 135175 allocs/op
+func BenchmarkFindPathFarBlocked(b *testing.B) {
+	b.RunParallel(func(pb *testing.PB) {
+		canMove := func(p units.TPoint) bool {
+			return !((p.X == 127 || p.X == 128) && (p.Y == 127 || p.Y == 128))
+		}
+		start, end := units.TP(0, 0), units.TP(255, 255)
 		for pb.Next() {
 			core.FindPath(start, end, canMove)
 		}

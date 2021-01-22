@@ -16,6 +16,7 @@ type pathfinder struct {
 	tiles      *map[units.TPoint]*tile
 	blocked    bool
 	canMove    func(units.TPoint) bool
+	reverse    bool
 }
 
 func (pf *pathfinder) cycle() ([]units.Direction, bool) {
@@ -43,21 +44,33 @@ func (pf *pathfinder) cycle() ([]units.Direction, bool) {
 		if t, ok := (*pf.tiles)[target]; ok && t.prev != nil {
 			if t.pf != pf {
 				// we met up with the other path!
-				left := pf.resultsFrom(current)
-				left = append(left, dir)
-				right := t.pf.resultsFrom(target)
-				left = append(left, right...)
-				for i, r := range right {
-					left[len(left)-i-1] = r.Opposite()
+				if !pf.reverse {
+					// log.Printf("joined with other stream at %v from %v from start", target, current)
+					return reverse(t.pf.join(target, current, dir)), true
 				}
-				return left, true
+				// log.Printf("joined with other stream at %v from %v from end", target, current)
+				return reverse(pf.join(current, target, dir.Opposite())), true
 			}
 			// already a shorter path there
 			continue
 		}
-		(*pf.tiles)[target] = &tile{prev: (*pf.tiles)[current], dir: dir, pf: pf}
+		td := dir
+		if pf.reverse {
+			// because we went from end to start, we need to reverse
+			// the directions to do the opposite
+			td = dir.Opposite()
+		}
+		(*pf.tiles)[target] = &tile{prev: (*pf.tiles)[current], dir: td, pf: pf}
 		if target == pf.end {
-			return pf.resultsFrom(pf.end), true
+
+			results := pf.resultsFrom(pf.end)
+			if !pf.reverse {
+				// log.Printf("found end from %v via start", current)
+				panic("should be impossible")
+				return reverse(results), true
+			}
+			// log.Printf("found start from %v via end", current)
+			return results, true
 		}
 		pf.queue = append(pf.queue, target)
 	}
@@ -68,6 +81,17 @@ func (pf *pathfinder) cycle() ([]units.Direction, bool) {
 	return nil, false
 }
 
+func (pf *pathfinder) join(current, target units.TPoint, dir units.Direction) []units.Direction {
+	left := pf.resultsFrom(current)
+	left = append(left, dir)
+	right := (*pf.tiles)[target].pf.resultsFrom(target)
+	left = append(left, right...)
+	// for i, r := range right {
+	// 	left[len(left)-i-1] = r.Opposite()
+	// }
+	return left
+}
+
 func (pf *pathfinder) resultsFrom(end units.TPoint) []units.Direction {
 	results := make([]units.Direction, 0)
 	t := (*pf.tiles)[end]
@@ -75,9 +99,20 @@ func (pf *pathfinder) resultsFrom(end units.TPoint) []units.Direction {
 		results = append(results, t.dir)
 		t = t.prev
 	}
+	if !pf.reverse {
+		return results
+	}
 	reversed := make([]units.Direction, len(results))
 	for i, r := range results {
 		reversed[len(results)-i-1] = r
+	}
+	return reversed
+}
+
+func reverse(results []units.Direction) []units.Direction {
+	reversed := make([]units.Direction, len(results))
+	for i, d := range results {
+		reversed[len(results)-i-1] = d
 	}
 	return reversed
 }
@@ -108,10 +143,7 @@ func FindPath(start, end units.TPoint, canMove func(pt units.TPoint) bool) ([]un
 	// note: we search backwards from end to start here, so
 	// that we can walk the `prev` pointers backwards to find
 	// the path
-	tiles := map[units.TPoint]*tile{
-		start: {prev: nil},
-		end:   {prev: nil},
-	}
+	tiles := make(map[units.TPoint]*tile)
 	forward := pathfinder{
 		start:   start,
 		end:     end,
@@ -119,6 +151,7 @@ func FindPath(start, end units.TPoint, canMove func(pt units.TPoint) bool) ([]un
 		tiles:   &tiles,
 		blocked: false,
 		canMove: canMove,
+		reverse: false,
 	}
 	reverse := pathfinder{
 		end:     start,
@@ -127,19 +160,23 @@ func FindPath(start, end units.TPoint, canMove func(pt units.TPoint) bool) ([]un
 		tiles:   &tiles,
 		blocked: false,
 		canMove: canMove,
+		reverse: true,
 	}
+	tiles[start] = &tile{prev: nil, pf: &forward}
+	tiles[end] = &tile{prev: nil, pf: &reverse}
+
 	for {
 		for _, pf := range []*pathfinder{&reverse, &forward} {
 			if results, ok := pf.cycle(); ok {
-				if pf == &reverse {
-					reversed := make([]units.Direction, len(results))
-					for i, d := range results {
-						// because we went from end to start, we need to reverse
-						// the directions to do the opposite
-						reversed[len(results)-i-1] = d.Opposite()
-					}
-					return reversed, true
-				}
+				// if pf == &forward {
+				// 	reversed := make([]units.Direction, len(results))
+				// 	for i, d := range results {
+				// 		// because we went from end to start, we need to reverse
+				// 		// the directions to do the opposite
+				// 		reversed[len(results)-i-1] = d
+				// 	}
+				// 	return reversed, true
+				// }
 				return results, true
 			}
 			if len(pf.queue) == 0 {
