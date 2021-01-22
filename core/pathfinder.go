@@ -11,14 +11,14 @@ const _maxsearch = (((2*(_maxsteps) - 1) * (2*(_maxsteps) - 1)) - 1) / 2
 var _directions = []units.Direction{units.North, units.East, units.South, units.West}
 
 type tile struct {
-	prev    *tile
-	dir     units.Direction
-	fromEnd bool
+	prev *tile
+	dir  units.Direction
 }
 
 type pathfinder struct {
 	dest    units.TPoint
 	queue   []units.TPoint
+	tiles   map[units.TPoint]*tile
 	blocked bool
 	fromEnd bool
 }
@@ -41,83 +41,81 @@ func FindPath(start, end units.TPoint, canMove func(pt units.TPoint) bool) ([]un
 	// one more tile.
 	// searching backwards allows us to walk the `prev` pointers
 	// backwards so we don't have to reverse the array
-	tiles := map[units.TPoint]*tile{
-		start: {prev: nil, fromEnd: false},
-		end:   {prev: nil, fromEnd: true},
-	}
 	forward := pathfinder{
 		dest:    end,
 		queue:   []units.TPoint{start},
 		blocked: false,
 		fromEnd: false,
+		tiles: map[units.TPoint]*tile{
+			start: {prev: nil},
+		},
 	}
 	reverse := pathfinder{
 		dest:    start,
 		queue:   []units.TPoint{end},
 		blocked: false,
 		fromEnd: true,
+		tiles: map[units.TPoint]*tile{
+			end: {prev: nil},
+		},
 	}
 
 	i := 0
 	for {
-		// alternate reverse and forward paths
-		pf := &reverse
-		if i%2 != 0 {
-			pf = &forward
-		}
-		if len(pf.queue) == 0 {
+		if len(reverse.queue) == 0 || len(forward.queue) == 0 {
 			// exausted all available paths
 			return nil, false
 		}
-		if pf.cycle(tiles, canMove) {
-			results := make([]units.Direction, 0, i)
-			t := tiles[start]
-			for t.prev != nil {
-				results = append(results, t.dir)
-				t = t.prev
-			}
-			return results, true
+		if reverse.cycle(&forward, canMove) || forward.cycle(&reverse, canMove) {
+			break
 		}
-		if len(tiles) >= _maxsearch {
+		if len(forward.tiles)+len(reverse.tiles) >= _maxsearch {
 			panic("search exceeded the max number of steps")
 		}
 		i++
 	}
+	results := make([]units.Direction, 0, i*2)
+	t := forward.tiles[start]
+	for t.prev != nil {
+		results = append(results, t.dir)
+		t = t.prev
+	}
+	return results, true
 }
 
-func (pf *pathfinder) cycle(tiles map[units.TPoint]*tile, canMove func(units.TPoint) bool) bool {
+func (pf *pathfinder) cycle(other *pathfinder, canMove func(units.TPoint) bool) bool {
 	current := pf.queue[0]
 	for _, dir := range pf.directions(current) {
 		target := current.Add(dir.TP())
-		if !canMove(target) {
-			if !pf.blocked {
-				pf.blocked = true
-				// search it again, but next time from all directions instead
-				// of just the most direct one
-				return pf.cycle(tiles, canMove)
-			}
-			continue
+		if _, ok := pf.tiles[target]; ok {
+			continue // already found a shorter path to this point
 		}
-		if t, ok := tiles[target]; ok {
-			if t.fromEnd == pf.fromEnd {
-				continue // already found a shorter path to this point
-			}
-
+		if t, ok := other.tiles[target]; ok {
 			// we met up with the other direction!
 			if !pf.fromEnd {
 				// let the reverse path find it, so that we don't have
 				// to reverse the result
 				return false
 			}
-			pf.resolvePaths(tiles[current], t, dir.Opposite())
+			pf.resolvePaths(pf.tiles[current], t, dir.Opposite())
 			return true
 		}
+		if !canMove(target) {
+			if !pf.blocked {
+				pf.blocked = true
+				// search it again, but next time from all directions instead
+				// of just the most direct one
+				return pf.cycle(other, canMove)
+			}
+			continue
+		}
+
 		if pf.fromEnd {
 			// because we search backwards from end to start, we need to reverse
 			// the direction
 			dir = dir.Opposite()
 		}
-		tiles[target] = &tile{prev: tiles[current], dir: dir, fromEnd: pf.fromEnd}
+		pf.tiles[target] = &tile{prev: pf.tiles[current], dir: dir}
 		pf.queue = append(pf.queue, target)
 	}
 	pf.queue = pf.queue[1:] // pop
