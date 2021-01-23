@@ -1,27 +1,41 @@
 package unit
 
 import (
-	"image"
-
 	"github.com/hajimehoshi/ebiten"
 	"github.com/rabidaudio/tactics/core"
 	"github.com/rabidaudio/tactics/core/sprite"
+	"github.com/rabidaudio/tactics/core/units"
+	"github.com/rabidaudio/tactics/game/weapon"
 )
+
+type Team int
 
 type Unit struct {
 	UnitOptions
 	core.Drawable
-	state UnitState
+	state  UnitState
+	status Status
 }
 
 type UnitOptions struct {
-	Animations      UnitAnimations
-	InitialLocation image.Point
+	Team       Team
+	Weapon     weapon.Weapon
+	Animations UnitAnimations
+	Location   units.TPoint
 	// Walk speed in units of pixels/second
-	MoveSpeed   float64
-	MaxHP       int
-	AttackSpeed int
+	Stats
 }
+
+type Stats struct {
+	Attack    int
+	Defense   int
+	Speed     int
+	HitPoints int
+}
+
+// Status is the current level of the unit's stats,
+// as opposed to their max level
+type Status Stats
 
 type UnitAnimations struct {
 	// from core/assets/generate
@@ -38,13 +52,10 @@ func offset(opts *ebiten.DrawImageOptions) {
 }
 
 func new(opts UnitOptions) *Unit {
-	if opts.MoveSpeed == 0 {
-		opts.MoveSpeed = 1.0
-	}
 	u := Unit{
 		UnitOptions: opts,
 		Drawable: core.Drawable{
-			Location:     opts.InitialLocation,
+			Coordinate:   opts.Location.IP(),
 			DrawCallback: offset,
 		},
 	}
@@ -59,4 +70,9 @@ func (u *Unit) Tick() {
 
 func (u *Unit) Handle(cmd core.Command) {
 	u.state.Handle(cmd)
+}
+
+// animation speed of walking
+func (u *Unit) moveSpeed() float64 {
+	return (1 + (0.1 * float64(u.Stats.Speed))) * units.TileSize / float64(units.TickRate)
 }

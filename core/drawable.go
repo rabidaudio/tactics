@@ -12,7 +12,7 @@ type Drawable struct {
 	Sprite        *sprite.Sprite
 	ReverseFacing bool
 	opts          ebiten.DrawImageOptions
-	Location      image.Point
+	Coordinate    image.Point
 	DrawCallback  func(*ebiten.DrawImageOptions)
 }
 
@@ -26,7 +26,7 @@ func (d *Drawable) Draw(screen *ebiten.Image) {
 		d.opts.GeoM.Scale(-1.0, 1.0)
 		d.opts.GeoM.Translate(float64(units.TileSize), 0)
 	}
-	d.opts.GeoM.Translate(float64(d.Location.X), float64(d.Location.Y))
+	d.opts.GeoM.Translate(float64(d.Coordinate.X), float64(d.Coordinate.Y))
 	if d.DrawCallback != nil {
 		d.DrawCallback(&d.opts)
 	}

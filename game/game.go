@@ -41,10 +41,6 @@ func (g *Game) Update(screen *ebiten.Image) error {
 	for _, u := range g.Units {
 		u.Tick()
 	}
-	// g.ready = !(g.window.IsCameraMoving() || g.spearman.IsMoving())
-	// if !g.ready {
-	// 	return nil
-	// }
 	u := g.Units[0]
 	core.ActionHandler().
 		OnKey(map[ebiten.Key]core.Action{
@@ -55,7 +51,7 @@ func (g *Game) Update(screen *ebiten.Image) error {
 		}).
 		OnLeftMouseClick(func(screenPoint image.Point) core.Action {
 			p := units.TPFromPoint(screenPoint.Add(g.Window.CameraOrigin()))
-			if d, ok := core.FindPath(units.TPFromPoint(u.Location), p, func(pt units.TPoint) bool {
+			if d, ok := core.FindPath(u.Location, p, func(pt units.TPoint) bool {
 				return !g.World.IsBoundary(pt)
 			}); ok {
 				return unit.Move(u, d...)
@@ -64,16 +60,8 @@ func (g *Game) Update(screen *ebiten.Image) error {
 		}).
 		Execute(func(action core.Action) {
 			u.Handle(action)
-
-			// t := units.TPFromPoint(u.Location)
-			// for _, dir := range action.(unit.MoveCommand).
-			// g.window.AnimateCamera(t)
-			// if !g.world.IsBoundary(t) {
-			// 	g.spearman.Go(dir)
-			// 	g.window.AnimateCamera(t)
-			// }
 		})
-	g.Window.AnimateCamera(units.TPFromPoint(u.Location))
+	g.Window.AnimateCamera(u.Location)
 	return nil
 }
 

@@ -51,18 +51,19 @@ func (u *Unit) walk(move MoveCommand) *Unit {
 func (s *walkingState) nextStep() {
 	next := s.steps[0]
 	s.steps = s.steps[1:]
-	speed := s.unit.MoveSpeed * units.TileSize / float64(units.TickRate)
-	dist := s.unit.Location.Add(next.TP().IP())
+	dest := s.unit.Location.Add(next.TP())
 	if next == units.East {
 		s.unit.ReverseFacing = false
 	} else if next == units.West {
 		s.unit.ReverseFacing = true
 	}
-	s.animation = units.Animate2D(s.unit.Location, dist, speed, nil)
+	speed := s.unit.moveSpeed()
+	s.animation = units.Animate2D(s.unit.Location.IP(), dest.IP(), speed, nil)
 }
 
 func (s *walkingState) Tick() {
-	s.unit.Location = s.animation.Tick()
+	s.unit.Drawable.Coordinate = s.animation.Tick()
+	s.unit.Location = units.TPFromPoint(s.unit.Coordinate)
 	if s.animation.IsMoving() {
 		return // keep on going
 	}

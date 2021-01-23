@@ -117,32 +117,39 @@ Spritesheets:
     Direction: row
     Sprites:
       Mercenary:
-        Idle: { X: 0, Y: 1, Size: 4, Rate: 15 }
-        Walk: { X: 4, Y: 1, Size: 4, Rate: 6 }
-        Attack: { X: 8, Y: 1, Size: 4, Rate: 5 }
-        Hit: { X: 12, Y: 1, Size: 4, Rate: 5 }
-        Death: { X: 16, Y: 1, Size: 4, Rate: 10 }
+      #   Idle: { X: 0, Y: 1, Size: 4, Rate: 15 }
+      #   Walk: { X: 4, Y: 1, Size: 4, Rate: 6 }
+      #   Attack: { X: 8, Y: 1, Size: 4, Rate: 5 }
+      #   Hit: { X: 12, Y: 1, Size: 4, Rate: 5 }
+      #   Death: { X: 16, Y: 1, Size: 4, Rate: 10 }
+
+      # MercenaryRider:
+      #   Idle: { X: 0, Y: 3, Size: 4, Rate: 15 }
+      #   Walk: { X: 4, Y: 3, Size: 4, Rate: 6 }
+      #   Attack: { X: 8, Y: 3, Size: 4, Rate: 5 }
+      #   Hit: { X: 12, Y: 3, Size: 4, Rate: 5 }
+      #   Death: { X: 16, Y: 3, Size: 4, Rate: 10 }
 
       Brute:
         Idle: { X: 0, Y: 7, Size: 4, Rate: 15 }
         Walk: { X: 4, Y: 7, Size: 4, Rate: 12 }
         Attack: { X: 8, Y: 7, Size: 4, Rate: 5 }
         Hit: { X: 12, Y: 7, Size: 4, Rate: 5 }
-        Death: { X: 16, Y: 7, Size: 4, Rate: 10 }
+        Death: { X: 16, Y: 7, Size: 4, Rate: 10 } 
 
-      GoblinRider:
-        Idle: { X: 0, Y: 3, Size: 4, Rate: 15 }
-        Walk: { X: 4, Y: 3, Size: 4, Rate: 6 }
-        Attack: { X: 8, Y: 3, Size: 4, Rate: 5 }
-        Hit: { X: 12, Y: 3, Size: 4, Rate: 5 }
-        Death: { X: 16, Y: 3, Size: 4, Rate: 10 }
+      # Mercenary:
+      #   Idle: { X: 0, Y: 1, Size: 4, Rate: 15 }
+      #   Walk: { X: 4, Y: 1, Size: 4, Rate: 6 }
+      #   Attack: { X: 8, Y: 1, Size: 4, Rate: 5 }
+      #   Hit: { X: 12, Y: 1, Size: 4, Rate: 5 }
+      #   Death: { X: 16, Y: 1, Size: 4, Rate: 10 }
 
-      GoblinRider2:
-        Idle: { X: 0, Y: 11, Size: 4, Rate: 15 }
-        Walk: { X: 4, Y: 11, Size: 4, Rate: 6 }
-        Attack: { X: 8, Y: 11, Size: 4, Rate: 5 }
-        Hit: { X: 12, Y: 11, Size: 4, Rate: 5 }
-        Death: { X: 16, Y: 11, Size: 4, Rate: 10 }
+      # MercenaryRider2:
+      #   Idle: { X: 0, Y: 11, Size: 4, Rate: 15 }
+      #   Walk: { X: 4, Y: 11, Size: 4, Rate: 6 }
+      #   Attack: { X: 8, Y: 11, Size: 4, Rate: 5 }
+      #   Hit: { X: 12, Y: 11, Size: 4, Rate: 5 }
+      #   Death: { X: 16, Y: 11, Size: 4, Rate: 10 }
 
       Brute2:
         Idle: { X: 0, Y: 15, Size: 4, Rate: 15 }

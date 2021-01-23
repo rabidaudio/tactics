@@ -445,76 +445,8 @@ var Brute2 = struct {
 	},
 }
 
-var GoblinRider = struct {
-	Attack func() *sprite.Sprite
-	Death func() *sprite.Sprite
-	Hit func() *sprite.Sprite
-	Idle func() *sprite.Sprite
-	Walk func() *sprite.Sprite
-}{
-	Attack: func() *sprite.Sprite {
-		return Stronghold.SpriteFromRow(8, 3, 4).Rate(5)
-	},
-	Death: func() *sprite.Sprite {
-		return Stronghold.SpriteFromRow(16, 3, 4).Rate(10)
-	},
-	Hit: func() *sprite.Sprite {
-		return Stronghold.SpriteFromRow(12, 3, 4).Rate(5)
-	},
-	Idle: func() *sprite.Sprite {
-		return Stronghold.SpriteFromRow(0, 3, 4).Rate(15)
-	},
-	Walk: func() *sprite.Sprite {
-		return Stronghold.SpriteFromRow(4, 3, 4).Rate(6)
-	},
-}
-
-var GoblinRider2 = struct {
-	Attack func() *sprite.Sprite
-	Death func() *sprite.Sprite
-	Hit func() *sprite.Sprite
-	Idle func() *sprite.Sprite
-	Walk func() *sprite.Sprite
-}{
-	Attack: func() *sprite.Sprite {
-		return Stronghold.SpriteFromRow(8, 11, 4).Rate(5)
-	},
-	Death: func() *sprite.Sprite {
-		return Stronghold.SpriteFromRow(16, 11, 4).Rate(10)
-	},
-	Hit: func() *sprite.Sprite {
-		return Stronghold.SpriteFromRow(12, 11, 4).Rate(5)
-	},
-	Idle: func() *sprite.Sprite {
-		return Stronghold.SpriteFromRow(0, 11, 4).Rate(15)
-	},
-	Walk: func() *sprite.Sprite {
-		return Stronghold.SpriteFromRow(4, 11, 4).Rate(6)
-	},
-}
-
 var Mercenary = struct {
-	Attack func() *sprite.Sprite
-	Death func() *sprite.Sprite
-	Hit func() *sprite.Sprite
-	Idle func() *sprite.Sprite
-	Walk func() *sprite.Sprite
 }{
-	Attack: func() *sprite.Sprite {
-		return Stronghold.SpriteFromRow(8, 1, 4).Rate(5)
-	},
-	Death: func() *sprite.Sprite {
-		return Stronghold.SpriteFromRow(16, 1, 4).Rate(10)
-	},
-	Hit: func() *sprite.Sprite {
-		return Stronghold.SpriteFromRow(12, 1, 4).Rate(5)
-	},
-	Idle: func() *sprite.Sprite {
-		return Stronghold.SpriteFromRow(0, 1, 4).Rate(15)
-	},
-	Walk: func() *sprite.Sprite {
-		return Stronghold.SpriteFromRow(4, 1, 4).Rate(6)
-	},
 }
 
 
