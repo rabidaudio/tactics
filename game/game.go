@@ -55,20 +55,25 @@ func (g *Game) Update(screen *ebiten.Image) error {
 		}).
 		OnLeftMouseClick(func(screenPoint image.Point) core.Action {
 			p := units.TPFromPoint(screenPoint.Add(g.Window.CameraOrigin()))
-			if d, ok := units.TPFromPoint(u.Location).IsAdjacent(p); ok {
-				return unit.Move(u, d)
+			if d, ok := core.FindPath(units.TPFromPoint(u.Location), p, func(pt units.TPoint) bool {
+				return !g.World.IsBoundary(pt)
+			}); ok {
+				return unit.Move(u, d...)
 			}
 			return nil
 		}).
 		Execute(func(action core.Action) {
 			u.Handle(action)
-			// dir := action.(CharacterMoveAction).Direction
-			// t := units.TPFromPoint(g.spearman.Location).Add(dir.TP())
+
+			// t := units.TPFromPoint(u.Location)
+			// for _, dir := range action.(unit.MoveCommand).
+			// g.window.AnimateCamera(t)
 			// if !g.world.IsBoundary(t) {
 			// 	g.spearman.Go(dir)
 			// 	g.window.AnimateCamera(t)
 			// }
 		})
+	g.Window.AnimateCamera(units.TPFromPoint(u.Location))
 	return nil
 }
 

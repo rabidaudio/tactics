@@ -49,7 +49,7 @@ func TestPathfinder(t *testing.T) {
 			Start:     units.TP(0, 0),
 			End:       units.TP(1, 1),
 			CanMove:   func(pt units.TPoint) bool { return true },
-			expected:  steps("SE"),
+			expected:  steps("ES"),
 			available: true,
 		},
 		{
@@ -57,7 +57,7 @@ func TestPathfinder(t *testing.T) {
 			Start:     units.TP(0, 0),
 			End:       units.TP(-1, -1),
 			CanMove:   func(pt units.TPoint) bool { return true },
-			expected:  steps("NW"),
+			expected:  steps("WN"),
 			available: true,
 		},
 		{
@@ -239,6 +239,23 @@ func TestPathfinder(t *testing.T) {
 			expected:  steps("SSSSSSEENEESEENNNNNNWWSWWN"),
 			available: true,
 		},
+		{
+			name:  "diagonal",
+			Start: units.TP(6, 6),
+			End:   units.TP(1, 0),
+			CanMove: bounds([]rune{
+				'X', ' ', 'X', 'X', 'X', 'X', 'X',
+				'X', ' ', 'X', 'X', 'X', 'X', 'X',
+				'X', ' ', 'X', 'X', 'X', 'X', 'X',
+				'X', ' ', 'X', 'X', 'X', 'X', ' ',
+				'X', ' ', 'X', 'X', 'X', ' ', ' ',
+				'X', ' ', 'X', 'X', ' ', ' ', ' ',
+				'X', ' ', 'X', ' ', ' ', ' ', ' ',
+				'X', ' ', ' ', ' ', ' ', ' ', ' ',
+			}, 7),
+			expected:  steps("WSWWWWNNNNNNN"),
+			available: true,
+		},
 	}
 	t.Parallel()
 	for _, test := range cases {
@@ -259,7 +276,7 @@ func TestPathfinder(t *testing.T) {
 	}
 }
 
-// 1336 ns/op	    1796 B/op	      42 allocs/op
+//  1495 ns/op	    2103 B/op	      61 allocs/op
 func BenchmarkFindPathOpen(b *testing.B) {
 	b.RunParallel(func(pb *testing.PB) {
 		canMove := bounds([]rune{
@@ -280,7 +297,7 @@ func BenchmarkFindPathOpen(b *testing.B) {
 	})
 }
 
-// 3710 ns/op	    4693 B/op	      67 allocs/op
+// 4247 ns/op	    5366 B/op	     100 allocs/op
 func BenchmarkFindPathMaze(b *testing.B) {
 	b.RunParallel(func(pb *testing.PB) {
 		canMove := bounds([]rune{
@@ -301,7 +318,7 @@ func BenchmarkFindPathMaze(b *testing.B) {
 	})
 }
 
-// 58063 ns/op	   86717 B/op	    1054 allocs/op
+// 62752 ns/op	   95450 B/op	    1569 allocs/op
 func BenchmarkFindPathFar(b *testing.B) {
 	b.RunParallel(func(pb *testing.PB) {
 		canMove := func(_ units.TPoint) bool { return true }
@@ -312,7 +329,7 @@ func BenchmarkFindPathFar(b *testing.B) {
 	})
 }
 
-// 64784 ns/op	   89384 B/op	    1108 allocs/op
+// 77175 ns/op	  102949 B/op	    1735 allocs/op
 func BenchmarkFindPathFarBlocked(b *testing.B) {
 	b.RunParallel(func(pb *testing.PB) {
 		canMove := func(p units.TPoint) bool {
@@ -325,7 +342,7 @@ func BenchmarkFindPathFarBlocked(b *testing.B) {
 	})
 }
 
-// 55810822 ns/op	43533403 B/op	  273624 allocs/op
+// 558517218 ns/op	48775340 B/op	  535247 allocs/op
 func BenchmarkFindPathFarWorstCase(b *testing.B) {
 	b.RunParallel(func(pb *testing.PB) {
 		canMove := func(p units.TPoint) bool {

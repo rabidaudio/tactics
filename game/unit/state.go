@@ -26,7 +26,9 @@ func (s idleState) Tick() {
 func (s idleState) Handle(c core.Command) {
 	switch cmd := c.(type) {
 	case MoveCommand:
-		s.unit.walk(cmd)
+		if len(cmd.steps) > 0 {
+			s.unit.walk(cmd)
+		}
 	default:
 		core.Unexpected(c)
 	}

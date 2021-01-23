@@ -8,14 +8,14 @@ import (
 const _maxsteps = 1024
 const _maxsearch = (((2*(_maxsteps) - 1) * (2*(_maxsteps) - 1)) - 1) / 2
 
-var _directions = []units.Direction{units.North, units.East, units.South, units.West}
-
 type tile struct {
-	prev *tile
-	dir  units.Direction
+	prev  *tile
+	dir   units.Direction
+	steps int
 }
 
 type pathfinder struct {
+	start   units.TPoint
 	dest    units.TPoint
 	queue   []units.TPoint
 	tiles   map[units.TPoint]*tile
@@ -42,6 +42,7 @@ func FindPath(start, end units.TPoint, canMove func(pt units.TPoint) bool) ([]un
 	// searching backwards allows us to walk the `prev` pointers
 	// backwards so we don't have to reverse the array
 	forward := pathfinder{
+		start:   start,
 		dest:    end,
 		queue:   []units.TPoint{start},
 		blocked: false,
@@ -51,6 +52,7 @@ func FindPath(start, end units.TPoint, canMove func(pt units.TPoint) bool) ([]un
 		},
 	}
 	reverse := pathfinder{
+		start:   end,
 		dest:    start,
 		queue:   []units.TPoint{end},
 		blocked: false,
@@ -69,6 +71,7 @@ func FindPath(start, end units.TPoint, canMove func(pt units.TPoint) bool) ([]un
 		if reverse.cycle(&forward, canMove) || forward.cycle(&reverse, canMove) {
 			break
 		}
+		// log.Printf("blocked: %v queue: %v", forward.blocked, forward.queue)
 		if len(forward.tiles)+len(reverse.tiles) >= _maxsearch {
 			panic("search exceeded the max number of steps")
 		}
@@ -87,8 +90,12 @@ func (pf *pathfinder) cycle(other *pathfinder, canMove func(units.TPoint) bool) 
 	current := pf.queue[0]
 	for _, dir := range pf.directions(current) {
 		target := current.Add(dir.TP())
-		if _, ok := pf.tiles[target]; ok {
-			continue // already found a shorter path to this point
+		if t, ok := pf.tiles[target]; ok {
+			if t.steps <= pf.tiles[current].steps+1 {
+				continue // already found a shorter path to this point
+			}
+			// log.Printf("shorter path")
+			// otherwise replace it with this shorter path
 		}
 		if t, ok := other.tiles[target]; ok {
 			// we met up with the other direction!
@@ -103,9 +110,16 @@ func (pf *pathfinder) cycle(other *pathfinder, canMove func(units.TPoint) bool) 
 		if !canMove(target) {
 			if !pf.blocked {
 				pf.blocked = true
+				pf.queue = []units.TPoint{current, pf.start}
+				// for k := range pf.tiles {
+				// 	if k != pf.start {
+				// 		delete(pf.tiles, k)
+				// 	}
+				// }
 				// search it again, but next time from all directions instead
 				// of just the most direct one
-				return pf.cycle(other, canMove)
+				// return pf.cycle(other, canMove)
+				return false
 			}
 			continue
 		}
@@ -115,7 +129,7 @@ func (pf *pathfinder) cycle(other *pathfinder, canMove func(units.TPoint) bool) 
 			// the direction
 			dir = dir.Opposite()
 		}
-		pf.tiles[target] = &tile{prev: pf.tiles[current], dir: dir}
+		pf.tiles[target] = &tile{prev: pf.tiles[current], dir: dir, steps: pf.tiles[current].steps + 1}
 		pf.queue = append(pf.queue, target)
 	}
 	pf.queue = pf.queue[1:] // pop
@@ -137,34 +151,61 @@ func (pf *pathfinder) resolvePaths(current, target *tile, dir units.Direction) {
 	}
 }
 
+// var _directions = []units.Direction{units.North, units.East, units.South, units.West}
+
 func (pf *pathfinder) directions(from units.TPoint) []units.Direction {
-	if pf.blocked {
-		// try all directions
-		return _directions
-	}
-	// as an optimization, we try the most direct route
-	// until we hit a barrier. From there we breadth-first search
-	return []units.Direction{direction(from, pf.dest)}
+	return directions(from, pf.dest, !pf.blocked)
+	// optimal := direction(from, pf.dest)
+	// if pf.blocked {
+	// 	// try all directions, starting with the most optimal one
+	// 	return []units.Direction{optimal, units.North, units.East, units.South, units.West}
+	// }
+	// // as an optimization, we try the most direct route
+	// // until we hit a barrier. From there we breadth-first search
+	// return []units.Direction{optimal}
 }
 
 func canAlwaysMove(_ units.TPoint) bool {
 	return true
 }
 
-func direction(from, to units.TPoint) units.Direction {
+func directions(from, to units.TPoint, single bool) []units.Direction {
 	dx := abs(to.X - from.X)
 	dy := abs(to.Y - from.Y)
-	if dx >= dy {
-		if to.X > from.X {
-			return units.East
-		}
-		return units.West
+	var opta, optb units.Direction
+	if to.X > from.X {
+		opta = units.East
+	} else {
+		opta = units.West
 	}
 	if to.Y > from.Y {
-		return units.South
+		optb = units.South
+	} else {
+		optb = units.North
 	}
-	return units.North
+	if dy >= dx {
+		opta, optb = optb, opta
+	}
+	if single {
+		return []units.Direction{opta}
+	}
+	return []units.Direction{opta, optb, optb.Opposite(), opta.Opposite()}
 }
+
+// func direction(from, to units.TPoint) units.Direction {
+// 	dx := abs(to.X - from.X)
+// 	dy := abs(to.Y - from.Y)
+// 	if dx >= dy {
+// 		if to.X > from.X {
+// 			return units.East
+// 		}
+// 		return units.West
+// 	}
+// 	if to.Y > from.Y {
+// 		return units.South
+// 	}
+// 	return units.North
+// }
 
 func abs(i int) int {
 	if i < 0 {
