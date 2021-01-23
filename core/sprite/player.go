@@ -26,10 +26,6 @@ func (p *Player) clear() *Player {
 	return p
 }
 
-// func (p *Player) IsEmpty() bool {
-// 	return len(p.queue) == 0
-// }
-
 // AppendOnce adds this annimation to the end of the queue. If a loop is
 // running, it will complete the current cycle before ending the loop
 func (p *Player) AppendOnce(sprite Sprite) *Player {
@@ -58,9 +54,6 @@ func (p *Player) ReplaceLoop(sprite Sprite) *Player {
 }
 
 func (p *Player) Tick() {
-	// if len(p.queue) > 1 && p.queue[0].loop {
-	// 	p.queue[0].loop = false
-	// }
 	if !p.queue[0].sprite.IsPlaying() {
 		if len(p.queue) > 1 {
 			p.queue = p.queue[1:]

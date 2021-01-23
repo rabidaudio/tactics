@@ -1,6 +1,8 @@
 package unit
 
 import (
+	"math"
+
 	"github.com/hajimehoshi/ebiten"
 	"github.com/rabidaudio/tactics/core"
 	"github.com/rabidaudio/tactics/core/sprite"
@@ -10,35 +12,36 @@ import (
 
 type Team int
 
+func (t Team) Color(cm *ebiten.ColorM) {
+	// TODO [graphics] this is good enough for testing
+	// but probably looks bad on different kinds of units
+	h := 2 * math.Pi * (float64(t) / 8)
+	cm.RotateHue(h)
+}
+
 type Unit struct {
 	UnitOptions
 	core.Drawable
 	state  UnitState
+	Stats  Stats
 	status Status
 }
 
 type UnitOptions struct {
 	Team       Team
+	Level      int
 	Weapon     weapon.Weapon
 	Animations UnitAnimations
 	Location   units.TPoint
-	// Walk speed in units of pixels/second
-	Stats
 }
-
-type Stats struct {
-	Attack    int
-	Defense   int
-	Speed     int
-	HitPoints int
-}
-
-// Status is the current level of the unit's stats,
-// as opposed to their max level
-type Status Stats
 
 type UnitAnimations struct {
 	// from core/assets/generate
+
+	// TODO [graphics] instead of a unique sprite per unit,
+	// if all units referenced the same sprite than they'd
+	// always be animation sync'd. This would obsolete the
+	// sprite player
 	Attack func() *sprite.Sprite
 	Death  func() *sprite.Sprite
 	Hit    func() *sprite.Sprite
@@ -47,17 +50,25 @@ type UnitAnimations struct {
 }
 
 func offset(opts *ebiten.DrawImageOptions) {
-	// offset by a quarter-tile so feet are on the ground
+	// offset by a partial-tile so feet are on the ground
+	// TODO [graphics] this looks good on roads but
+	// weird against other objects sometimes
 	opts.GeoM.Translate(0, -6.0)
 }
 
 func new(opts UnitOptions) *Unit {
+	stats := BaseStats(opts.Level).Bias(opts.Weapon.WeaponType)
+	dopts := ebiten.DrawImageOptions{}
+	opts.Team.Color(&dopts.ColorM)
 	u := Unit{
 		UnitOptions: opts,
 		Drawable: core.Drawable{
 			Coordinate:   opts.Location.IP(),
 			DrawCallback: offset,
+			Opts:         dopts,
 		},
+		Stats:  stats,
+		status: Status(stats),
 	}
 	u.idle()
 	return &u
@@ -72,7 +83,17 @@ func (u *Unit) Handle(cmd core.Command) {
 	u.state.Handle(cmd)
 }
 
-// animation speed of walking
+// animation speed of walking in units of pixels/second
+// scales with the units speed stat (but independant of steps/turn)
 func (u *Unit) moveSpeed() float64 {
-	return (1 + (0.1 * float64(u.Stats.Speed))) * units.TileSize / float64(units.TickRate)
+	return (1 + (0.1 * float64(u.Stats.Spd))) * units.TileSize / float64(units.TickRate)
+}
+
+func (u *Unit) face(loc units.TPoint) {
+	if loc.X > u.Location.X {
+		u.ReverseFacing = false
+	} else if loc.X < u.Location.X {
+		u.ReverseFacing = true
+	}
+	// otherwise continue to face the same direction you are currently
 }

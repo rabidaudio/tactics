@@ -28,7 +28,9 @@ func New() *Game {
 		Window: &core.Window{Size: image.Point{X: 230, Y: 240}},
 		World:  w,
 		Units: []*unit.Unit{
-			unit.NewSpearman(w.StartPoint, PlayerTeam),
+			unit.NewSpearman(w.StartPoint, PlayerTeam, 1),
+			unit.NewSpearman(w.StartPoint.Add(units.TP(-1, 2)), PlayerTeam, 1),
+			unit.NewSpearman(w.StartPoint.Add(units.TP(2, -1)), EnemyTeam, 1),
 		},
 	}
 	game.Window.WorldSize(w.Size())
@@ -46,19 +48,30 @@ func (g *Game) Update(screen *ebiten.Image) error {
 		u.Tick()
 	}
 	u := g.Units[0]
+	// TODO [arch] who's responsibility is it to verify
+	// actions are legal? is it the game's? the unit's? the world's?
 	core.ActionHandler().
-		OnKey(map[ebiten.Key]core.Action{
-			ebiten.KeyA: unit.Move(u, units.West),
-			ebiten.KeyS: unit.Move(u, units.South),
-			ebiten.KeyD: unit.Move(u, units.East),
-			ebiten.KeyW: unit.Move(u, units.North),
-		}).
 		OnLeftMouseClick(func(screenPoint image.Point) core.Action {
 			p := units.TPFromPoint(screenPoint.Add(g.Window.CameraOrigin()))
-			if d, ok := core.FindPath(u.Location, p, func(pt units.TPoint) bool {
-				return !g.World.IsBoundary(pt)
-			}); ok {
-				return unit.Move(u, d...)
+			if target, ok := g.unitAt(p); ok {
+				if target.Team == PlayerTeam {
+					// TODO [gameplay] switch players
+					return nil
+				}
+				// otherwise enemy player
+				if !u.Weapon.CanHit(u.Location, target.Location) {
+					return nil
+				}
+				return unit.AttackCommand{Unit: u, Target: target}
+			}
+			if !g.canMoveTo(p, u) {
+				return nil
+			}
+			canMove := func(pt units.TPoint) bool {
+				return g.canMoveThrough(pt, u)
+			}
+			if d, ok := core.FindPath(u.Location, p, canMove); ok {
+				return unit.MoveCommand{Unit: u, Steps: d}
 			}
 			return nil
 		}).
@@ -66,6 +79,41 @@ func (g *Game) Update(screen *ebiten.Image) error {
 			u.Handle(action)
 		})
 	return nil
+}
+
+func (g *Game) unitAt(pt units.TPoint) (*unit.Unit, bool) {
+	for _, u := range g.Units {
+		if u.Location == pt {
+			return u, true
+		}
+	}
+	return nil, false
+}
+
+func (g *Game) canMoveTo(dest units.TPoint, unit *unit.Unit) bool {
+	if unit.Location.StepsTo(dest) > unit.Stats.Steps {
+		return false
+	}
+	if g.World.IsBoundary(dest) {
+		return false
+	}
+	if _, ok := g.unitAt(dest); ok {
+		return false
+	}
+	return true
+}
+
+func (g *Game) canMoveThrough(dest units.TPoint, unit *unit.Unit) bool {
+	// TODO [style] share logic better with canMoveTo
+	if g.World.IsBoundary(dest) {
+		return false
+	}
+	// can move through friendly units but not enemy units
+	// TODO [mechanics] desired behavior?
+	if u, ok := g.unitAt(dest); ok && u.Team != unit.Team {
+		return false
+	}
+	return true
 }
 
 // Draw draws the game screen.

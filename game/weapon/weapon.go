@@ -43,7 +43,7 @@ func (r Reach) Threatens(from units.TPoint) []units.TPoint {
 		threat = rangedThreat
 	}
 	for i := range threat {
-		res[i] = res[i].Add(threat[i])
+		res[i] = from.Add(threat[i])
 	}
 	return res
 }

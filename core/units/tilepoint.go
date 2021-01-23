@@ -43,6 +43,12 @@ func (p TPoint) IsAdjacent(other TPoint) (d Direction, ok bool) {
 	return 0, false
 }
 
+func (p TPoint) StepsTo(dest TPoint) int {
+	dx := abs(dest.X - p.X)
+	dy := abs(dest.Y - p.Y)
+	return dx + dy
+}
+
 func bound(val, min, max int) int {
 	if val < min {
 		return min
@@ -51,6 +57,13 @@ func bound(val, min, max int) int {
 	} else {
 		return val
 	}
+}
+
+func abs(i int) int {
+	if i < 0 {
+		return -i
+	}
+	return i
 }
 
 func Bound(pt image.Point, to image.Rectangle) image.Point {

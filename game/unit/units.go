@@ -6,16 +6,12 @@ import (
 	"github.com/rabidaudio/tactics/game/weapon"
 )
 
-func NewSpearman(loc units.TPoint, team Team) *Unit {
+func NewSpearman(loc units.TPoint, team Team, lvl int) *Unit {
 	return new(UnitOptions{
 		Location:   loc,
 		Team:       team,
+		Level:      lvl,
 		Animations: assets.Spearman,
 		Weapon:     weapon.Spear,
-		Stats: Stats{
-			Attack:  1,
-			Defense: 2,
-			Speed:   3,
-		},
 	})
 }

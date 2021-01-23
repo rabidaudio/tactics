@@ -11,7 +11,7 @@ import (
 type Drawable struct {
 	Sprite        *sprite.Sprite
 	ReverseFacing bool
-	opts          ebiten.DrawImageOptions
+	Opts          ebiten.DrawImageOptions
 	Coordinate    image.Point
 	DrawCallback  func(*ebiten.DrawImageOptions)
 }
@@ -21,14 +21,14 @@ func (d *Drawable) Tick() {
 }
 
 func (d *Drawable) Draw(screen *ebiten.Image) {
-	d.opts.GeoM.Reset()
+	d.Opts.GeoM.Reset()
 	if d.ReverseFacing {
-		d.opts.GeoM.Scale(-1.0, 1.0)
-		d.opts.GeoM.Translate(float64(units.TileSize), 0)
+		d.Opts.GeoM.Scale(-1.0, 1.0)
+		d.Opts.GeoM.Translate(float64(units.TileSize), 0)
 	}
-	d.opts.GeoM.Translate(float64(d.Coordinate.X), float64(d.Coordinate.Y))
+	d.Opts.GeoM.Translate(float64(d.Coordinate.X), float64(d.Coordinate.Y))
 	if d.DrawCallback != nil {
-		d.DrawCallback(&d.opts)
+		d.DrawCallback(&d.Opts)
 	}
-	screen.DrawImage(d.Sprite.Frame(), &d.opts)
+	screen.DrawImage(d.Sprite.Frame(), &d.Opts)
 }

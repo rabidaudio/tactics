@@ -11,11 +11,12 @@ type Animation interface {
 
 // A Sprite plays an animation
 type Sprite struct {
-	frames  []*ebiten.Image
-	index   int
-	playing bool
-	rate    int
-	loop    bool
+	frames   []*ebiten.Image
+	index    int
+	playing  bool
+	rate     int
+	loop     bool
+	complete func()
 }
 
 func New(frames ...*ebiten.Image) *Sprite {
@@ -41,6 +42,11 @@ func (s *Sprite) Loop(loop bool) *Sprite {
 	return s
 }
 
+func (s *Sprite) OnComplete(callback func()) *Sprite {
+	s.complete = callback
+	return s
+}
+
 func (s *Sprite) Frame() *ebiten.Image {
 	return s.frames[s.index/s.rate]
 }
@@ -53,6 +59,10 @@ func (s *Sprite) Tick() {
 		if s.loop {
 			s.Reset()
 		} else {
+			if s.complete != nil {
+				s.complete()
+				s.complete = nil
+			}
 			s.Stop()
 		}
 	} else {

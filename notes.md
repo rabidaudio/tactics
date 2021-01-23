@@ -70,6 +70,7 @@ experience? dmg dealt + bonus for kill?
 
 - [ ] combat mechanics
 - [ ] ai
+- [ ] try goroutines for updates
 - [ ] balance game using ai
 - [ ] combat animations
 - [ ] leveling
