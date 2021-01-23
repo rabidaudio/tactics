@@ -1,4 +1,4 @@
-package world
+package game
 
 import (
 	"fmt"
@@ -23,7 +23,7 @@ type World struct {
 	canvas     *ebiten.Image
 }
 
-func New(path string) (World, error) {
+func NewWorld(path string) (World, error) {
 	gameMap, err := tiled.LoadFromFile(path)
 	if err != nil {
 		return World{}, err
@@ -53,10 +53,6 @@ func New(path string) (World, error) {
 	if overLayer > -1 {
 		// overlayer
 		gameMap.Layers[overLayer].Visible = true
-		// r2, err := render.NewRenderer(gameMap)
-		// if err != nil {
-		// 	return World{}, err
-		// }
 		r.Clear()
 		if err = r.RenderLayer(overLayer); err != nil {
 			return World{}, err
@@ -84,8 +80,8 @@ func New(path string) (World, error) {
 	}, nil
 }
 
-func MustNew(path string) World {
-	w, err := New(path)
+func MustNewWorld(path string) World {
+	w, err := NewWorld(path)
 	if err != nil {
 		panic(err)
 	}
@@ -98,10 +94,6 @@ func (w *World) IsBoundary(pt units.TPoint) bool {
 	}
 	return !w.tileAt("boundaries", pt).Nil
 }
-
-// func (w *World) FindShortestPath(from, to image.Point) (steps []units.Direction, ok bool) {
-
-// }
 
 func startPoint(m *tiled.Map) (tp units.TPoint, err error) {
 	s := m.Properties.Get("start")
