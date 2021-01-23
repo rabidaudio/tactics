@@ -18,13 +18,19 @@ type Game struct {
 	Tick   units.Tick
 }
 
+const (
+	PlayerTeam unit.Team = iota
+	EnemyTeam
+)
+
 func New() *Game {
-	w := world.MustNew()
+	// "raw/maps/map1.tmx"
+	w := world.MustNew("raw/maps/square.tmx")
 	game := &Game{
 		Window: &window.Window{Size: image.Point{X: 230, Y: 240}},
 		World:  w,
 		Units: []*unit.Unit{
-			unit.NewSpearman(w.StartPoint),
+			unit.NewSpearman(w.StartPoint, PlayerTeam),
 		},
 	}
 	game.Window.WorldSize(w.Size())
@@ -61,21 +67,27 @@ func (g *Game) Update(screen *ebiten.Image) error {
 		Execute(func(action core.Action) {
 			u.Handle(action)
 		})
-	g.Window.AnimateCamera(u.Location)
 	return nil
 }
 
 // Draw draws the game screen.
 // Draw is called every frame (typically 1/60[s] for 60Hz display).
 func (g *Game) Draw(screen *ebiten.Image) {
-	g.World.Draw(g.World.Canvas)
-	for _, u := range g.Units {
-		u.Draw(g.World.Canvas)
-	}
+	// g.World.Draw(g.World.Canvas)
+
+	// opts := ebiten.DrawImageOptions{}
+	// opts.GeoM.Translate(float64(g.World.StartPoint.IP().X), float64(g.World.StartPoint.IP().Y))
+	// screen.DrawImage(g.World.Canvas.SubImage(g.Window.Rect()).(*ebiten.Image), nil)
+	// g.World.Canvas.Clear()
+
+	canvas := g.World.Draw(func(canvas *ebiten.Image) {
+		for _, u := range g.Units {
+			u.Draw(canvas)
+		}
+	})
 	opts := ebiten.DrawImageOptions{}
 	opts.GeoM.Translate(float64(g.World.StartPoint.IP().X), float64(g.World.StartPoint.IP().Y))
-	screen.DrawImage(g.World.Canvas.SubImage(g.Window.Rect()).(*ebiten.Image), nil)
-	g.World.Canvas.Clear()
+	screen.DrawImage(canvas.SubImage(g.Window.Rect()).(*ebiten.Image), nil)
 }
 
 // Layout takes the outside size (e.g., the window size) and returns the (logical) screen size.

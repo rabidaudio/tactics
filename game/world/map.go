@@ -14,19 +14,29 @@ import (
 
 type World struct {
 	gameMap *tiled.Map
-	img     *ebiten.Image
+	baseimg *ebiten.Image
+	overimg *ebiten.Image
 	// origin point (top left) of camera
 	camera     image.Point
 	cameraAnim units.Anim2D
 	StartPoint units.TPoint
-	Canvas     *ebiten.Image
+	canvas     *ebiten.Image
 }
 
-func New() (World, error) {
-	gameMap, err := tiled.LoadFromFile("raw/maps/map1.tmx")
+func New(path string) (World, error) {
+	gameMap, err := tiled.LoadFromFile(path)
 	if err != nil {
 		return World{}, err
 	}
+	overLayer := -1
+	for i, l := range gameMap.Layers {
+		if l.Name == "top" {
+			l.Visible = false
+			overLayer = i
+			break
+		}
+	}
+	// base layer
 	r, err := render.NewRenderer(gameMap)
 	if err != nil {
 		return World{}, err
@@ -34,11 +44,30 @@ func New() (World, error) {
 	if err = r.RenderVisibleLayers(); err != nil {
 		return World{}, err
 	}
-	img, err := ebiten.NewImageFromImage(r.Result, ebiten.FilterDefault)
+	baseimg, err := ebiten.NewImageFromImage(r.Result, ebiten.FilterDefault)
 	if err != nil {
 		return World{}, err
 	}
-	canvas, err := ebiten.NewImage(img.Bounds().Dx(), img.Bounds().Dy(), ebiten.FilterDefault)
+
+	var overimg *ebiten.Image
+	if overLayer > -1 {
+		// overlayer
+		gameMap.Layers[overLayer].Visible = true
+		// r2, err := render.NewRenderer(gameMap)
+		// if err != nil {
+		// 	return World{}, err
+		// }
+		r.Clear()
+		if err = r.RenderLayer(overLayer); err != nil {
+			return World{}, err
+		}
+		overimg, err = ebiten.NewImageFromImage(r.Result, ebiten.FilterDefault)
+		if err != nil {
+			return World{}, err
+		}
+	}
+
+	canvas, err := ebiten.NewImage(baseimg.Bounds().Dx(), baseimg.Bounds().Dy(), ebiten.FilterDefault)
 	if err != nil {
 		return World{}, err
 	}
@@ -48,14 +77,15 @@ func New() (World, error) {
 	}
 	return World{
 		gameMap:    gameMap,
-		img:        img,
-		Canvas:     canvas,
+		baseimg:    baseimg,
+		overimg:    overimg,
+		canvas:     canvas,
 		StartPoint: start,
 	}, nil
 }
 
-func MustNew() World {
-	w, err := New()
+func MustNew(path string) World {
+	w, err := New(path)
 	if err != nil {
 		panic(err)
 	}
@@ -114,6 +144,12 @@ func (w *World) Size() units.TPoint {
 	return units.TPoint{X: w.gameMap.Width, Y: w.gameMap.Height}
 }
 
-func (w *World) Draw(screen *ebiten.Image) {
-	screen.DrawImage(w.img, nil)
+func (w *World) Draw(drawEntities func(screen *ebiten.Image)) *ebiten.Image {
+	w.canvas.Clear()
+	w.canvas.DrawImage(w.baseimg, nil)
+	drawEntities(w.canvas)
+	if w.overimg != nil {
+		w.canvas.DrawImage(w.overimg, nil)
+	}
+	return w.canvas
 }
