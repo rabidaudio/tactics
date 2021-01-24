@@ -1,192 +1,848 @@
+---
 Spritesheets:
   Castle:
     Path: raw/HAS CreaturePack/HAS Creature Pack 1.2/Castle/CastleSpriteSheet.png
-    TileSize: [16, 16]
-    Direction: row
+    TileSize:
+    - 16
+    - 16
     Sprites:
       Spearman:
-        Idle: { X: 0, Y: 1, Size: 4, Rate: 15 }
-        Walk: { X: 4, Y: 1, Size: 4, Rate: 10 }
-        Attack: { X: 8, Y: 1, Size: 4, Rate: 5 }
-        Hit: { X: 12, Y: 1, Size: 4, Rate: 5 }
-        Death: { X: 16, Y: 1, Size: 4, Rate: 10 }
-
+        Idle:
+          Rate: 15
+          Loop: true
+          Frames:
+          - [0, 1]
+          - [1, 1]
+          - [2, 1]
+          - [3, 1]
+        Walk:
+          Rate: 10
+          Loop: true
+          Frames:
+          - [4, 1]
+          - [5, 1]
+          - [6, 1]
+          - [7, 1]
+        Attack:
+          Rate: 5
+          Frames:
+          - [8, 1]
+          - [9, 1]
+          - [10, 1]
+          - [11, 1]
+          - [11, 1]
+          - [10, 1]
+          - [9, 1]
+          - [8, 1]
+        Hit:
+          Rate: 5
+          Frames:
+          - [12, 1]
+          - [13, 1]
+          - [14, 1]
+          - [15, 1]
+          - [15, 1]
+          - [14, 1]
+          - [13, 1]
+          - [12, 1]
+        Death:
+          Rate: 10
+          Frames:
+          - [16, 1]
+          - [17, 1]
+          - [18, 1]
+          - [19, 1]
       Crossbowman:
-        Idle: { X: 0, Y: 2, Size: 4, Rate: 15 }
-        Walk: { X: 4, Y: 2, Size: 4, Rate: 10 }
-        Attack: { X: 8, Y: 2, Size: 4, Rate: 5 }
-        Hit: { X: 12, Y: 2, Size: 4, Rate: 5 }
-        Death: { X: 16, Y: 2, Size: 4, Rate: 10 }
-
+        Idle:
+          Rate: 15
+          Loop: true
+          Frames:
+          - [0, 2]
+          - [1, 2]
+          - [2, 2]
+          - [3, 2]
+        Walk:
+          Rate: 10
+          Loop: true
+          Frames:
+          - [4, 2]
+          - [5, 2]
+          - [6, 2]
+          - [7, 2]
+        Attack:
+          Rate: 5
+          Frames:
+          - [8, 2]
+          - [9, 2]
+          - [10, 2]
+          - [11, 2]
+          - [11, 2]
+          - [10, 2]
+          - [9, 2]
+          - [8, 2]
+        Hit:
+          Rate: 5
+          Frames:
+          - [12, 2]
+          - [13, 2]
+          - [14, 2]
+          - [15, 2]
+          - [15, 2]
+          - [14, 2]
+          - [13, 2]
+          - [12, 2]
+        Death:
+          Rate: 10
+          Frames:
+          - [16, 2]
+          - [17, 2]
+          - [18, 2]
+          - [19, 2]
       Swordsman:
-        Idle: { X: 0, Y: 4, Size: 4, Rate: 15 }
-        Walk: { X: 4, Y: 4, Size: 4, Rate: 10 }
-        Attack: { X: 8, Y: 4, Size: 4, Rate: 5 }
-        Hit: { X: 12, Y: 4, Size: 4, Rate: 5 }
-        Death: { X: 16, Y: 4, Size: 4, Rate: 10 }
-
+        Idle:
+          Rate: 15
+          Loop: true
+          Frames:
+          - [0, 4]
+          - [1, 4]
+          - [2, 4]
+          - [3, 4]
+        Walk:
+          Rate: 10
+          Loop: true
+          Frames:
+          - [4, 4]
+          - [5, 4]
+          - [6, 4]
+          - [7, 4]
+        Attack:
+          Rate: 5
+          Frames:
+          - [8, 4]
+          - [9, 4]
+          - [10, 4]
+          - [11, 4]
+          - [11, 4]
+          - [10, 4]
+          - [9, 4]
+          - [8, 4]
+        Hit:
+          Rate: 5
+          Frames:
+          - [12, 4]
+          - [13, 4]
+          - [14, 4]
+          - [15, 4]
+          - [15, 4]
+          - [14, 4]
+          - [13, 4]
+          - [12, 4]
+        Death:
+          Rate: 10
+          Frames:
+          - [16, 4]
+          - [17, 4]
+          - [18, 4]
+          - [19, 4]
       Monk:
-        Idle: { X: 0, Y: 5, Size: 4, Rate: 15 }
-        Walk: { X: 4, Y: 5, Size: 4, Rate: 15 }
-        Attack: { X: 8, Y: 5, Size: 4, Rate: 5 }
-        Hit: { X: 12, Y: 5, Size: 4, Rate: 5 }
-        Death: { X: 16, Y: 5, Size: 4, Rate: 10 }
-
+        Idle:
+          Rate: 15
+          Loop: true
+          Frames:
+          - [0, 5]
+          - [1, 5]
+          - [2, 5]
+          - [3, 5]
+        Walk:
+          Rate: 15
+          Loop: true
+          Frames:
+          - [4, 5]
+          - [5, 5]
+          - [6, 5]
+          - [7, 5]
+        Attack:
+          Rate: 5
+          Frames:
+          - [8, 5]
+          - [9, 5]
+          - [10, 5]
+          - [11, 5]
+          - [11, 5]
+          - [10, 5]
+          - [9, 5]
+          - [8, 5]
+        Hit:
+          Rate: 5
+          Frames:
+          - [12, 5]
+          - [13, 5]
+          - [14, 5]
+          - [15, 5]
+          - [15, 5]
+          - [14, 5]
+          - [13, 5]
+          - [12, 5]
+        Death:
+          Rate: 10
+          Frames:
+          - [16, 5]
+          - [17, 5]
+          - [18, 5]
+          - [19, 5]
       Rider:
-        Idle: { X: 0, Y: 6, Size: 4, Rate: 15 }
-        Walk: { X: 4, Y: 6, Size: 4, Rate: 10 }
-        Attack: { X: 8, Y: 6, Size: 4, Rate: 5 }
-        Hit: { X: 12, Y: 6, Size: 4, Rate: 5 }
-        Death: { X: 16, Y: 6, Size: 4, Rate: 10 }
-
+        Idle:
+          Rate: 15
+          Loop: true
+          Frames:
+          - [0, 6]
+          - [1, 6]
+          - [2, 6]
+          - [3, 6]
+        Walk:
+          Rate: 10
+          Loop: true
+          Frames:
+          - [4, 6]
+          - [5, 6]
+          - [6, 6]
+          - [7, 6]
+        Attack:
+          Rate: 5
+          Frames:
+          - [8, 6]
+          - [9, 6]
+          - [10, 6]
+          - [11, 6]
+          - [11, 6]
+          - [10, 6]
+          - [9, 6]
+          - [8, 6]
+        Hit:
+          Rate: 5
+          Frames:
+          - [12, 6]
+          - [13, 6]
+          - [14, 6]
+          - [15, 6]
+          - [15, 6]
+          - [14, 6]
+          - [13, 6]
+          - [12, 6]
+        Death:
+          Rate: 10
+          Frames:
+          - [16, 6]
+          - [17, 6]
+          - [18, 6]
+          - [19, 6]
       Knight:
-        Idle: { X: 0, Y: 7, Size: 4, Rate: 15 }
-        Walk: { X: 4, Y: 7, Size: 4, Rate: 10 }
-        Attack: { X: 8, Y: 7, Size: 4, Rate: 5 }
-        Hit: { X: 12, Y: 7, Size: 4, Rate: 5 }
-        Death: { X: 16, Y: 7, Size: 4, Rate: 10 }
-
+        Idle:
+          Rate: 15
+          Loop: true
+          Frames:
+          - [0, 7]
+          - [1, 7]
+          - [2, 7]
+          - [3, 7]
+        Walk:
+          Rate: 10
+          Loop: true
+          Frames:
+          - [4, 7]
+          - [5, 7]
+          - [6, 7]
+          - [7, 7]
+        Attack:
+          Rate: 5
+          Frames:
+          - [8, 7]
+          - [9, 7]
+          - [10, 7]
+          - [11, 7]
+          - [11, 7]
+          - [10, 7]
+          - [9, 7]
+          - [8, 7]
+        Hit:
+          Rate: 5
+          Frames:
+          - [12, 7]
+          - [13, 7]
+          - [14, 7]
+          - [15, 7]
+          - [15, 7]
+          - [14, 7]
+          - [13, 7]
+          - [12, 7]
+        Death:
+          Rate: 10
+          Frames:
+          - [16, 7]
+          - [17, 7]
+          - [18, 7]
+          - [19, 7]
       Halberd:
-        Idle: { X: 0, Y: 9, Size: 4, Rate: 15 }
-        Walk: { X: 4, Y: 9, Size: 4, Rate: 10 }
-        Attack: { X: 8, Y: 9, Size: 4, Rate: 5 }
-        Hit: { X: 12, Y: 9, Size: 4, Rate: 5 }
-        Death: { X: 16, Y: 9, Size: 4, Rate: 10 }
-
+        Idle:
+          Rate: 15
+          Loop: true
+          Frames:
+          - [0, 9]
+          - [1, 9]
+          - [2, 9]
+          - [3, 9]
+        Walk:
+          Rate: 10
+          Loop: true
+          Frames:
+          - [4, 9]
+          - [5, 9]
+          - [6, 9]
+          - [7, 9]
+        Attack:
+          Rate: 5
+          Frames:
+          - [8, 9]
+          - [9, 9]
+          - [10, 9]
+          - [11, 9]
+          - [11, 9]
+          - [10, 9]
+          - [9, 9]
+          - [8, 9]
+        Hit:
+          Rate: 5
+          Frames:
+          - [12, 9]
+          - [13, 9]
+          - [14, 9]
+          - [15, 9]
+          - [15, 9]
+          - [14, 9]
+          - [13, 9]
+          - [12, 9]
+        Death:
+          Rate: 10
+          Frames:
+          - [16, 9]
+          - [17, 9]
+          - [18, 9]
+          - [19, 9]
       Crossbowman2:
-        Idle: { X: 0, Y: 10, Size: 4, Rate: 15 }
-        Walk: { X: 4, Y: 10, Size: 4, Rate: 10 }
-        Attack: { X: 8, Y: 10, Size: 4, Rate: 5 }
-        Hit: { X: 12, Y: 10, Size: 4, Rate: 5 }
-        Death: { X: 16, Y: 10, Size: 4, Rate: 10 }
-
+        Idle:
+          Rate: 15
+          Loop: true
+          Frames:
+          - [0, 10]
+          - [1, 10]
+          - [2, 10]
+          - [3, 10]
+        Walk:
+          Rate: 10
+          Loop: true
+          Frames:
+          - [4, 10]
+          - [5, 10]
+          - [6, 10]
+          - [7, 10]
+        Attack:
+          Rate: 5
+          Frames:
+          - [8, 10]
+          - [9, 10]
+          - [10, 10]
+          - [11, 10]
+          - [11, 10]
+          - [10, 10]
+          - [9, 10]
+          - [8, 10]
+        Hit:
+          Rate: 5
+          Frames:
+          - [12, 10]
+          - [13, 10]
+          - [14, 10]
+          - [15, 10]
+          - [15, 10]
+          - [14, 10]
+          - [13, 10]
+          - [12, 10]
+        Death:
+          Rate: 10
+          Frames:
+          - [16, 10]
+          - [17, 10]
+          - [18, 10]
+          - [19, 10]
       Swordsman2:
-        Idle: { X: 0, Y: 12, Size: 4, Rate: 15 }
-        Walk: { X: 4, Y: 12, Size: 4, Rate: 10 }
-        Attack: { X: 8, Y: 12, Size: 4, Rate: 5 }
-        Hit: { X: 12, Y: 12, Size: 4, Rate: 5 }
-        Death: { X: 16, Y: 12, Size: 4, Rate: 10 }
-
+        Idle:
+          Rate: 15
+          Loop: true
+          Frames:
+          - [0, 12]
+          - [1, 12]
+          - [2, 12]
+          - [3, 12]
+        Walk:
+          Rate: 10
+          Loop: true
+          Frames:
+          - [4, 12]
+          - [5, 12]
+          - [6, 12]
+          - [7, 12]
+        Attack:
+          Rate: 5
+          Frames:
+          - [8, 12]
+          - [9, 12]
+          - [10, 12]
+          - [11, 12]
+          - [11, 12]
+          - [10, 12]
+          - [9, 12]
+          - [8, 12]
+        Hit:
+          Rate: 5
+          Frames:
+          - [12, 12]
+          - [13, 12]
+          - [14, 12]
+          - [15, 12]
+          - [15, 12]
+          - [14, 12]
+          - [13, 12]
+          - [12, 12]
+        Death:
+          Rate: 10
+          Frames:
+          - [16, 12]
+          - [17, 12]
+          - [18, 12]
+          - [19, 12]
       Bishop:
-        Idle: { X: 0, Y: 13, Size: 4, Rate: 15 }
-        Walk: { X: 4, Y: 13, Size: 4, Rate: 15 }
-        Attack: { X: 8, Y: 13, Size: 4, Rate: 5 }
-        Hit: { X: 12, Y: 13, Size: 4, Rate: 5 }
-        Death: { X: 16, Y: 13, Size: 4, Rate: 10 }
-
+        Idle:
+          Rate: 15
+          Loop: true
+          Frames:
+          - [0, 13]
+          - [1, 13]
+          - [2, 13]
+          - [3, 13]
+        Walk:
+          Rate: 15
+          Loop: true
+          Frames:
+          - [4, 13]
+          - [5, 13]
+          - [6, 13]
+          - [7, 13]
+        Attack:
+          Rate: 5
+          Frames:
+          - [8, 13]
+          - [9, 13]
+          - [10, 13]
+          - [11, 13]
+          - [11, 13]
+          - [10, 13]
+          - [9, 13]
+          - [8, 13]
+        Hit:
+          Rate: 5
+          Frames:
+          - [12, 13]
+          - [13, 13]
+          - [14, 13]
+          - [15, 13]
+          - [15, 13]
+          - [14, 13]
+          - [13, 13]
+          - [12, 13]
+        Death:
+          Rate: 10
+          Frames:
+          - [16, 13]
+          - [17, 13]
+          - [18, 13]
+          - [19, 13]
       Rider2:
-        Idle: { X: 0, Y: 14, Size: 4, Rate: 15 }
-        Walk: { X: 4, Y: 14, Size: 4, Rate: 10 }
-        Attack: { X: 8, Y: 14, Size: 4, Rate: 5 }
-        Hit: { X: 12, Y: 14, Size: 4, Rate: 5 }
-        Death: { X: 16, Y: 14, Size: 4, Rate: 10 }
-
+        Idle:
+          Rate: 15
+          Loop: true
+          Frames:
+          - [0, 14]
+          - [1, 14]
+          - [2, 14]
+          - [3, 14]
+        Walk:
+          Rate: 10
+          Loop: true
+          Frames:
+          - [4, 14]
+          - [5, 14]
+          - [6, 14]
+          - [7, 14]
+        Attack:
+          Rate: 5
+          Frames:
+          - [8, 14]
+          - [9, 14]
+          - [10, 14]
+          - [11, 14]
+          - [11, 14]
+          - [10, 14]
+          - [9, 14]
+          - [8, 14]
+        Hit:
+          Rate: 5
+          Frames:
+          - [12, 14]
+          - [13, 14]
+          - [14, 14]
+          - [15, 14]
+          - [15, 14]
+          - [14, 14]
+          - [13, 14]
+          - [12, 14]
+        Death:
+          Rate: 10
+          Frames:
+          - [16, 14]
+          - [17, 14]
+          - [18, 14]
+          - [19, 14]
       Knight2:
-        Idle: { X: 0, Y: 15, Size: 4, Rate: 15 }
-        Walk: { X: 4, Y: 15, Size: 4, Rate: 10 }
-        Attack: { X: 8, Y: 15, Size: 4, Rate: 5 }
-        Hit: { X: 12, Y: 15, Size: 4, Rate: 5 }
-        Death: { X: 16, Y: 15, Size: 4, Rate: 10 }
-
-  Tower:
-    Path: raw/HAS CreaturePack/HAS Creature Pack 1.2/Tower/TowerSpriteSheet.png
-    TileSize: [16, 16]
-    Direction: row
-    Sprites:
-      Shotgun:
-        Idle: { X: 0, Y: 1, Size: 4, Rate: 15 }
-        Walk: { X: 4, Y: 1, Size: 4, Rate: 10 }
-        Attack: { X: 8, Y: 1, Size: 4, Rate: 5 }
-        Hit: { X: 12, Y: 1, Size: 4, Rate: 5 }
-        Death: { X: 16, Y: 1, Size: 4, Rate: 10 }
-        # Unsholder: { X: 20, Y: 1, Size: 4 }
-        # Sholder: { X: 20, Y: 1, Size: 4, Reverse: true }
-
-      Shotgun2:
-        Idle: { X: 0, Y: 9, Size: 4, Rate: 15 }
-        Walk: { X: 4, Y: 9, Size: 4, Rate: 10 }
-        Attack: { X: 8, Y: 9, Size: 4, Rate: 5 }
-        Hit: { X: 12, Y: 9, Size: 4, Rate: 5 }
-        Death: { X: 16, Y: 9, Size: 4, Rate: 10 }
-        # Unsholder: { X: 20, Y: 9, Size: 4 }
-        # Sholder: { X: 20, Y: 9, Size: 4, Reverse: true }
-
+        Idle:
+          Rate: 15
+          Loop: true
+          Frames:
+          - [0, 15]
+          - [1, 15]
+          - [2, 15]
+          - [3, 15]
+        Walk:
+          Rate: 10
+          Loop: true
+          Frames:
+          - [4, 15]
+          - [5, 15]
+          - [6, 15]
+          - [7, 15]
+        Attack:
+          Rate: 5
+          Frames:
+          - [8, 15]
+          - [9, 15]
+          - [10, 15]
+          - [11, 15]
+          - [11, 15]
+          - [10, 15]
+          - [9, 15]
+          - [8, 15]
+        Hit:
+          Rate: 5
+          Frames:
+          - [12, 15]
+          - [13, 15]
+          - [14, 15]
+          - [15, 15]
+          - [15, 15]
+          - [14, 15]
+          - [13, 15]
+          - [12, 15]
+        Death:
+          Rate: 10
+          Frames:
+          - [16, 15]
+          - [17, 15]
+          - [18, 15]
+          - [19, 15]
   Stronghold:
     Path: raw/HAS CreaturePack/HAS Creature Pack 1.2/Stronghold/StrongholdSpriteSheet.png
-    TileSize: [16, 16]
-    Direction: row
+    TileSize:
+    - 16
+    - 16
     Sprites:
-      Mercenary:
-      #   Idle: { X: 0, Y: 1, Size: 4, Rate: 15 }
-      #   Walk: { X: 4, Y: 1, Size: 4, Rate: 6 }
-      #   Attack: { X: 8, Y: 1, Size: 4, Rate: 5 }
-      #   Hit: { X: 12, Y: 1, Size: 4, Rate: 5 }
-      #   Death: { X: 16, Y: 1, Size: 4, Rate: 10 }
-
-      # MercenaryRider:
-      #   Idle: { X: 0, Y: 3, Size: 4, Rate: 15 }
-      #   Walk: { X: 4, Y: 3, Size: 4, Rate: 6 }
-      #   Attack: { X: 8, Y: 3, Size: 4, Rate: 5 }
-      #   Hit: { X: 12, Y: 3, Size: 4, Rate: 5 }
-      #   Death: { X: 16, Y: 3, Size: 4, Rate: 10 }
-
       Brute:
-        Idle: { X: 0, Y: 7, Size: 4, Rate: 15 }
-        Walk: { X: 4, Y: 7, Size: 4, Rate: 12 }
-        Attack: { X: 8, Y: 7, Size: 4, Rate: 5 }
-        Hit: { X: 12, Y: 7, Size: 4, Rate: 5 }
-        Death: { X: 16, Y: 7, Size: 4, Rate: 10 } 
-
-      # Mercenary:
-      #   Idle: { X: 0, Y: 1, Size: 4, Rate: 15 }
-      #   Walk: { X: 4, Y: 1, Size: 4, Rate: 6 }
-      #   Attack: { X: 8, Y: 1, Size: 4, Rate: 5 }
-      #   Hit: { X: 12, Y: 1, Size: 4, Rate: 5 }
-      #   Death: { X: 16, Y: 1, Size: 4, Rate: 10 }
-
-      # MercenaryRider2:
-      #   Idle: { X: 0, Y: 11, Size: 4, Rate: 15 }
-      #   Walk: { X: 4, Y: 11, Size: 4, Rate: 6 }
-      #   Attack: { X: 8, Y: 11, Size: 4, Rate: 5 }
-      #   Hit: { X: 12, Y: 11, Size: 4, Rate: 5 }
-      #   Death: { X: 16, Y: 11, Size: 4, Rate: 10 }
-
+        Idle:
+          Rate: 15
+          Loop: true
+          Frames:
+          - [0, 7]
+          - [1, 7]
+          - [2, 7]
+          - [3, 7]
+        Walk:
+          Rate: 12
+          Loop: true
+          Frames:
+          - [4, 7]
+          - [5, 7]
+          - [6, 7]
+          - [7, 7]
+        Attack:
+          Rate: 5
+          Frames:
+          - [8, 7]
+          - [9, 7]
+          - [10, 7]
+          - [11, 7]
+          - [11, 7]
+          - [10, 7]
+          - [9, 7]
+          - [8, 7]
+        Hit:
+          Rate: 5
+          Frames:
+          - [12, 7]
+          - [13, 7]
+          - [14, 7]
+          - [15, 7]
+          - [15, 7]
+          - [14, 7]
+          - [13, 7]
+          - [12, 7]
+        Death:
+          Rate: 10
+          Frames:
+          - [16, 7]
+          - [17, 7]
+          - [18, 7]
+          - [19, 7]
       Brute2:
-        Idle: { X: 0, Y: 15, Size: 4, Rate: 15 }
-        Walk: { X: 4, Y: 15, Size: 4, Rate: 15 }
-        Attack: { X: 8, Y: 15, Size: 4, Rate: 5 }
-        Hit: { X: 12, Y: 15, Size: 4, Rate: 5 }
-        Death: { X: 16, Y: 15, Size: 4, Rate: 10 }
-
+        Idle:
+          Rate: 15
+          Loop: true
+          Frames:
+          - [0, 15]
+          - [1, 15]
+          - [2, 15]
+          - [3, 15]
+        Walk:
+          Rate: 15
+          Loop: true
+          Frames:
+          - [4, 15]
+          - [5, 15]
+          - [6, 15]
+          - [7, 15]
+        Attack:
+          Rate: 5
+          Frames:
+          - [8, 15]
+          - [9, 15]
+          - [10, 15]
+          - [11, 15]
+          - [11, 15]
+          - [10, 15]
+          - [9, 15]
+          - [8, 15]
+        Hit:
+          Rate: 5
+          Frames:
+          - [12, 15]
+          - [13, 15]
+          - [14, 15]
+          - [15, 15]
+          - [15, 15]
+          - [14, 15]
+          - [13, 15]
+          - [12, 15]
+        Death:
+          Rate: 10
+          Frames:
+          - [16, 15]
+          - [17, 15]
+          - [18, 15]
+          - [19, 15]
   Rampart:
     Path: raw/HAS CreaturePack/HAS Creature Pack 1.2/Rampart/RampartSpriteSheet.png
-    TileSize: [16, 16]
-    Direction: row
+    TileSize:
+    - 16
+    - 16
     Sprites:
       Axeman:
-        Idle: { X: 0, Y: 2, Size: 4, Rate: 15 }
-        Walk: { X: 4, Y: 2, Size: 4, Rate: 10 }
-        Attack: { X: 8, Y: 2, Size: 4, Rate: 5 }
-        Hit: { X: 12, Y: 2, Size: 4, Rate: 5 }
-        Death: { X: 16, Y: 2, Size: 4, Rate: 10 }
-
+        Idle:
+          Rate: 15
+          Loop: true
+          Frames:
+          - [0, 2]
+          - [1, 2]
+          - [2, 2]
+          - [3, 2]
+        Walk:
+          Rate: 10
+          Loop: true
+          Frames:
+          - [4, 2]
+          - [5, 2]
+          - [6, 2]
+          - [7, 2]
+        Attack:
+          Rate: 5
+          Frames:
+          - [8, 2]
+          - [9, 2]
+          - [10, 2]
+          - [11, 2]
+          - [11, 2]
+          - [10, 2]
+          - [9, 2]
+          - [8, 2]
+        Hit:
+          Rate: 5
+          Frames:
+          - [12, 2]
+          - [13, 2]
+          - [14, 2]
+          - [15, 2]
+          - [15, 2]
+          - [14, 2]
+          - [13, 2]
+          - [12, 2]
+        Death:
+          Rate: 10
+          Frames:
+          - [16, 2]
+          - [17, 2]
+          - [18, 2]
+          - [19, 2]
       Hunter:
-        Idle: { X: 0, Y: 4, Size: 4, Rate: 15 }
-        Walk: { X: 4, Y: 4, Size: 4, Rate: 10 }
-        Attack: { X: 8, Y: 4, Size: 4, Rate: 5 }
-        Hit: { X: 12, Y: 4, Size: 4, Rate: 5 }
-        Death: { X: 16, Y: 4, Size: 4, Rate: 10 }
-
+        Idle:
+          Rate: 15
+          Loop: true
+          Frames:
+          - [0, 4]
+          - [1, 4]
+          - [2, 4]
+          - [3, 4]
+        Walk:
+          Rate: 10
+          Loop: true
+          Frames:
+          - [4, 4]
+          - [5, 4]
+          - [6, 4]
+          - [7, 4]
+        Attack:
+          Rate: 5
+          Frames:
+          - [8, 4]
+          - [9, 4]
+          - [10, 4]
+          - [11, 4]
+          - [11, 4]
+          - [10, 4]
+          - [9, 4]
+          - [8, 4]
+        Hit:
+          Rate: 5
+          Frames:
+          - [12, 4]
+          - [13, 4]
+          - [14, 4]
+          - [15, 4]
+          - [15, 4]
+          - [14, 4]
+          - [13, 4]
+          - [12, 4]
+        Death:
+          Rate: 10
+          Frames:
+          - [16, 4]
+          - [17, 4]
+          - [18, 4]
+          - [19, 4]
       Hammerman:
-        Idle: { X: 0, Y: 10, Size: 4, Rate: 15 }
-        Walk: { X: 4, Y: 10, Size: 4, Rate: 10 }
-        Attack: { X: 8, Y: 10, Size: 4, Rate: 5 }
-        Hit: { X: 12, Y: 10, Size: 4, Rate: 5 }
-        Death: { X: 16, Y: 10, Size: 4, Rate: 10 }
-
+        Idle:
+          Rate: 15
+          Loop: true
+          Frames:
+          - [0, 10]
+          - [1, 10]
+          - [2, 10]
+          - [3, 10]
+        Walk:
+          Rate: 10
+          Loop: true
+          Frames:
+          - [4, 10]
+          - [5, 10]
+          - [6, 10]
+          - [7, 10]
+        Attack:
+          Rate: 5
+          Frames:
+          - [8, 10]
+          - [9, 10]
+          - [10, 10]
+          - [11, 10]
+          - [11, 10]
+          - [10, 10]
+          - [9, 10]
+          - [8, 10]
+        Hit:
+          Rate: 5
+          Frames:
+          - [12, 10]
+          - [13, 10]
+          - [14, 10]
+          - [15, 10]
+          - [15, 10]
+          - [14, 10]
+          - [13, 10]
+          - [12, 10]
+        Death:
+          Rate: 10
+          Frames:
+          - [16, 10]
+          - [17, 10]
+          - [18, 10]
+          - [19, 10]
       Hunter2:
-        Idle: { X: 0, Y: 12, Size: 4, Rate: 15 }
-        Walk: { X: 4, Y: 12, Size: 4, Rate: 10 }
-        Attack: { X: 8, Y: 12, Size: 4, Rate: 5 }
-        Hit: { X: 12, Y: 12, Size: 4, Rate: 5 }
-        Death: { X: 16, Y: 12, Size: 4, Rate: 10 }
+        Idle:
+          Rate: 15
+          Loop: true
+          Frames:
+          - [0, 12]
+          - [1, 12]
+          - [2, 12]
+          - [3, 12]
+        Walk:
+          Rate: 10
+          Loop: true
+          Frames:
+          - [4, 12]
+          - [5, 12]
+          - [6, 12]
+          - [7, 12]
+        Attack:
+          Rate: 5
+          Frames:
+          - [8, 12]
+          - [9, 12]
+          - [10, 12]
+          - [11, 12]
+          - [11, 12]
+          - [10, 12]
+          - [9, 12]
+          - [8, 12]
+        Hit:
+          Rate: 5
+          Frames:
+          - [12, 12]
+          - [13, 12]
+          - [14, 12]
+          - [15, 12]
+          - [15, 12]
+          - [14, 12]
+          - [13, 12]
+          - [12, 12]
+        Death:
+          Rate: 10
+          Frames:
+          - [16, 12]
+          - [17, 12]
+          - [18, 12]
+          - [19, 12]

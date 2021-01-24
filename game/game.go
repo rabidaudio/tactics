@@ -29,8 +29,7 @@ func New() *Game {
 		World:  w,
 		Units: []*unit.Unit{
 			unit.NewSpearman(w.StartPoint, PlayerTeam, 1),
-			unit.NewSpearman(w.StartPoint.Add(units.TP(-1, 2)), PlayerTeam, 1),
-			unit.NewSpearman(w.StartPoint.Add(units.TP(2, -1)), EnemyTeam, 1),
+			unit.NewSpearman(w.StartPoint.Add(units.TP(1, 0)), EnemyTeam, 1),
 		},
 	}
 	game.Window.WorldSize(w.Size())

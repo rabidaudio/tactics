@@ -2,7 +2,9 @@ package sprite
 
 import (
 	"image"
+	"image/png"
 	"log"
+	"os"
 
 	"github.com/hajimehoshi/ebiten"
 )
@@ -14,9 +16,13 @@ type TileAsset struct {
 }
 
 func OpenTileAsset(path string, stepX, stepY int) TileAsset {
-	i, err := Load(path)
+	f, err := os.Open(path)
 	if err != nil {
 		log.Fatalf("open asset: %v", err)
+	}
+	i, err := png.Decode(f)
+	if err != nil {
+		log.Fatalf("png decode: %v", err)
 	}
 	return TileAsset{
 		img:   i,
@@ -38,18 +44,26 @@ func (ta *TileAsset) Get(x, y int) *ebiten.Image {
 	return i
 }
 
-func (ta *TileAsset) SpriteFromRow(x, y, frames int) *Sprite {
-	ff := make([]*ebiten.Image, frames)
-	for i := 0; i < frames; i++ {
-		ff[i] = ta.Get(x+i, y)
-	}
-	return New(ff...)
-}
+// func (ta *TileAsset) SpriteFromRow(x, y, frames int) *Sprite {
+// 	ff := make([]*ebiten.Image, frames)
+// 	for i := 0; i < frames; i++ {
+// 		ff[i] = ta.Get(x+i, y)
+// 	}
+// 	return New(ff...)
+// }
 
-func (ta *TileAsset) SpriteFromColumn(x, y, frames int) *Sprite {
-	ff := make([]*ebiten.Image, frames)
-	for i := 0; i < frames; i++ {
-		ff[i] = ta.Get(x, y+i)
+// func (ta *TileAsset) SpriteFromColumn(x, y, frames int) *Sprite {
+// 	ff := make([]*ebiten.Image, frames)
+// 	for i := 0; i < frames; i++ {
+// 		ff[i] = ta.Get(x, y+i)
+// 	}
+// 	return New(ff...)
+// }
+
+func (ta *TileAsset) SpriteTemplate(frames [][]int) Template {
+	ff := make([]*ebiten.Image, len(frames))
+	for i := 0; i < len(frames); i++ {
+		ff[i] = ta.Get(frames[i][0], frames[i][1])
 	}
-	return New(ff...)
+	return NewTemplate(ff...)
 }

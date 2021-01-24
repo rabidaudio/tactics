@@ -8,8 +8,8 @@ import (
 type Reach int
 
 const (
-	Melee  Reach = 4
-	Ranged       = 8
+	Melee  Reach = 1
+	Ranged       = 2
 )
 
 var meleeThreat = []units.TPoint{
@@ -34,7 +34,6 @@ var rangedThreat = []units.TPoint{
 // point with a weapon with this Reach
 func (r Reach) Threatens(from units.TPoint) []units.TPoint {
 	// TODO [performance]
-	res := make([]units.TPoint, r)
 	var threat []units.TPoint
 	switch r {
 	case Melee:
@@ -42,6 +41,7 @@ func (r Reach) Threatens(from units.TPoint) []units.TPoint {
 	case Ranged:
 		threat = rangedThreat
 	}
+	res := make([]units.TPoint, len(threat))
 	for i := range threat {
 		res[i] = from.Add(threat[i])
 	}

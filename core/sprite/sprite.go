@@ -4,31 +4,29 @@ import (
 	"github.com/hajimehoshi/ebiten"
 )
 
-type Animation interface {
-	Frame() *ebiten.Image
-	Tick()
+type Template struct {
+	frames []*ebiten.Image
+	rate   int
+	loop   bool
 }
 
-// A Sprite plays an animation
 type Sprite struct {
-	frames   []*ebiten.Image
+	template *Template
 	index    int
 	playing  bool
-	rate     int
-	loop     bool
 	complete func()
 }
 
-func New(frames ...*ebiten.Image) *Sprite {
-	return &Sprite{frames: frames, playing: true, rate: 1}
+func NewTemplate(frames ...*ebiten.Image) Template {
+	return Template{frames: frames, rate: 1}
 }
 
-func (s *Sprite) Rate(rate int) *Sprite {
+func (s Template) Rate(rate int) Template {
 	s.rate = rate
 	return s
 }
 
-func (s *Sprite) Reversed() *Sprite {
+func (s Template) Reversed() Template {
 	reversed := make([]*ebiten.Image, len(s.frames))
 	for i, f := range s.frames {
 		reversed[len(s.frames)-i-1] = f
@@ -37,9 +35,17 @@ func (s *Sprite) Reversed() *Sprite {
 	return s
 }
 
-func (s *Sprite) Loop(loop bool) *Sprite {
+func (s Template) Loop(loop bool) Template {
 	s.loop = loop
 	return s
+}
+
+func (s Template) Append(other Template) Template {
+	return NewTemplate(append(s.frames, other.frames...)...)
+}
+
+func (s Template) Sprite() *Sprite {
+	return &Sprite{template: &s, playing: true, index: 0}
 }
 
 func (s *Sprite) OnComplete(callback func()) *Sprite {
@@ -48,15 +54,15 @@ func (s *Sprite) OnComplete(callback func()) *Sprite {
 }
 
 func (s *Sprite) Frame() *ebiten.Image {
-	return s.frames[s.index/s.rate]
+	return s.template.frames[s.index/s.template.rate]
 }
 
 func (s *Sprite) Tick() {
 	if !s.playing {
 		return
 	}
-	if s.index == (s.rate*len(s.frames))-1 {
-		if s.loop {
+	if s.index == (s.template.rate*len(s.template.frames))-1 {
+		if s.template.loop {
 			s.Reset()
 		} else {
 			if s.complete != nil {

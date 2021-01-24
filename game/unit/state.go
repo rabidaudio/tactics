@@ -13,7 +13,7 @@ type UnitState interface {
 type idleState struct{}
 
 func (u *Unit) idle() {
-	u.Sprite = u.Animations.Idle().Loop(true)
+	u.Sprite = u.Animations.Idle.Sprite()
 	u.state = idleState{}
 }
 
@@ -42,7 +42,7 @@ type walkingState struct {
 func (u *Unit) walk(move MoveCommand) {
 	s := &walkingState{steps: move.Steps, unit: u}
 	s.nextStep()
-	u.Sprite = u.Animations.Walk().Loop(true)
+	u.Sprite = u.Animations.Walk.Sprite()
 	u.state = s
 }
 
@@ -77,7 +77,7 @@ type attackingState struct{}
 func (u *Unit) attack(cmd AttackCommand) {
 	u.state = attackingState{}
 	u.face(cmd.Target.Location)
-	u.Sprite = u.Animations.Attack().OnComplete(func() {
+	u.Sprite = u.Animations.Attack.Sprite().OnComplete(func() {
 		u.idle()
 	})
 }
@@ -94,7 +94,7 @@ type defendingState struct{}
 func (u *Unit) defend(cmd AttackCommand) {
 	u.state = defendingState{}
 	u.face(cmd.Unit.Location)
-	u.Sprite = u.Animations.Hit().OnComplete(func() {
+	u.Sprite = u.Animations.Hit.Sprite().OnComplete(func() {
 		u.status.HP -= cmd.Dmg()
 		if u.status.HP <= 0 {
 			u.die()
@@ -115,7 +115,7 @@ type deadState struct{}
 
 func (u *Unit) die() {
 	u.state = deadState{}
-	u.Sprite = u.Animations.Death()
+	u.Sprite = u.Animations.Death.Sprite()
 }
 
 func (s deadState) Tick() {

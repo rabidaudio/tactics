@@ -4,499 +4,854 @@
 package assets
 
 import "github.com/rabidaudio/tactics/core/sprite"
-
 var Castle = sprite.OpenTileAsset("raw/HAS CreaturePack/HAS Creature Pack 1.2/Castle/CastleSpriteSheet.png", 16, 16)
 
 var Bishop = struct {
-	Attack func() *sprite.Sprite
-	Death func() *sprite.Sprite
-	Hit func() *sprite.Sprite
-	Idle func() *sprite.Sprite
-	Walk func() *sprite.Sprite
+	Attack sprite.Template
+	Death sprite.Template
+	Hit sprite.Template
+	Idle sprite.Template
+	Walk sprite.Template
 }{
-	Attack: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(8, 13, 4).Rate(5)
-	},
-	Death: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(16, 13, 4).Rate(10)
-	},
-	Hit: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(12, 13, 4).Rate(5)
-	},
-	Idle: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(0, 13, 4).Rate(15)
-	},
-	Walk: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(4, 13, 4).Rate(15)
-	},
+	Attack: Castle.SpriteTemplate([][]int{
+				{ 8, 13 },
+				{ 9, 13 },
+				{ 10, 13 },
+				{ 11, 13 },
+				{ 11, 13 },
+				{ 10, 13 },
+				{ 9, 13 },
+				{ 8, 13 },
+		}).Rate(5),
+	Death: Castle.SpriteTemplate([][]int{
+				{ 16, 13 },
+				{ 17, 13 },
+				{ 18, 13 },
+				{ 19, 13 },
+		}).Rate(10),
+	Hit: Castle.SpriteTemplate([][]int{
+				{ 12, 13 },
+				{ 13, 13 },
+				{ 14, 13 },
+				{ 15, 13 },
+				{ 15, 13 },
+				{ 14, 13 },
+				{ 13, 13 },
+				{ 12, 13 },
+		}).Rate(5),
+	Idle: Castle.SpriteTemplate([][]int{
+				{ 0, 13 },
+				{ 1, 13 },
+				{ 2, 13 },
+				{ 3, 13 },
+		}).Rate(15).Loop(true),
+	Walk: Castle.SpriteTemplate([][]int{
+				{ 4, 13 },
+				{ 5, 13 },
+				{ 6, 13 },
+				{ 7, 13 },
+		}).Rate(15).Loop(true),
 }
 
 var Crossbowman = struct {
-	Attack func() *sprite.Sprite
-	Death func() *sprite.Sprite
-	Hit func() *sprite.Sprite
-	Idle func() *sprite.Sprite
-	Walk func() *sprite.Sprite
+	Attack sprite.Template
+	Death sprite.Template
+	Hit sprite.Template
+	Idle sprite.Template
+	Walk sprite.Template
 }{
-	Attack: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(8, 2, 4).Rate(5)
-	},
-	Death: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(16, 2, 4).Rate(10)
-	},
-	Hit: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(12, 2, 4).Rate(5)
-	},
-	Idle: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(0, 2, 4).Rate(15)
-	},
-	Walk: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(4, 2, 4).Rate(10)
-	},
+	Attack: Castle.SpriteTemplate([][]int{
+				{ 8, 2 },
+				{ 9, 2 },
+				{ 10, 2 },
+				{ 11, 2 },
+				{ 11, 2 },
+				{ 10, 2 },
+				{ 9, 2 },
+				{ 8, 2 },
+		}).Rate(5),
+	Death: Castle.SpriteTemplate([][]int{
+				{ 16, 2 },
+				{ 17, 2 },
+				{ 18, 2 },
+				{ 19, 2 },
+		}).Rate(10),
+	Hit: Castle.SpriteTemplate([][]int{
+				{ 12, 2 },
+				{ 13, 2 },
+				{ 14, 2 },
+				{ 15, 2 },
+				{ 15, 2 },
+				{ 14, 2 },
+				{ 13, 2 },
+				{ 12, 2 },
+		}).Rate(5),
+	Idle: Castle.SpriteTemplate([][]int{
+				{ 0, 2 },
+				{ 1, 2 },
+				{ 2, 2 },
+				{ 3, 2 },
+		}).Rate(15).Loop(true),
+	Walk: Castle.SpriteTemplate([][]int{
+				{ 4, 2 },
+				{ 5, 2 },
+				{ 6, 2 },
+				{ 7, 2 },
+		}).Rate(10).Loop(true),
 }
 
 var Crossbowman2 = struct {
-	Attack func() *sprite.Sprite
-	Death func() *sprite.Sprite
-	Hit func() *sprite.Sprite
-	Idle func() *sprite.Sprite
-	Walk func() *sprite.Sprite
+	Attack sprite.Template
+	Death sprite.Template
+	Hit sprite.Template
+	Idle sprite.Template
+	Walk sprite.Template
 }{
-	Attack: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(8, 10, 4).Rate(5)
-	},
-	Death: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(16, 10, 4).Rate(10)
-	},
-	Hit: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(12, 10, 4).Rate(5)
-	},
-	Idle: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(0, 10, 4).Rate(15)
-	},
-	Walk: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(4, 10, 4).Rate(10)
-	},
+	Attack: Castle.SpriteTemplate([][]int{
+				{ 8, 10 },
+				{ 9, 10 },
+				{ 10, 10 },
+				{ 11, 10 },
+				{ 11, 10 },
+				{ 10, 10 },
+				{ 9, 10 },
+				{ 8, 10 },
+		}).Rate(5),
+	Death: Castle.SpriteTemplate([][]int{
+				{ 16, 10 },
+				{ 17, 10 },
+				{ 18, 10 },
+				{ 19, 10 },
+		}).Rate(10),
+	Hit: Castle.SpriteTemplate([][]int{
+				{ 12, 10 },
+				{ 13, 10 },
+				{ 14, 10 },
+				{ 15, 10 },
+				{ 15, 10 },
+				{ 14, 10 },
+				{ 13, 10 },
+				{ 12, 10 },
+		}).Rate(5),
+	Idle: Castle.SpriteTemplate([][]int{
+				{ 0, 10 },
+				{ 1, 10 },
+				{ 2, 10 },
+				{ 3, 10 },
+		}).Rate(15).Loop(true),
+	Walk: Castle.SpriteTemplate([][]int{
+				{ 4, 10 },
+				{ 5, 10 },
+				{ 6, 10 },
+				{ 7, 10 },
+		}).Rate(10).Loop(true),
 }
 
 var Halberd = struct {
-	Attack func() *sprite.Sprite
-	Death func() *sprite.Sprite
-	Hit func() *sprite.Sprite
-	Idle func() *sprite.Sprite
-	Walk func() *sprite.Sprite
+	Attack sprite.Template
+	Death sprite.Template
+	Hit sprite.Template
+	Idle sprite.Template
+	Walk sprite.Template
 }{
-	Attack: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(8, 9, 4).Rate(5)
-	},
-	Death: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(16, 9, 4).Rate(10)
-	},
-	Hit: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(12, 9, 4).Rate(5)
-	},
-	Idle: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(0, 9, 4).Rate(15)
-	},
-	Walk: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(4, 9, 4).Rate(10)
-	},
+	Attack: Castle.SpriteTemplate([][]int{
+				{ 8, 9 },
+				{ 9, 9 },
+				{ 10, 9 },
+				{ 11, 9 },
+				{ 11, 9 },
+				{ 10, 9 },
+				{ 9, 9 },
+				{ 8, 9 },
+		}).Rate(5),
+	Death: Castle.SpriteTemplate([][]int{
+				{ 16, 9 },
+				{ 17, 9 },
+				{ 18, 9 },
+				{ 19, 9 },
+		}).Rate(10),
+	Hit: Castle.SpriteTemplate([][]int{
+				{ 12, 9 },
+				{ 13, 9 },
+				{ 14, 9 },
+				{ 15, 9 },
+				{ 15, 9 },
+				{ 14, 9 },
+				{ 13, 9 },
+				{ 12, 9 },
+		}).Rate(5),
+	Idle: Castle.SpriteTemplate([][]int{
+				{ 0, 9 },
+				{ 1, 9 },
+				{ 2, 9 },
+				{ 3, 9 },
+		}).Rate(15).Loop(true),
+	Walk: Castle.SpriteTemplate([][]int{
+				{ 4, 9 },
+				{ 5, 9 },
+				{ 6, 9 },
+				{ 7, 9 },
+		}).Rate(10).Loop(true),
 }
 
 var Knight = struct {
-	Attack func() *sprite.Sprite
-	Death func() *sprite.Sprite
-	Hit func() *sprite.Sprite
-	Idle func() *sprite.Sprite
-	Walk func() *sprite.Sprite
+	Attack sprite.Template
+	Death sprite.Template
+	Hit sprite.Template
+	Idle sprite.Template
+	Walk sprite.Template
 }{
-	Attack: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(8, 7, 4).Rate(5)
-	},
-	Death: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(16, 7, 4).Rate(10)
-	},
-	Hit: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(12, 7, 4).Rate(5)
-	},
-	Idle: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(0, 7, 4).Rate(15)
-	},
-	Walk: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(4, 7, 4).Rate(10)
-	},
+	Attack: Castle.SpriteTemplate([][]int{
+				{ 8, 7 },
+				{ 9, 7 },
+				{ 10, 7 },
+				{ 11, 7 },
+				{ 11, 7 },
+				{ 10, 7 },
+				{ 9, 7 },
+				{ 8, 7 },
+		}).Rate(5),
+	Death: Castle.SpriteTemplate([][]int{
+				{ 16, 7 },
+				{ 17, 7 },
+				{ 18, 7 },
+				{ 19, 7 },
+		}).Rate(10),
+	Hit: Castle.SpriteTemplate([][]int{
+				{ 12, 7 },
+				{ 13, 7 },
+				{ 14, 7 },
+				{ 15, 7 },
+				{ 15, 7 },
+				{ 14, 7 },
+				{ 13, 7 },
+				{ 12, 7 },
+		}).Rate(5),
+	Idle: Castle.SpriteTemplate([][]int{
+				{ 0, 7 },
+				{ 1, 7 },
+				{ 2, 7 },
+				{ 3, 7 },
+		}).Rate(15).Loop(true),
+	Walk: Castle.SpriteTemplate([][]int{
+				{ 4, 7 },
+				{ 5, 7 },
+				{ 6, 7 },
+				{ 7, 7 },
+		}).Rate(10).Loop(true),
 }
 
 var Knight2 = struct {
-	Attack func() *sprite.Sprite
-	Death func() *sprite.Sprite
-	Hit func() *sprite.Sprite
-	Idle func() *sprite.Sprite
-	Walk func() *sprite.Sprite
+	Attack sprite.Template
+	Death sprite.Template
+	Hit sprite.Template
+	Idle sprite.Template
+	Walk sprite.Template
 }{
-	Attack: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(8, 15, 4).Rate(5)
-	},
-	Death: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(16, 15, 4).Rate(10)
-	},
-	Hit: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(12, 15, 4).Rate(5)
-	},
-	Idle: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(0, 15, 4).Rate(15)
-	},
-	Walk: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(4, 15, 4).Rate(10)
-	},
+	Attack: Castle.SpriteTemplate([][]int{
+				{ 8, 15 },
+				{ 9, 15 },
+				{ 10, 15 },
+				{ 11, 15 },
+				{ 11, 15 },
+				{ 10, 15 },
+				{ 9, 15 },
+				{ 8, 15 },
+		}).Rate(5),
+	Death: Castle.SpriteTemplate([][]int{
+				{ 16, 15 },
+				{ 17, 15 },
+				{ 18, 15 },
+				{ 19, 15 },
+		}).Rate(10),
+	Hit: Castle.SpriteTemplate([][]int{
+				{ 12, 15 },
+				{ 13, 15 },
+				{ 14, 15 },
+				{ 15, 15 },
+				{ 15, 15 },
+				{ 14, 15 },
+				{ 13, 15 },
+				{ 12, 15 },
+		}).Rate(5),
+	Idle: Castle.SpriteTemplate([][]int{
+				{ 0, 15 },
+				{ 1, 15 },
+				{ 2, 15 },
+				{ 3, 15 },
+		}).Rate(15).Loop(true),
+	Walk: Castle.SpriteTemplate([][]int{
+				{ 4, 15 },
+				{ 5, 15 },
+				{ 6, 15 },
+				{ 7, 15 },
+		}).Rate(10).Loop(true),
 }
 
 var Monk = struct {
-	Attack func() *sprite.Sprite
-	Death func() *sprite.Sprite
-	Hit func() *sprite.Sprite
-	Idle func() *sprite.Sprite
-	Walk func() *sprite.Sprite
+	Attack sprite.Template
+	Death sprite.Template
+	Hit sprite.Template
+	Idle sprite.Template
+	Walk sprite.Template
 }{
-	Attack: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(8, 5, 4).Rate(5)
-	},
-	Death: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(16, 5, 4).Rate(10)
-	},
-	Hit: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(12, 5, 4).Rate(5)
-	},
-	Idle: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(0, 5, 4).Rate(15)
-	},
-	Walk: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(4, 5, 4).Rate(15)
-	},
+	Attack: Castle.SpriteTemplate([][]int{
+				{ 8, 5 },
+				{ 9, 5 },
+				{ 10, 5 },
+				{ 11, 5 },
+				{ 11, 5 },
+				{ 10, 5 },
+				{ 9, 5 },
+				{ 8, 5 },
+		}).Rate(5),
+	Death: Castle.SpriteTemplate([][]int{
+				{ 16, 5 },
+				{ 17, 5 },
+				{ 18, 5 },
+				{ 19, 5 },
+		}).Rate(10),
+	Hit: Castle.SpriteTemplate([][]int{
+				{ 12, 5 },
+				{ 13, 5 },
+				{ 14, 5 },
+				{ 15, 5 },
+				{ 15, 5 },
+				{ 14, 5 },
+				{ 13, 5 },
+				{ 12, 5 },
+		}).Rate(5),
+	Idle: Castle.SpriteTemplate([][]int{
+				{ 0, 5 },
+				{ 1, 5 },
+				{ 2, 5 },
+				{ 3, 5 },
+		}).Rate(15).Loop(true),
+	Walk: Castle.SpriteTemplate([][]int{
+				{ 4, 5 },
+				{ 5, 5 },
+				{ 6, 5 },
+				{ 7, 5 },
+		}).Rate(15).Loop(true),
 }
 
 var Rider = struct {
-	Attack func() *sprite.Sprite
-	Death func() *sprite.Sprite
-	Hit func() *sprite.Sprite
-	Idle func() *sprite.Sprite
-	Walk func() *sprite.Sprite
+	Attack sprite.Template
+	Death sprite.Template
+	Hit sprite.Template
+	Idle sprite.Template
+	Walk sprite.Template
 }{
-	Attack: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(8, 6, 4).Rate(5)
-	},
-	Death: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(16, 6, 4).Rate(10)
-	},
-	Hit: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(12, 6, 4).Rate(5)
-	},
-	Idle: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(0, 6, 4).Rate(15)
-	},
-	Walk: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(4, 6, 4).Rate(10)
-	},
+	Attack: Castle.SpriteTemplate([][]int{
+				{ 8, 6 },
+				{ 9, 6 },
+				{ 10, 6 },
+				{ 11, 6 },
+				{ 11, 6 },
+				{ 10, 6 },
+				{ 9, 6 },
+				{ 8, 6 },
+		}).Rate(5),
+	Death: Castle.SpriteTemplate([][]int{
+				{ 16, 6 },
+				{ 17, 6 },
+				{ 18, 6 },
+				{ 19, 6 },
+		}).Rate(10),
+	Hit: Castle.SpriteTemplate([][]int{
+				{ 12, 6 },
+				{ 13, 6 },
+				{ 14, 6 },
+				{ 15, 6 },
+				{ 15, 6 },
+				{ 14, 6 },
+				{ 13, 6 },
+				{ 12, 6 },
+		}).Rate(5),
+	Idle: Castle.SpriteTemplate([][]int{
+				{ 0, 6 },
+				{ 1, 6 },
+				{ 2, 6 },
+				{ 3, 6 },
+		}).Rate(15).Loop(true),
+	Walk: Castle.SpriteTemplate([][]int{
+				{ 4, 6 },
+				{ 5, 6 },
+				{ 6, 6 },
+				{ 7, 6 },
+		}).Rate(10).Loop(true),
 }
 
 var Rider2 = struct {
-	Attack func() *sprite.Sprite
-	Death func() *sprite.Sprite
-	Hit func() *sprite.Sprite
-	Idle func() *sprite.Sprite
-	Walk func() *sprite.Sprite
+	Attack sprite.Template
+	Death sprite.Template
+	Hit sprite.Template
+	Idle sprite.Template
+	Walk sprite.Template
 }{
-	Attack: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(8, 14, 4).Rate(5)
-	},
-	Death: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(16, 14, 4).Rate(10)
-	},
-	Hit: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(12, 14, 4).Rate(5)
-	},
-	Idle: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(0, 14, 4).Rate(15)
-	},
-	Walk: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(4, 14, 4).Rate(10)
-	},
+	Attack: Castle.SpriteTemplate([][]int{
+				{ 8, 14 },
+				{ 9, 14 },
+				{ 10, 14 },
+				{ 11, 14 },
+				{ 11, 14 },
+				{ 10, 14 },
+				{ 9, 14 },
+				{ 8, 14 },
+		}).Rate(5),
+	Death: Castle.SpriteTemplate([][]int{
+				{ 16, 14 },
+				{ 17, 14 },
+				{ 18, 14 },
+				{ 19, 14 },
+		}).Rate(10),
+	Hit: Castle.SpriteTemplate([][]int{
+				{ 12, 14 },
+				{ 13, 14 },
+				{ 14, 14 },
+				{ 15, 14 },
+				{ 15, 14 },
+				{ 14, 14 },
+				{ 13, 14 },
+				{ 12, 14 },
+		}).Rate(5),
+	Idle: Castle.SpriteTemplate([][]int{
+				{ 0, 14 },
+				{ 1, 14 },
+				{ 2, 14 },
+				{ 3, 14 },
+		}).Rate(15).Loop(true),
+	Walk: Castle.SpriteTemplate([][]int{
+				{ 4, 14 },
+				{ 5, 14 },
+				{ 6, 14 },
+				{ 7, 14 },
+		}).Rate(10).Loop(true),
 }
 
 var Spearman = struct {
-	Attack func() *sprite.Sprite
-	Death func() *sprite.Sprite
-	Hit func() *sprite.Sprite
-	Idle func() *sprite.Sprite
-	Walk func() *sprite.Sprite
+	Attack sprite.Template
+	Death sprite.Template
+	Hit sprite.Template
+	Idle sprite.Template
+	Walk sprite.Template
 }{
-	Attack: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(8, 1, 4).Rate(5)
-	},
-	Death: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(16, 1, 4).Rate(10)
-	},
-	Hit: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(12, 1, 4).Rate(5)
-	},
-	Idle: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(0, 1, 4).Rate(15)
-	},
-	Walk: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(4, 1, 4).Rate(10)
-	},
+	Attack: Castle.SpriteTemplate([][]int{
+				{ 8, 1 },
+				{ 9, 1 },
+				{ 10, 1 },
+				{ 11, 1 },
+				{ 11, 1 },
+				{ 10, 1 },
+				{ 9, 1 },
+				{ 8, 1 },
+		}).Rate(5),
+	Death: Castle.SpriteTemplate([][]int{
+				{ 16, 1 },
+				{ 17, 1 },
+				{ 18, 1 },
+				{ 19, 1 },
+		}).Rate(10),
+	Hit: Castle.SpriteTemplate([][]int{
+				{ 12, 1 },
+				{ 13, 1 },
+				{ 14, 1 },
+				{ 15, 1 },
+				{ 15, 1 },
+				{ 14, 1 },
+				{ 13, 1 },
+				{ 12, 1 },
+		}).Rate(5),
+	Idle: Castle.SpriteTemplate([][]int{
+				{ 0, 1 },
+				{ 1, 1 },
+				{ 2, 1 },
+				{ 3, 1 },
+		}).Rate(15).Loop(true),
+	Walk: Castle.SpriteTemplate([][]int{
+				{ 4, 1 },
+				{ 5, 1 },
+				{ 6, 1 },
+				{ 7, 1 },
+		}).Rate(10).Loop(true),
 }
 
 var Swordsman = struct {
-	Attack func() *sprite.Sprite
-	Death func() *sprite.Sprite
-	Hit func() *sprite.Sprite
-	Idle func() *sprite.Sprite
-	Walk func() *sprite.Sprite
+	Attack sprite.Template
+	Death sprite.Template
+	Hit sprite.Template
+	Idle sprite.Template
+	Walk sprite.Template
 }{
-	Attack: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(8, 4, 4).Rate(5)
-	},
-	Death: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(16, 4, 4).Rate(10)
-	},
-	Hit: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(12, 4, 4).Rate(5)
-	},
-	Idle: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(0, 4, 4).Rate(15)
-	},
-	Walk: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(4, 4, 4).Rate(10)
-	},
+	Attack: Castle.SpriteTemplate([][]int{
+				{ 8, 4 },
+				{ 9, 4 },
+				{ 10, 4 },
+				{ 11, 4 },
+				{ 11, 4 },
+				{ 10, 4 },
+				{ 9, 4 },
+				{ 8, 4 },
+		}).Rate(5),
+	Death: Castle.SpriteTemplate([][]int{
+				{ 16, 4 },
+				{ 17, 4 },
+				{ 18, 4 },
+				{ 19, 4 },
+		}).Rate(10),
+	Hit: Castle.SpriteTemplate([][]int{
+				{ 12, 4 },
+				{ 13, 4 },
+				{ 14, 4 },
+				{ 15, 4 },
+				{ 15, 4 },
+				{ 14, 4 },
+				{ 13, 4 },
+				{ 12, 4 },
+		}).Rate(5),
+	Idle: Castle.SpriteTemplate([][]int{
+				{ 0, 4 },
+				{ 1, 4 },
+				{ 2, 4 },
+				{ 3, 4 },
+		}).Rate(15).Loop(true),
+	Walk: Castle.SpriteTemplate([][]int{
+				{ 4, 4 },
+				{ 5, 4 },
+				{ 6, 4 },
+				{ 7, 4 },
+		}).Rate(10).Loop(true),
 }
 
 var Swordsman2 = struct {
-	Attack func() *sprite.Sprite
-	Death func() *sprite.Sprite
-	Hit func() *sprite.Sprite
-	Idle func() *sprite.Sprite
-	Walk func() *sprite.Sprite
+	Attack sprite.Template
+	Death sprite.Template
+	Hit sprite.Template
+	Idle sprite.Template
+	Walk sprite.Template
 }{
-	Attack: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(8, 12, 4).Rate(5)
-	},
-	Death: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(16, 12, 4).Rate(10)
-	},
-	Hit: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(12, 12, 4).Rate(5)
-	},
-	Idle: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(0, 12, 4).Rate(15)
-	},
-	Walk: func() *sprite.Sprite {
-		return Castle.SpriteFromRow(4, 12, 4).Rate(10)
-	},
+	Attack: Castle.SpriteTemplate([][]int{
+				{ 8, 12 },
+				{ 9, 12 },
+				{ 10, 12 },
+				{ 11, 12 },
+				{ 11, 12 },
+				{ 10, 12 },
+				{ 9, 12 },
+				{ 8, 12 },
+		}).Rate(5),
+	Death: Castle.SpriteTemplate([][]int{
+				{ 16, 12 },
+				{ 17, 12 },
+				{ 18, 12 },
+				{ 19, 12 },
+		}).Rate(10),
+	Hit: Castle.SpriteTemplate([][]int{
+				{ 12, 12 },
+				{ 13, 12 },
+				{ 14, 12 },
+				{ 15, 12 },
+				{ 15, 12 },
+				{ 14, 12 },
+				{ 13, 12 },
+				{ 12, 12 },
+		}).Rate(5),
+	Idle: Castle.SpriteTemplate([][]int{
+				{ 0, 12 },
+				{ 1, 12 },
+				{ 2, 12 },
+				{ 3, 12 },
+		}).Rate(15).Loop(true),
+	Walk: Castle.SpriteTemplate([][]int{
+				{ 4, 12 },
+				{ 5, 12 },
+				{ 6, 12 },
+				{ 7, 12 },
+		}).Rate(10).Loop(true),
 }
-
 
 var Rampart = sprite.OpenTileAsset("raw/HAS CreaturePack/HAS Creature Pack 1.2/Rampart/RampartSpriteSheet.png", 16, 16)
 
 var Axeman = struct {
-	Attack func() *sprite.Sprite
-	Death func() *sprite.Sprite
-	Hit func() *sprite.Sprite
-	Idle func() *sprite.Sprite
-	Walk func() *sprite.Sprite
+	Attack sprite.Template
+	Death sprite.Template
+	Hit sprite.Template
+	Idle sprite.Template
+	Walk sprite.Template
 }{
-	Attack: func() *sprite.Sprite {
-		return Rampart.SpriteFromRow(8, 2, 4).Rate(5)
-	},
-	Death: func() *sprite.Sprite {
-		return Rampart.SpriteFromRow(16, 2, 4).Rate(10)
-	},
-	Hit: func() *sprite.Sprite {
-		return Rampart.SpriteFromRow(12, 2, 4).Rate(5)
-	},
-	Idle: func() *sprite.Sprite {
-		return Rampart.SpriteFromRow(0, 2, 4).Rate(15)
-	},
-	Walk: func() *sprite.Sprite {
-		return Rampart.SpriteFromRow(4, 2, 4).Rate(10)
-	},
+	Attack: Rampart.SpriteTemplate([][]int{
+				{ 8, 2 },
+				{ 9, 2 },
+				{ 10, 2 },
+				{ 11, 2 },
+				{ 11, 2 },
+				{ 10, 2 },
+				{ 9, 2 },
+				{ 8, 2 },
+		}).Rate(5),
+	Death: Rampart.SpriteTemplate([][]int{
+				{ 16, 2 },
+				{ 17, 2 },
+				{ 18, 2 },
+				{ 19, 2 },
+		}).Rate(10),
+	Hit: Rampart.SpriteTemplate([][]int{
+				{ 12, 2 },
+				{ 13, 2 },
+				{ 14, 2 },
+				{ 15, 2 },
+				{ 15, 2 },
+				{ 14, 2 },
+				{ 13, 2 },
+				{ 12, 2 },
+		}).Rate(5),
+	Idle: Rampart.SpriteTemplate([][]int{
+				{ 0, 2 },
+				{ 1, 2 },
+				{ 2, 2 },
+				{ 3, 2 },
+		}).Rate(15).Loop(true),
+	Walk: Rampart.SpriteTemplate([][]int{
+				{ 4, 2 },
+				{ 5, 2 },
+				{ 6, 2 },
+				{ 7, 2 },
+		}).Rate(10).Loop(true),
 }
 
 var Hammerman = struct {
-	Attack func() *sprite.Sprite
-	Death func() *sprite.Sprite
-	Hit func() *sprite.Sprite
-	Idle func() *sprite.Sprite
-	Walk func() *sprite.Sprite
+	Attack sprite.Template
+	Death sprite.Template
+	Hit sprite.Template
+	Idle sprite.Template
+	Walk sprite.Template
 }{
-	Attack: func() *sprite.Sprite {
-		return Rampart.SpriteFromRow(8, 10, 4).Rate(5)
-	},
-	Death: func() *sprite.Sprite {
-		return Rampart.SpriteFromRow(16, 10, 4).Rate(10)
-	},
-	Hit: func() *sprite.Sprite {
-		return Rampart.SpriteFromRow(12, 10, 4).Rate(5)
-	},
-	Idle: func() *sprite.Sprite {
-		return Rampart.SpriteFromRow(0, 10, 4).Rate(15)
-	},
-	Walk: func() *sprite.Sprite {
-		return Rampart.SpriteFromRow(4, 10, 4).Rate(10)
-	},
+	Attack: Rampart.SpriteTemplate([][]int{
+				{ 8, 10 },
+				{ 9, 10 },
+				{ 10, 10 },
+				{ 11, 10 },
+				{ 11, 10 },
+				{ 10, 10 },
+				{ 9, 10 },
+				{ 8, 10 },
+		}).Rate(5),
+	Death: Rampart.SpriteTemplate([][]int{
+				{ 16, 10 },
+				{ 17, 10 },
+				{ 18, 10 },
+				{ 19, 10 },
+		}).Rate(10),
+	Hit: Rampart.SpriteTemplate([][]int{
+				{ 12, 10 },
+				{ 13, 10 },
+				{ 14, 10 },
+				{ 15, 10 },
+				{ 15, 10 },
+				{ 14, 10 },
+				{ 13, 10 },
+				{ 12, 10 },
+		}).Rate(5),
+	Idle: Rampart.SpriteTemplate([][]int{
+				{ 0, 10 },
+				{ 1, 10 },
+				{ 2, 10 },
+				{ 3, 10 },
+		}).Rate(15).Loop(true),
+	Walk: Rampart.SpriteTemplate([][]int{
+				{ 4, 10 },
+				{ 5, 10 },
+				{ 6, 10 },
+				{ 7, 10 },
+		}).Rate(10).Loop(true),
 }
 
 var Hunter = struct {
-	Attack func() *sprite.Sprite
-	Death func() *sprite.Sprite
-	Hit func() *sprite.Sprite
-	Idle func() *sprite.Sprite
-	Walk func() *sprite.Sprite
+	Attack sprite.Template
+	Death sprite.Template
+	Hit sprite.Template
+	Idle sprite.Template
+	Walk sprite.Template
 }{
-	Attack: func() *sprite.Sprite {
-		return Rampart.SpriteFromRow(8, 4, 4).Rate(5)
-	},
-	Death: func() *sprite.Sprite {
-		return Rampart.SpriteFromRow(16, 4, 4).Rate(10)
-	},
-	Hit: func() *sprite.Sprite {
-		return Rampart.SpriteFromRow(12, 4, 4).Rate(5)
-	},
-	Idle: func() *sprite.Sprite {
-		return Rampart.SpriteFromRow(0, 4, 4).Rate(15)
-	},
-	Walk: func() *sprite.Sprite {
-		return Rampart.SpriteFromRow(4, 4, 4).Rate(10)
-	},
+	Attack: Rampart.SpriteTemplate([][]int{
+				{ 8, 4 },
+				{ 9, 4 },
+				{ 10, 4 },
+				{ 11, 4 },
+				{ 11, 4 },
+				{ 10, 4 },
+				{ 9, 4 },
+				{ 8, 4 },
+		}).Rate(5),
+	Death: Rampart.SpriteTemplate([][]int{
+				{ 16, 4 },
+				{ 17, 4 },
+				{ 18, 4 },
+				{ 19, 4 },
+		}).Rate(10),
+	Hit: Rampart.SpriteTemplate([][]int{
+				{ 12, 4 },
+				{ 13, 4 },
+				{ 14, 4 },
+				{ 15, 4 },
+				{ 15, 4 },
+				{ 14, 4 },
+				{ 13, 4 },
+				{ 12, 4 },
+		}).Rate(5),
+	Idle: Rampart.SpriteTemplate([][]int{
+				{ 0, 4 },
+				{ 1, 4 },
+				{ 2, 4 },
+				{ 3, 4 },
+		}).Rate(15).Loop(true),
+	Walk: Rampart.SpriteTemplate([][]int{
+				{ 4, 4 },
+				{ 5, 4 },
+				{ 6, 4 },
+				{ 7, 4 },
+		}).Rate(10).Loop(true),
 }
 
 var Hunter2 = struct {
-	Attack func() *sprite.Sprite
-	Death func() *sprite.Sprite
-	Hit func() *sprite.Sprite
-	Idle func() *sprite.Sprite
-	Walk func() *sprite.Sprite
+	Attack sprite.Template
+	Death sprite.Template
+	Hit sprite.Template
+	Idle sprite.Template
+	Walk sprite.Template
 }{
-	Attack: func() *sprite.Sprite {
-		return Rampart.SpriteFromRow(8, 12, 4).Rate(5)
-	},
-	Death: func() *sprite.Sprite {
-		return Rampart.SpriteFromRow(16, 12, 4).Rate(10)
-	},
-	Hit: func() *sprite.Sprite {
-		return Rampart.SpriteFromRow(12, 12, 4).Rate(5)
-	},
-	Idle: func() *sprite.Sprite {
-		return Rampart.SpriteFromRow(0, 12, 4).Rate(15)
-	},
-	Walk: func() *sprite.Sprite {
-		return Rampart.SpriteFromRow(4, 12, 4).Rate(10)
-	},
+	Attack: Rampart.SpriteTemplate([][]int{
+				{ 8, 12 },
+				{ 9, 12 },
+				{ 10, 12 },
+				{ 11, 12 },
+				{ 11, 12 },
+				{ 10, 12 },
+				{ 9, 12 },
+				{ 8, 12 },
+		}).Rate(5),
+	Death: Rampart.SpriteTemplate([][]int{
+				{ 16, 12 },
+				{ 17, 12 },
+				{ 18, 12 },
+				{ 19, 12 },
+		}).Rate(10),
+	Hit: Rampart.SpriteTemplate([][]int{
+				{ 12, 12 },
+				{ 13, 12 },
+				{ 14, 12 },
+				{ 15, 12 },
+				{ 15, 12 },
+				{ 14, 12 },
+				{ 13, 12 },
+				{ 12, 12 },
+		}).Rate(5),
+	Idle: Rampart.SpriteTemplate([][]int{
+				{ 0, 12 },
+				{ 1, 12 },
+				{ 2, 12 },
+				{ 3, 12 },
+		}).Rate(15).Loop(true),
+	Walk: Rampart.SpriteTemplate([][]int{
+				{ 4, 12 },
+				{ 5, 12 },
+				{ 6, 12 },
+				{ 7, 12 },
+		}).Rate(10).Loop(true),
 }
-
 
 var Stronghold = sprite.OpenTileAsset("raw/HAS CreaturePack/HAS Creature Pack 1.2/Stronghold/StrongholdSpriteSheet.png", 16, 16)
 
 var Brute = struct {
-	Attack func() *sprite.Sprite
-	Death func() *sprite.Sprite
-	Hit func() *sprite.Sprite
-	Idle func() *sprite.Sprite
-	Walk func() *sprite.Sprite
+	Attack sprite.Template
+	Death sprite.Template
+	Hit sprite.Template
+	Idle sprite.Template
+	Walk sprite.Template
 }{
-	Attack: func() *sprite.Sprite {
-		return Stronghold.SpriteFromRow(8, 7, 4).Rate(5)
-	},
-	Death: func() *sprite.Sprite {
-		return Stronghold.SpriteFromRow(16, 7, 4).Rate(10)
-	},
-	Hit: func() *sprite.Sprite {
-		return Stronghold.SpriteFromRow(12, 7, 4).Rate(5)
-	},
-	Idle: func() *sprite.Sprite {
-		return Stronghold.SpriteFromRow(0, 7, 4).Rate(15)
-	},
-	Walk: func() *sprite.Sprite {
-		return Stronghold.SpriteFromRow(4, 7, 4).Rate(12)
-	},
+	Attack: Stronghold.SpriteTemplate([][]int{
+				{ 8, 7 },
+				{ 9, 7 },
+				{ 10, 7 },
+				{ 11, 7 },
+				{ 11, 7 },
+				{ 10, 7 },
+				{ 9, 7 },
+				{ 8, 7 },
+		}).Rate(5),
+	Death: Stronghold.SpriteTemplate([][]int{
+				{ 16, 7 },
+				{ 17, 7 },
+				{ 18, 7 },
+				{ 19, 7 },
+		}).Rate(10),
+	Hit: Stronghold.SpriteTemplate([][]int{
+				{ 12, 7 },
+				{ 13, 7 },
+				{ 14, 7 },
+				{ 15, 7 },
+				{ 15, 7 },
+				{ 14, 7 },
+				{ 13, 7 },
+				{ 12, 7 },
+		}).Rate(5),
+	Idle: Stronghold.SpriteTemplate([][]int{
+				{ 0, 7 },
+				{ 1, 7 },
+				{ 2, 7 },
+				{ 3, 7 },
+		}).Rate(15).Loop(true),
+	Walk: Stronghold.SpriteTemplate([][]int{
+				{ 4, 7 },
+				{ 5, 7 },
+				{ 6, 7 },
+				{ 7, 7 },
+		}).Rate(12).Loop(true),
 }
 
 var Brute2 = struct {
-	Attack func() *sprite.Sprite
-	Death func() *sprite.Sprite
-	Hit func() *sprite.Sprite
-	Idle func() *sprite.Sprite
-	Walk func() *sprite.Sprite
+	Attack sprite.Template
+	Death sprite.Template
+	Hit sprite.Template
+	Idle sprite.Template
+	Walk sprite.Template
 }{
-	Attack: func() *sprite.Sprite {
-		return Stronghold.SpriteFromRow(8, 15, 4).Rate(5)
-	},
-	Death: func() *sprite.Sprite {
-		return Stronghold.SpriteFromRow(16, 15, 4).Rate(10)
-	},
-	Hit: func() *sprite.Sprite {
-		return Stronghold.SpriteFromRow(12, 15, 4).Rate(5)
-	},
-	Idle: func() *sprite.Sprite {
-		return Stronghold.SpriteFromRow(0, 15, 4).Rate(15)
-	},
-	Walk: func() *sprite.Sprite {
-		return Stronghold.SpriteFromRow(4, 15, 4).Rate(15)
-	},
+	Attack: Stronghold.SpriteTemplate([][]int{
+				{ 8, 15 },
+				{ 9, 15 },
+				{ 10, 15 },
+				{ 11, 15 },
+				{ 11, 15 },
+				{ 10, 15 },
+				{ 9, 15 },
+				{ 8, 15 },
+		}).Rate(5),
+	Death: Stronghold.SpriteTemplate([][]int{
+				{ 16, 15 },
+				{ 17, 15 },
+				{ 18, 15 },
+				{ 19, 15 },
+		}).Rate(10),
+	Hit: Stronghold.SpriteTemplate([][]int{
+				{ 12, 15 },
+				{ 13, 15 },
+				{ 14, 15 },
+				{ 15, 15 },
+				{ 15, 15 },
+				{ 14, 15 },
+				{ 13, 15 },
+				{ 12, 15 },
+		}).Rate(5),
+	Idle: Stronghold.SpriteTemplate([][]int{
+				{ 0, 15 },
+				{ 1, 15 },
+				{ 2, 15 },
+				{ 3, 15 },
+		}).Rate(15).Loop(true),
+	Walk: Stronghold.SpriteTemplate([][]int{
+				{ 4, 15 },
+				{ 5, 15 },
+				{ 6, 15 },
+				{ 7, 15 },
+		}).Rate(15).Loop(true),
 }
-
-var Mercenary = struct {
-}{
-}
-
-
-var Tower = sprite.OpenTileAsset("raw/HAS CreaturePack/HAS Creature Pack 1.2/Tower/TowerSpriteSheet.png", 16, 16)
-
-var Shotgun = struct {
-	Attack func() *sprite.Sprite
-	Death func() *sprite.Sprite
-	Hit func() *sprite.Sprite
-	Idle func() *sprite.Sprite
-	Walk func() *sprite.Sprite
-}{
-	Attack: func() *sprite.Sprite {
-		return Tower.SpriteFromRow(8, 1, 4).Rate(5)
-	},
-	Death: func() *sprite.Sprite {
-		return Tower.SpriteFromRow(16, 1, 4).Rate(10)
-	},
-	Hit: func() *sprite.Sprite {
-		return Tower.SpriteFromRow(12, 1, 4).Rate(5)
-	},
-	Idle: func() *sprite.Sprite {
-		return Tower.SpriteFromRow(0, 1, 4).Rate(15)
-	},
-	Walk: func() *sprite.Sprite {
-		return Tower.SpriteFromRow(4, 1, 4).Rate(10)
-	},
-}
-
-var Shotgun2 = struct {
-	Attack func() *sprite.Sprite
-	Death func() *sprite.Sprite
-	Hit func() *sprite.Sprite
-	Idle func() *sprite.Sprite
-	Walk func() *sprite.Sprite
-}{
-	Attack: func() *sprite.Sprite {
-		return Tower.SpriteFromRow(8, 9, 4).Rate(5)
-	},
-	Death: func() *sprite.Sprite {
-		return Tower.SpriteFromRow(16, 9, 4).Rate(10)
-	},
-	Hit: func() *sprite.Sprite {
-		return Tower.SpriteFromRow(12, 9, 4).Rate(5)
-	},
-	Idle: func() *sprite.Sprite {
-		return Tower.SpriteFromRow(0, 9, 4).Rate(15)
-	},
-	Walk: func() *sprite.Sprite {
-		return Tower.SpriteFromRow(4, 9, 4).Rate(10)
-	},
-}
-

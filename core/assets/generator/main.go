@@ -16,22 +16,25 @@ var assetTemplate = template.Must(template.New("assets").Parse(`
 package {{ if eq $.Package "" }}assets{{ else }}{{ $.Package }}{{ end }}
 
 import "github.com/rabidaudio/tactics/core/sprite"
-{{ range $ssname, $ss := $.Spritesheets }}
+
+{{- range $ssname, $ss := $.Spritesheets }}
 var {{ $ssname }} = sprite.OpenTileAsset("{{ $ss.Path }}", {{ index $ss.TileSize 0 }}, {{ index $ss.TileSize 1 }})
 {{ range $gname, $map := $ss.Sprites }}
 var {{ $gname }} = struct {
 	{{- range $sname, $s := $map }}
-	{{ $sname }} func() *sprite.Sprite
+	{{ $sname }} sprite.Template
 	{{- end }}
 }{
 	{{- range $sname, $s := $map }}
-	{{ $sname }}: func() *sprite.Sprite {
-		return {{ $ssname }}.{{ if eq $ss.Direction "column" }}SpriteFromColumn{{ else }}SpriteFromRow{{ end }}({{ $s.X }}, {{ $s.Y }}, {{ $s.Size }}){{ if ne $s.Rate 0 }}.Rate({{ $s.Rate }}){{ end }}{{ if $s.Reverse }}.Reversed(){{ end }}
-	},
+	{{ $sname }}: {{ $ssname }}.SpriteTemplate([][]int{
+			{{- range $i, $f := $s.Frames }}
+				{ {{ index $f 0 }}, {{ index $f 1 }} },
+			{{- end }}
+		}){{ if ne $s.Rate 0 }}.Rate({{ $s.Rate }}){{ end }}{{ if $s.Reverse }}.Reversed(){{ end }}{{ if $s.Loop }}.Loop(true){{ end }},
 	{{- end }}
 }
 {{ end }}
-{{ end }}`))
+{{- end }}`))
 
 var (
 	cpath = flag.String("path", "assets.yml", "The path to a YAML file declaring the assets to generate")
@@ -61,22 +64,15 @@ type Config struct {
 	Package      string                 `yaml:"Package,omitempty"`
 }
 
-type Direction string
-
-const Row Direction = "row"
-const Column Direction = "column"
-
 type SpriteSheet struct {
-	Path      string                       `yaml:"Path"`
-	TileSize  []int                        `yaml:"TileSize"`
-	Direction Direction                    `yaml:"Direction"`
-	Sprites   map[string]map[string]Sprite `yaml:"Sprites"`
+	Path     string                       `yaml:"Path"`
+	TileSize []int                        `yaml:"TileSize"`
+	Sprites  map[string]map[string]Sprite `yaml:"Sprites"`
 }
 
 type Sprite struct {
-	X       int  `yaml:"X"`
-	Y       int  `yaml:"Y"`
-	Size    int  `yaml:"Size"`
-	Rate    int  `yaml:"Rate,omitempty"`
-	Reverse bool `yaml:"Reverse,omitempty"`
+	Frames  [][]int `yaml:"Frames"`
+	Rate    int     `yaml:"Rate,omitempty"`
+	Reverse bool    `yaml:"Reverse,omitempty"`
+	Loop    bool    `yaml:"Loop,omitempty"`
 }

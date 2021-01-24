@@ -37,16 +37,11 @@ type UnitOptions struct {
 
 type UnitAnimations struct {
 	// from core/assets/generate
-
-	// TODO [graphics] instead of a unique sprite per unit,
-	// if all units referenced the same sprite than they'd
-	// always be animation sync'd. This would obsolete the
-	// sprite player
-	Attack func() *sprite.Sprite
-	Death  func() *sprite.Sprite
-	Hit    func() *sprite.Sprite
-	Idle   func() *sprite.Sprite
-	Walk   func() *sprite.Sprite
+	Attack sprite.Template
+	Death  sprite.Template
+	Hit    sprite.Template
+	Idle   sprite.Template
+	Walk   sprite.Template
 }
 
 func offset(opts *ebiten.DrawImageOptions) {
