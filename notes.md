@@ -27,6 +27,8 @@ research. It may be too expensive for CPU.
 
 Combat mechanics:
 
+https://docs.google.com/spreadsheets/d/1h0ClYR4PmfNxvJZIRsAS6pI_Ja92WYdLxgQEmPoqEOY/edit#gid=0
+
 - Weapon Triangle (sword/lance/axe)
 - Ranged advantage over mounted units? or mages? no flying units available
 
@@ -43,7 +45,7 @@ Atk, Def, Spd
 
 - Crossbow: Def++, Spd--
 - Hunter: Atk++, Def--
-- (ranged lance equivalent?)
+- (ranged lance equivalent? musket?)
 
 specialty units:
 

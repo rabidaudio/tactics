@@ -3,40 +3,34 @@ package unit
 import "github.com/rabidaudio/tactics/game/weapon"
 
 type Stats struct {
-	Atk   int
-	Def   int
-	Spd   int
-	HP    int
-	Steps int
+	Atk    int
+	Def    int
+	Spd    int
+	BaseHP int
 }
 
 func BaseStats(lvl int) Stats {
 	// TODO [balance]
+	// TODO [mechanics] leveling
 	return Stats{
-		Atk:   lvl,
-		Def:   lvl,
-		Spd:   lvl,
-		HP:    5 + 2*lvl,
-		Steps: 2,
+		Atk:    BaseStat,
+		Def:    BaseStat,
+		Spd:    BaseStat,
+		BaseHP: BaseHP,
 	}
 }
 
 func (s Stats) Bias(wtype weapon.WeaponType) Stats {
-	scale := 2 // TODO [balance]
 	switch wtype {
 	case weapon.SwordType:
-		s.Def += scale
-		s.Spd -= scale
+		s.Def += StatBias
+		s.Spd -= StatBias
 	case weapon.AxeType:
-		s.Atk += scale
-		s.Def -= scale
+		s.Atk += StatBias
+		s.Def -= StatBias
 	case weapon.LanceType:
-		s.Spd += scale
-		s.Atk -= scale
+		s.Spd += StatBias
+		s.Atk -= StatBias
 	}
 	return s
 }
-
-// Status is the current level of the unit's stats,
-// as opposed to their max level
-type Status Stats

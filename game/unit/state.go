@@ -1,6 +1,8 @@
 package unit
 
 import (
+	"log"
+
 	"github.com/rabidaudio/tactics/core"
 	"github.com/rabidaudio/tactics/core/units"
 )
@@ -8,6 +10,21 @@ import (
 type UnitState interface {
 	Tick()
 	Handle(c core.Command)
+	AcceptingCommands() bool
+}
+
+// basicState is for states that are logic-free
+type basicState struct{}
+
+func (s basicState) Tick() {
+}
+
+func (s basicState) AcceptingCommands() bool {
+	return false
+}
+
+func (s basicState) Handle(c core.Command) {
+	core.Unexpected(c)
 }
 
 type idleState struct{}
@@ -18,6 +35,10 @@ func (u *Unit) idle() {
 }
 
 func (s idleState) Tick() {
+}
+
+func (s idleState) AcceptingCommands() bool {
+	return true
 }
 
 func (s idleState) Handle(c core.Command) {
@@ -68,11 +89,17 @@ func (s *walkingState) Tick() {
 	s.nextStep()
 }
 
+func (s *walkingState) AcceptingCommands() bool {
+	return false
+}
+
 func (s *walkingState) Handle(c core.Command) {
 	// commands are ignored while moving
 }
 
-type attackingState struct{}
+type attackingState struct {
+	basicState
+}
 
 func (u *Unit) attack(cmd AttackCommand) {
 	u.state = attackingState{}
@@ -82,45 +109,38 @@ func (u *Unit) attack(cmd AttackCommand) {
 	})
 }
 
-func (s attackingState) Tick() {
+type defendingState struct {
+	basicState
+	unit          *Unit
+	dmg           int
+	hitsRemaining int
 }
-
-func (s attackingState) Handle(c core.Command) {
-	// commands are ignored while attacking
-}
-
-type defendingState struct{}
 
 func (u *Unit) defend(cmd AttackCommand) {
-	u.state = defendingState{}
+	log.Printf("%v hit %v for %v", cmd.Unit, cmd.Target, cmd.Dmg())
+	state := defendingState{unit: u, dmg: cmd.Dmg(), hitsRemaining: cmd.Count()}
+	u.state = state
 	u.face(cmd.Unit.Location)
-	u.Sprite = u.Animations.Hit.Sprite().OnComplete(func() {
-		u.status.HP -= cmd.Dmg()
-		if u.status.HP <= 0 {
-			u.die()
-		} else {
-			u.idle()
-		}
-	})
+	u.Sprite = u.Animations.Hit.Sprite().OnComplete(state.animEnd)
 }
 
-func (s defendingState) Tick() {
+func (ds *defendingState) animEnd() {
+	ds.unit.HP -= ds.dmg
+	ds.hitsRemaining--
+	if ds.unit.HP <= 0 {
+		ds.unit.die()
+	} else if ds.hitsRemaining > 0 {
+		ds.unit.Sprite = ds.unit.Animations.Hit.Sprite().OnComplete(ds.animEnd)
+	} else {
+		ds.unit.idle()
+	}
 }
 
-func (s defendingState) Handle(c core.Command) {
-	// commands are ignored while defending
+type deadState struct {
+	basicState
 }
-
-type deadState struct{}
 
 func (u *Unit) die() {
 	u.state = deadState{}
 	u.Sprite = u.Animations.Death.Sprite()
-}
-
-func (s deadState) Tick() {
-}
-
-func (s deadState) Handle(c core.Command) {
-	// commands are ignored while dead
 }

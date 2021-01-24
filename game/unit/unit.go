@@ -1,6 +1,7 @@
 package unit
 
 import (
+	"fmt"
 	"math"
 
 	"github.com/hajimehoshi/ebiten"
@@ -22,12 +23,13 @@ func (t Team) Color(cm *ebiten.ColorM) {
 type Unit struct {
 	UnitOptions
 	core.Drawable
-	state  UnitState
-	Stats  Stats
-	status Status
+	state UnitState
+	Stats Stats
+	HP    int
 }
 
 type UnitOptions struct {
+	Name       string
 	Team       Team
 	Level      int
 	Weapon     weapon.Weapon
@@ -48,7 +50,7 @@ func offset(opts *ebiten.DrawImageOptions) {
 	// offset by a partial-tile so feet are on the ground
 	// TODO [graphics] this looks good on roads but
 	// weird against other objects sometimes
-	opts.GeoM.Translate(0, -6.0)
+	// opts.GeoM.Translate(0, -6.0)
 }
 
 func new(opts UnitOptions) *Unit {
@@ -62,8 +64,8 @@ func new(opts UnitOptions) *Unit {
 			DrawCallback: offset,
 			Opts:         dopts,
 		},
-		Stats:  stats,
-		status: Status(stats),
+		Stats: stats,
+		HP:    stats.BaseHP,
 	}
 	u.idle()
 	return &u
@@ -76,6 +78,23 @@ func (u *Unit) Tick() {
 
 func (u *Unit) Handle(cmd core.Command) {
 	u.state.Handle(cmd)
+}
+
+func (u *Unit) AcceptingCommands() bool {
+	return u.state.AcceptingCommands()
+}
+
+func (u *Unit) CanReach(other *Unit) bool {
+	return u.Weapon.CanHit(u.Location, other.Location)
+}
+
+func (u *Unit) StepsPerTurn() int {
+	return 2 + (u.Stats.Spd - BaseStat)
+}
+
+func (u *Unit) String() string {
+	// TODO [archetecture] placeholder
+	return fmt.Sprintf("%v{team: %v lvl: %v hp: %v/%v wpn: %v}", u.Name, u.Team, u.Level, u.HP, u.Stats.BaseHP, u.Weapon.Name)
 }
 
 // animation speed of walking in units of pixels/second

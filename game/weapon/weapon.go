@@ -9,7 +9,7 @@ type Reach int
 
 const (
 	Melee  Reach = 1
-	Ranged       = 2
+	Ranged Reach = 2
 )
 
 var meleeThreat = []units.TPoint{
@@ -60,10 +60,6 @@ func (r Reach) CanHit(from, to units.TPoint) bool {
 	return false
 }
 
-// WeaponAdvantage is the scale factor for
-// the favored weapon when applying the weapon triangle
-const WeaponAdvantage = 1.5
-
 type WeaponType int
 
 const (
@@ -74,6 +70,19 @@ const (
 	MagicType
 )
 
+func (wt WeaponType) HasTypeAdvantage(other WeaponType) bool {
+	switch wt {
+	case LanceType:
+		return other == SwordType
+	case SwordType:
+		return other == AxeType
+	case AxeType:
+		return other == LanceType
+	default:
+		return false
+	}
+}
+
 type Weapon struct {
 	Reach
 	WeaponType
@@ -81,100 +90,102 @@ type Weapon struct {
 	DamageLevel int
 }
 
+// TODO [archetecture] generate/parse from config file
+
 var Spear = Weapon{
 	Name:        "spear",
 	Reach:       Melee,
 	WeaponType:  LanceType,
-	DamageLevel: 1,
+	DamageLevel: 3,
 }
 
 var Halberd = Weapon{
 	Name:        "halberd",
 	Reach:       Melee,
 	WeaponType:  LanceType,
-	DamageLevel: 2,
+	DamageLevel: 5,
 }
 
 var Sword1 = Weapon{
 	Name:        "iron sword",
 	Reach:       Melee,
 	WeaponType:  SwordType,
-	DamageLevel: 1,
+	DamageLevel: 3,
 }
 
 var Sword2 = Weapon{
 	Name:        "steel sword",
 	Reach:       Melee,
 	WeaponType:  SwordType,
-	DamageLevel: 2,
+	DamageLevel: 5,
 }
 
 var Axe = Weapon{
 	Name:        "axe",
 	Reach:       Melee,
 	WeaponType:  AxeType,
-	DamageLevel: 1,
+	DamageLevel: 3,
 }
 
 var Hammer = Weapon{
 	Name:        "hammer",
 	Reach:       Melee,
 	WeaponType:  AxeType,
-	DamageLevel: 2,
+	DamageLevel: 5,
 }
 
 var Bow1 = Weapon{
 	Name:        "bow",
 	Reach:       Ranged,
 	WeaponType:  BowType,
-	DamageLevel: 1,
+	DamageLevel: 3,
 }
 
 var Bow2 = Weapon{
 	Name:        "compound bow",
 	Reach:       Ranged,
 	WeaponType:  BowType,
-	DamageLevel: 2,
+	DamageLevel: 5,
 }
 
 var Crossbow1 = Weapon{
 	Name:        "light crossbow",
 	Reach:       Ranged,
 	WeaponType:  BowType,
-	DamageLevel: 1,
+	DamageLevel: 3,
 }
 
 var Crossbow2 = Weapon{
 	Name:        "heavy crossbow",
 	Reach:       Ranged,
 	WeaponType:  BowType,
-	DamageLevel: 2,
+	DamageLevel: 5,
 }
 
 var Heal1 = Weapon{
 	Name:        "mend",
 	Reach:       Melee,
 	WeaponType:  MagicType,
-	DamageLevel: 1,
+	DamageLevel: 3,
 }
 
 var Heal2 = Weapon{
 	Name:        "heal",
 	Reach:       Melee,
 	WeaponType:  MagicType,
-	DamageLevel: 2,
+	DamageLevel: 5,
 }
 
 var Wound1 = Weapon{
 	Name:        "harm",
 	Reach:       Ranged,
 	WeaponType:  MagicType,
-	DamageLevel: 1,
+	DamageLevel: 3,
 }
 
 var Wound2 = Weapon{
 	Name:        "curse",
 	Reach:       Ranged,
 	WeaponType:  MagicType,
-	DamageLevel: 2,
+	DamageLevel: 5,
 }

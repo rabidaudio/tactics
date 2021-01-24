@@ -4,10 +4,15 @@ import (
 	"image"
 
 	"github.com/hajimehoshi/ebiten"
+	"github.com/hajimehoshi/ebiten/inpututil"
+	"github.com/pkg/errors"
+	"github.com/rabidaudio/tactics/assets"
 	"github.com/rabidaudio/tactics/core"
 	"github.com/rabidaudio/tactics/core/units"
 	"github.com/rabidaudio/tactics/game/unit"
 )
+
+var ErrQuit = errors.Errorf("Quit due to user input")
 
 type Game struct {
 	Window *core.Window
@@ -25,8 +30,12 @@ func New() *Game {
 	// "raw/maps/map1.tmx"
 	w := MustNewWorld("raw/maps/square.tmx")
 	game := &Game{
-		Window: &core.Window{Size: image.Point{X: 230, Y: 240}},
-		World:  w,
+		Window: &core.Window{
+			// Size: image.Point{X: 230, Y: 240},
+			Size: image.Point{X: 320, Y: 288},
+			// Size: image.Point{X: 160, Y: 144},
+		},
+		World: w,
 		Units: []*unit.Unit{
 			unit.NewSpearman(w.StartPoint, PlayerTeam, 1),
 			unit.NewSpearman(w.StartPoint.Add(units.TP(1, 0)), EnemyTeam, 1),
@@ -43,6 +52,10 @@ func (g *Game) Update(screen *ebiten.Image) error {
 	g.Tick++
 	g.Window.Tick()
 
+	if inpututil.IsKeyJustPressed(ebiten.KeyEscape) {
+		return ErrQuit
+	}
+
 	for _, u := range g.Units {
 		u.Tick()
 	}
@@ -50,18 +63,13 @@ func (g *Game) Update(screen *ebiten.Image) error {
 	// TODO [arch] who's responsibility is it to verify
 	// actions are legal? is it the game's? the unit's? the world's?
 	core.ActionHandler().
-		OnLeftMouseClick(func(screenPoint image.Point) core.Action {
-			p := units.TPFromPoint(screenPoint.Add(g.Window.CameraOrigin()))
-			if target, ok := g.unitAt(p); ok {
-				if target.Team == PlayerTeam {
-					// TODO [gameplay] switch players
-					return nil
+		OnLeftMouseClick(func(_ image.Point) core.Action {
+			p := g.CursorPosition()
+			if target := g.unitAt(p); target != nil {
+				if g.canAttack(u, target) {
+					return unit.AttackCommand{Unit: u, Target: target}
 				}
-				// otherwise enemy player
-				if !u.Weapon.CanHit(u.Location, target.Location) {
-					return nil
-				}
-				return unit.AttackCommand{Unit: u, Target: target}
+				return nil
 			}
 			if !g.canMoveTo(p, u) {
 				return nil
@@ -80,23 +88,37 @@ func (g *Game) Update(screen *ebiten.Image) error {
 	return nil
 }
 
-func (g *Game) unitAt(pt units.TPoint) (*unit.Unit, bool) {
+func (g *Game) canAttack(attacker, target *unit.Unit) bool {
+	if attacker.Team == target.Team {
+		return false // TODO [mechanics] healing
+	}
+	if !attacker.AcceptingCommands() || !target.AcceptingCommands() {
+		return false
+	}
+	if !attacker.CanReach(target) {
+		return false
+	}
+	return true
+}
+
+func (g *Game) unitAt(pt units.TPoint) *unit.Unit {
 	for _, u := range g.Units {
 		if u.Location == pt {
-			return u, true
+			return u
 		}
 	}
-	return nil, false
+	return nil
 }
 
 func (g *Game) canMoveTo(dest units.TPoint, unit *unit.Unit) bool {
-	if unit.Location.StepsTo(dest) > unit.Stats.Steps {
+	// TODO [bug] doesn't check that all these steps are accessible
+	if unit.Location.StepsTo(dest) > unit.StepsPerTurn() {
 		return false
 	}
 	if g.World.IsBoundary(dest) {
 		return false
 	}
-	if _, ok := g.unitAt(dest); ok {
+	if u := g.unitAt(dest); u != nil {
 		return false
 	}
 	return true
@@ -109,7 +131,7 @@ func (g *Game) canMoveThrough(dest units.TPoint, unit *unit.Unit) bool {
 	}
 	// can move through friendly units but not enemy units
 	// TODO [mechanics] desired behavior?
-	if u, ok := g.unitAt(dest); ok && u.Team != unit.Team {
+	if u := g.unitAt(dest); u != nil && u.Team != unit.Team {
 		return false
 	}
 	return true
@@ -119,6 +141,7 @@ func (g *Game) canMoveThrough(dest units.TPoint, unit *unit.Unit) bool {
 // Draw is called every frame (typically 1/60[s] for 60Hz display).
 func (g *Game) Draw(screen *ebiten.Image) {
 	canvas := g.World.Draw(func(canvas *ebiten.Image) {
+		g.drawCursor(canvas)
 		for _, u := range g.Units {
 			u.Draw(canvas)
 		}
@@ -132,4 +155,20 @@ func (g *Game) Draw(screen *ebiten.Image) {
 // If you don't have to adjust the screen size with the outside size, just return a fixed size.
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
 	return g.Window.Size.X, g.Window.Size.Y
+}
+
+func (g *Game) CursorPosition() units.TPoint {
+	return units.TPFromPoint(image.Pt(ebiten.CursorPosition()).Add(g.Window.CameraOrigin()))
+}
+
+func (g *Game) drawCursor(screen *ebiten.Image) {
+	opts := ebiten.DrawImageOptions{}
+	tp := g.CursorPosition()
+	tile := assets.TileSelectable
+	if !g.canMoveTo(tp, g.Units[0]) {
+		tile = assets.TileNotSelectable
+	}
+	p := tp.IP()
+	opts.GeoM.Translate(float64(p.X), float64(p.Y))
+	screen.DrawImage(tile, &opts)
 }

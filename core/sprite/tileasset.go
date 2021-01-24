@@ -20,6 +20,7 @@ func OpenTileAsset(path string, stepX, stepY int) TileAsset {
 	if err != nil {
 		log.Fatalf("open asset: %v", err)
 	}
+	defer f.Close()
 	i, err := png.Decode(f)
 	if err != nil {
 		log.Fatalf("png decode: %v", err)
