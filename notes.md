@@ -25,6 +25,12 @@ research. It may be too expensive for CPU.
 - https://towardsdatascience.com/how-to-transform-a-2d-image-into-a-3d-space-5fc2306e3d36
 - https://docs.opencv.org/master/da/d54/group__imgproc__transform.html#gaf73673a7e8e18ec6963e3774e6a94b87
 
+arch:
+
+InputManager -> [Commands] -> RuleChecker -> [Actions] -> Entities
+          AI -> [Commands] -> ...
+
+
 Combat mechanics:
 
 https://docs.google.com/spreadsheets/d/1h0ClYR4PmfNxvJZIRsAS6pI_Ja92WYdLxgQEmPoqEOY/edit#gid=0

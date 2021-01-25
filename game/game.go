@@ -19,6 +19,7 @@ type Game struct {
 	World  World
 	Units  []*unit.Unit
 	Tick   units.Tick
+	Turn   unit.Team
 }
 
 const (
@@ -40,6 +41,7 @@ func New() *Game {
 			unit.NewSpearman(w.StartPoint, PlayerTeam, 1),
 			unit.NewSpearman(w.StartPoint.Add(units.TP(1, 0)), EnemyTeam, 1),
 		},
+		Turn: PlayerTeam,
 	}
 	game.Window.WorldSize(w.Size())
 	game.Window.JumpCamera(w.StartPoint)
@@ -59,32 +61,32 @@ func (g *Game) Update(screen *ebiten.Image) error {
 	for _, u := range g.Units {
 		u.Tick()
 	}
-	u := g.Units[0]
+	// u := g.Units[0]
 	// TODO [arch] who's responsibility is it to verify
 	// actions are legal? is it the game's? the unit's? the world's?
-	core.ActionHandler().
-		OnLeftMouseClick(func(_ image.Point) core.Action {
-			p := g.CursorPosition()
-			if target := g.unitAt(p); target != nil {
-				if g.canAttack(u, target) {
-					return unit.AttackCommand{Unit: u, Target: target}
-				}
-				return nil
-			}
-			if !g.canMoveTo(p, u) {
-				return nil
-			}
-			canMove := func(pt units.TPoint) bool {
-				return g.canMoveThrough(pt, u)
-			}
-			if d, ok := core.FindPath(u.Location, p, canMove); ok {
-				return unit.MoveCommand{Unit: u, Steps: d}
-			}
-			return nil
-		}).
-		Execute(func(action core.Action) {
-			u.Handle(action)
-		})
+	// core.ActionHandler().
+	// 	OnLeftMouseClick(func(_ image.Point) core.Action {
+	// 		p := g.CursorPosition()
+	// 		if target := g.UnitAt(p); target != nil {
+	// 			if g.canAttack(u, target) {
+	// 				return unit.AttackCommand{Unit: u, Target: target}
+	// 			}
+	// 			return nil
+	// 		}
+	// 		if !g.canMoveTo(p, u) {
+	// 			return nil
+	// 		}
+	// 		canMove := func(pt units.TPoint) bool {
+	// 			return g.canMoveThrough(pt, u)
+	// 		}
+	// 		if d, ok := core.FindPath(u.Location, p, canMove); ok {
+	// 			return unit.MoveCommand{Unit: u, Steps: d}
+	// 		}
+	// 		return nil
+	// 	}).
+	// 	Execute(func(action core.Action) {
+	// 		// u.Handle(action)
+	// 	})
 	return nil
 }
 
@@ -92,7 +94,7 @@ func (g *Game) canAttack(attacker, target *unit.Unit) bool {
 	if attacker.Team == target.Team {
 		return false // TODO [mechanics] healing
 	}
-	if !attacker.AcceptingCommands() || !target.AcceptingCommands() {
+	if !attacker.IsReady() || !target.IsReady() {
 		return false
 	}
 	if !attacker.CanReach(target) {
@@ -101,7 +103,7 @@ func (g *Game) canAttack(attacker, target *unit.Unit) bool {
 	return true
 }
 
-func (g *Game) unitAt(pt units.TPoint) *unit.Unit {
+func (g *Game) UnitAt(pt units.TPoint) *unit.Unit {
 	for _, u := range g.Units {
 		if u.Location == pt {
 			return u
@@ -118,7 +120,7 @@ func (g *Game) canMoveTo(dest units.TPoint, unit *unit.Unit) bool {
 	if g.World.IsBoundary(dest) {
 		return false
 	}
-	if u := g.unitAt(dest); u != nil {
+	if u := g.UnitAt(dest); u != nil {
 		return false
 	}
 	return true
@@ -131,7 +133,7 @@ func (g *Game) canMoveThrough(dest units.TPoint, unit *unit.Unit) bool {
 	}
 	// can move through friendly units but not enemy units
 	// TODO [mechanics] desired behavior?
-	if u := g.unitAt(dest); u != nil && u.Team != unit.Team {
+	if u := g.UnitAt(dest); u != nil && u.Team != unit.Team {
 		return false
 	}
 	return true

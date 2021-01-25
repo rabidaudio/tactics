@@ -22,10 +22,10 @@ func (t Team) Color(cm *ebiten.ColorM) {
 
 type Unit struct {
 	UnitOptions
-	core.Drawable
-	state UnitState
-	Stats Stats
-	HP    int
+	Drawable core.Drawable
+	state    UnitState
+	Stats    Stats
+	HP       int
 }
 
 type UnitOptions struct {
@@ -67,7 +67,7 @@ func new(opts UnitOptions) *Unit {
 		Stats: stats,
 		HP:    stats.BaseHP,
 	}
-	u.idle()
+	u.Idle()
 	return &u
 }
 
@@ -76,13 +76,20 @@ func (u *Unit) Tick() {
 	u.state.Tick()
 }
 
-func (u *Unit) Handle(cmd core.Command) {
-	u.state.Handle(cmd)
-}
-
-func (u *Unit) AcceptingCommands() bool {
-	return u.state.AcceptingCommands()
-}
+// func (u *Unit) Handle(cmd core.Command) {
+// 	if _, ok := u.state.(idleState); !ok {
+// 		// can only accept commands in idle state
+// 	}
+// 	switch cmd := cmd.(type) {
+// 	case MoveCommand:
+// 		cmd.Unit.walk(cmd)
+// 	case AttackCommand:
+// 		cmd.Unit.attack(cmd)
+// 		cmd.Target.defend(cmd)
+// 	default:
+// 		core.Unexpected(cmd)
+// 	}
+// }
 
 func (u *Unit) CanReach(other *Unit) bool {
 	return u.Weapon.CanHit(u.Location, other.Location)
@@ -103,11 +110,15 @@ func (u *Unit) moveSpeed() float64 {
 	return (1 + (0.1 * float64(u.Stats.Spd))) * units.TileSize / float64(units.TickRate)
 }
 
-func (u *Unit) face(loc units.TPoint) {
+func (u *Unit) Draw(screen *ebiten.Image) {
+	u.Drawable.Draw(screen)
+}
+
+func (u *Unit) FaceTowards(loc units.TPoint) {
 	if loc.X > u.Location.X {
-		u.ReverseFacing = false
+		u.Drawable.ReverseFacing = false
 	} else if loc.X < u.Location.X {
-		u.ReverseFacing = true
+		u.Drawable.ReverseFacing = true
 	}
 	// otherwise continue to face the same direction you are currently
 }
