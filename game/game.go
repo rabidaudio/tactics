@@ -61,46 +61,24 @@ func (g *Game) Update(screen *ebiten.Image) error {
 	for _, u := range g.Units {
 		u.Tick()
 	}
-	// u := g.Units[0]
-	// TODO [arch] who's responsibility is it to verify
-	// actions are legal? is it the game's? the unit's? the world's?
-	// core.ActionHandler().
-	// 	OnLeftMouseClick(func(_ image.Point) core.Action {
-	// 		p := g.CursorPosition()
-	// 		if target := g.UnitAt(p); target != nil {
-	// 			if g.canAttack(u, target) {
-	// 				return unit.AttackCommand{Unit: u, Target: target}
-	// 			}
-	// 			return nil
-	// 		}
-	// 		if !g.canMoveTo(p, u) {
-	// 			return nil
-	// 		}
-	// 		canMove := func(pt units.TPoint) bool {
-	// 			return g.canMoveThrough(pt, u)
-	// 		}
-	// 		if d, ok := core.FindPath(u.Location, p, canMove); ok {
-	// 			return unit.MoveCommand{Unit: u, Steps: d}
-	// 		}
-	// 		return nil
-	// 	}).
-	// 	Execute(func(action core.Action) {
-	// 		// u.Handle(action)
-	// 	})
+	u := g.Units[0]
+	core.ActionHandler().
+		OnLeftMouseClick(func(_ image.Point) core.Action {
+			// Here we just need to generate the command, it
+			// doesn't actually need to be valid
+			p := g.CursorPosition()
+			if target := g.UnitAt(p); target != nil {
+				return AttackCommand{Attacker: u, Target: target}
+			}
+			return g.NewMoveCommand(u, p)
+		}).
+		Execute(func(action core.Action) {
+			cmd := action.(Command)
+			if cmd.IsLegal(g) {
+				cmd.Execute(g)
+			}
+		})
 	return nil
-}
-
-func (g *Game) canAttack(attacker, target *unit.Unit) bool {
-	if attacker.Team == target.Team {
-		return false // TODO [mechanics] healing
-	}
-	if !attacker.IsReady() || !target.IsReady() {
-		return false
-	}
-	if !attacker.CanReach(target) {
-		return false
-	}
-	return true
 }
 
 func (g *Game) UnitAt(pt units.TPoint) *unit.Unit {
@@ -110,33 +88,6 @@ func (g *Game) UnitAt(pt units.TPoint) *unit.Unit {
 		}
 	}
 	return nil
-}
-
-func (g *Game) canMoveTo(dest units.TPoint, unit *unit.Unit) bool {
-	// TODO [bug] doesn't check that all these steps are accessible
-	if unit.Location.StepsTo(dest) > unit.StepsPerTurn() {
-		return false
-	}
-	if g.World.IsBoundary(dest) {
-		return false
-	}
-	if u := g.UnitAt(dest); u != nil {
-		return false
-	}
-	return true
-}
-
-func (g *Game) canMoveThrough(dest units.TPoint, unit *unit.Unit) bool {
-	// TODO [style] share logic better with canMoveTo
-	if g.World.IsBoundary(dest) {
-		return false
-	}
-	// can move through friendly units but not enemy units
-	// TODO [mechanics] desired behavior?
-	if u := g.UnitAt(dest); u != nil && u.Team != unit.Team {
-		return false
-	}
-	return true
 }
 
 // Draw draws the game screen.
@@ -167,7 +118,8 @@ func (g *Game) drawCursor(screen *ebiten.Image) {
 	opts := ebiten.DrawImageOptions{}
 	tp := g.CursorPosition()
 	tile := assets.TileSelectable
-	if !g.canMoveTo(tp, g.Units[0]) {
+	cmd := g.NewMoveCommand(g.Units[0], tp)
+	if !cmd.IsLegal(g) {
 		tile = assets.TileNotSelectable
 	}
 	p := tp.IP()

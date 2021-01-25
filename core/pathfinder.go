@@ -4,9 +4,9 @@ import (
 	"github.com/rabidaudio/tactics/core/units"
 )
 
-//https://en.wikipedia.org/wiki/Centered_square_number
-const _maxsteps = 1024
-const _maxsearch = (((2*(_maxsteps) - 1) * (2*(_maxsteps) - 1)) - 1) / 2
+// https://en.wikipedia.org/wiki/Centered_square_number
+const MaxSearchSteps = 1024
+const _maxsearch = (((2*(MaxSearchSteps) - 1) * (2*(MaxSearchSteps) - 1)) - 1) / 2
 
 type tile struct {
 	prev  *tile

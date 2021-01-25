@@ -2,7 +2,6 @@ package unit
 
 import (
 	"fmt"
-	"math"
 
 	"github.com/hajimehoshi/ebiten"
 	"github.com/rabidaudio/tactics/core"
@@ -10,15 +9,6 @@ import (
 	"github.com/rabidaudio/tactics/core/units"
 	"github.com/rabidaudio/tactics/game/weapon"
 )
-
-type Team int
-
-func (t Team) Color(cm *ebiten.ColorM) {
-	// TODO [graphics] this is good enough for testing
-	// but probably looks bad on different kinds of units
-	h := 2 * math.Pi * (float64(t) / 8)
-	cm.RotateHue(h)
-}
 
 type Unit struct {
 	UnitOptions
@@ -75,21 +65,6 @@ func (u *Unit) Tick() {
 	u.Drawable.Tick()
 	u.state.Tick()
 }
-
-// func (u *Unit) Handle(cmd core.Command) {
-// 	if _, ok := u.state.(idleState); !ok {
-// 		// can only accept commands in idle state
-// 	}
-// 	switch cmd := cmd.(type) {
-// 	case MoveCommand:
-// 		cmd.Unit.walk(cmd)
-// 	case AttackCommand:
-// 		cmd.Unit.attack(cmd)
-// 		cmd.Target.defend(cmd)
-// 	default:
-// 		core.Unexpected(cmd)
-// 	}
-// }
 
 func (u *Unit) CanReach(other *Unit) bool {
 	return u.Weapon.CanHit(u.Location, other.Location)

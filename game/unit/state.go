@@ -6,13 +6,6 @@ import (
 	"github.com/rabidaudio/tactics/core/units"
 )
 
-type Attack struct {
-	Attacker *Unit
-	Target   *Unit
-	Dmg      int
-	Count    int
-}
-
 type UnitState interface {
 	Tick()
 }
