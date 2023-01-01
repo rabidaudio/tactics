@@ -2,7 +2,7 @@ package units
 
 // A Tick is the smallest unit of time of the game.
 // It represents one update to the game, which
-// is typically the frame rate, e.g. 60 seconds.
+// is typically the frame rate, i.e. 1/60 seconds.
 type Tick uint64
 
 // Second is a unit of time which allows us to do math

@@ -27,8 +27,28 @@ research. It may be too expensive for CPU.
 
 arch:
 
+```
 InputManager -> [Commands] -> RuleChecker -> [Actions] -> Entities
           AI -> [Commands] -> ...
+```
+
+- not all scenes have worlds
+- cursor component
+- any invalid action is ignored
+- inputmanager break on first match to avoid duplicate actions
+- nested component tree
+- message component
+- cutscene is battle scene with no user input
+- middleware for inheritance? just always call next
+- key-value context store solves argument problem
+
+
+Game struct could be generic key-value data store, agnostic to game mechanics.
+Then after actions are executed, any Tickable elements are Ticked.
+
+Alternatively, Scenes have their own structs. E.g. BattleScene defining units and combat,
+menus and such totally unique scene.
+
 
 
 Combat mechanics:

@@ -8,6 +8,7 @@ import (
 	"github.com/rabidaudio/tactics/core/units"
 )
 
+// TODO [cleanup] give this a better name
 type Drawable struct {
 	Sprite        *sprite.Sprite
 	ReverseFacing bool

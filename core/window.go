@@ -11,14 +11,13 @@ const CameraSpeed = 0.25 * units.TilesPerSecond
 
 type Window struct {
 	Size         image.Point
-	worldBounds  image.Rectangle
 	camera       image.Point
 	cameraAnim   units.Anim2D
 	cameraBounds image.Rectangle
 }
 
-func (w *Window) WorldSize(s units.TPoint) *Window {
-	w.cameraBounds = image.Rectangle{Max: s.IP().Sub(w.Size)}
+func (w *Window) BoundCamera(rect image.Rectangle) *Window {
+	w.cameraBounds = rect
 	w.camera = w.boundedCamera(w.camera)
 	return w
 }

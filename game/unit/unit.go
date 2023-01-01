@@ -7,6 +7,7 @@ import (
 	"github.com/rabidaudio/tactics/core"
 	"github.com/rabidaudio/tactics/core/sprite"
 	"github.com/rabidaudio/tactics/core/units"
+	"github.com/rabidaudio/tactics/game/team"
 	"github.com/rabidaudio/tactics/game/weapon"
 )
 
@@ -20,7 +21,7 @@ type Unit struct {
 
 type UnitOptions struct {
 	Name       string
-	Team       Team
+	Team       team.Team
 	Level      int
 	Weapon     weapon.Weapon
 	Animations UnitAnimations

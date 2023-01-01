@@ -1,4 +1,4 @@
-package game
+package core
 
 import (
 	"fmt"
@@ -13,12 +13,9 @@ import (
 )
 
 type World struct {
-	gameMap *tiled.Map
-	baseimg *ebiten.Image
-	overimg *ebiten.Image
-	// origin point (top left) of camera
-	camera     image.Point
-	cameraAnim units.Anim2D
+	gameMap    *tiled.Map
+	baseimg    *ebiten.Image
+	overimg    *ebiten.Image
 	StartPoint units.TPoint
 	canvas     *ebiten.Image
 }
